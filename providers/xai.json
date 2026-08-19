@@ -120,7 +120,10 @@
       "medium",
       "high"
     ],
-    "defaultThinkingLevel": "high"
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "supportsReasoningEffort": true
+    }
   },
   "grok-4.6": {
     "name": "Grok 4.6",
@@ -233,7 +236,10 @@
     "context": 2000000,
     "maxOutput": 2000000,
     "image": true,
-    "reasoning": true
+    "reasoning": true,
+    "compat": {
+      "supportsReasoningEffort": true
+    }
   },
   "grok-4.20-multi-agent": {
     "name": "Grok 4.20 Multi Agent",
