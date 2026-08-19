@@ -51,3 +51,43 @@ CI must reject:
 The "no URL/link fields" rule is load-bearing for the channel's trust model.
 If the schema is ever widened to include any URL-like field, artifact signing
 must be re-evaluated before that change ships.
+
+## Building and validating locally
+
+This repository has zero npm dependencies; everything below runs on a plain
+Node.js >= 18 install.
+
+```sh
+node scripts/validate-catalog.mjs                       # validate providers/*.json + fallbacks.json
+node scripts/build-catalog.mjs                           # compile dist/model-catalog.v1.json + manifest
+node scripts/validate-catalog.mjs --artifact dist/model-catalog.v1.json
+npm test                                                  # node:test suite
+```
+
+`build-catalog.mjs` validates the source tree before compiling and validates
+the compiled artifact again before writing anything to `dist/`; either
+validation failing leaves `dist/` untouched and exits non-zero.
+
+The compiled `catalogVersion` comes from `catalog-version.json` at the
+repository root. Bump it by hand, by at least 1, before every release —
+`catalogVersion` must strictly increase from whatever was last published;
+publishing a value that does not advance is a protocol violation the
+application's update client treats as a rollback attempt and rejects.
+
+## CI and release process
+
+CI (`.github/workflows/ci.yml`) runs on every push and pull request and does
+exactly two things: validate the source tree, then run the test suite. CI
+does **not** publish anything — it is a gate, not a release pipeline.
+
+Publishing a release is a separate, manual, owner-controlled step:
+
+1. Bump `catalogVersion` in `catalog-version.json`.
+2. Run `node scripts/build-catalog.mjs` locally to produce
+   `dist/model-catalog.v1.json` and `dist/model-catalog-manifest.v1.json`.
+3. Create a GitHub Release and upload exactly those two files as its assets,
+   unmodified.
+
+The application consumes only these two immutable release assets over HTTPS.
+It never reads this repository's mutable default branch, never clones the
+repository, and never executes anything from it.

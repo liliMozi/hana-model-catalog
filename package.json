@@ -1,0 +1,17 @@
+{
+  "name": "hana-model-catalog",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Curated model-information catalog source repository for Hana.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "validate": "node scripts/validate-catalog.mjs",
+    "build": "node scripts/build-catalog.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
