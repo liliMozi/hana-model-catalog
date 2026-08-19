@@ -1,0 +1,203 @@
+{
+  "gpt-image-2": {
+    "name": "GPT Image 2",
+    "type": "image"
+  },
+  "gpt-4o": {
+    "name": "GPT-4o",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true
+  },
+  "gpt-4.1": {
+    "name": "GPT-4.1",
+    "context": 1047576,
+    "maxOutput": 32768,
+    "image": true
+  },
+  "o3-mini": {
+    "name": "o3 Mini",
+    "context": 200000,
+    "maxOutput": 100000,
+    "reasoning": true
+  },
+  "o4-mini": {
+    "name": "o4 Mini",
+    "context": 200000,
+    "maxOutput": 100000,
+    "image": true,
+    "reasoning": true
+  },
+  "gpt-5.5": {
+    "name": "GPT-5.5",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": "low",
+      "xhigh": "xhigh"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
+  "gpt-5.4": {
+    "name": "GPT-5.4",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": "low",
+      "xhigh": "xhigh"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
+  "gpt-5.4-mini": {
+    "name": "GPT-5.4 Mini",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": "low",
+      "xhigh": "xhigh"
+    },
+    "defaultThinkingLevel": "medium"
+  },
+  "gpt-5.2": {
+    "name": "GPT-5.2",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": "low",
+      "xhigh": "xhigh"
+    },
+    "defaultThinkingLevel": "medium"
+  },
+  "gpt-5.3-codex-spark": {
+    "name": "GPT-5.3 Codex Spark",
+    "context": 128000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": "low",
+      "xhigh": "xhigh"
+    },
+    "defaultThinkingLevel": "medium",
+    "legacyCompatibility": true
+  },
+  "gpt-5.6-sol": {
+    "name": "GPT-5.6 Sol",
+    "context": 353400,
+    "maxContext": 372000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": null,
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "low"
+  },
+  "gpt-5.6-terra": {
+    "name": "GPT-5.6 Terra",
+    "context": 353400,
+    "maxContext": 372000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": null,
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  },
+  "gpt-5.6-luna": {
+    "name": "GPT-5.6 Luna",
+    "context": 353400,
+    "maxContext": 372000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": null,
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  }
+}

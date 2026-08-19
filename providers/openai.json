@@ -1,0 +1,1187 @@
+{
+  "gpt-4o": {
+    "name": "GPT-4o",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-mini": {
+    "name": "GPT-4o Mini",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4.1": {
+    "name": "GPT-4.1",
+    "context": 1047576,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4.1-mini": {
+    "name": "GPT-4.1 Mini",
+    "context": 1047576,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4.1-nano": {
+    "name": "GPT-4.1 Nano",
+    "context": 1047576,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "o3": {
+    "name": "o3",
+    "context": 200000,
+    "maxOutput": 100000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "o3-mini": {
+    "name": "o3 Mini",
+    "context": 200000,
+    "maxOutput": 100000,
+    "reasoning": true
+  },
+  "o4-mini": {
+    "name": "o4 Mini",
+    "context": 200000,
+    "maxOutput": 100000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.1": {
+    "name": "GPT-5.1",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.1-codex-mini": {
+    "name": "GPT-5.1 Codex Mini",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.2": {
+    "name": "GPT-5.2",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.2-codex": {
+    "name": "GPT-5.2 Codex",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.3-codex": {
+    "name": "GPT-5.3 Codex",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.3-codex-spark": {
+    "name": "GPT-5.3 Codex Spark",
+    "context": 128000,
+    "maxOutput": 32000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.4": {
+    "name": "GPT-5.4",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.5": {
+    "name": "GPT-5.5",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.6": {
+    "name": "GPT-5.6",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-responses",
+    "thinkingLevels": [
+      "off",
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": "none",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  },
+  "gpt-5.6-sol": {
+    "name": "GPT-5.6 Sol",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-responses",
+    "thinkingLevels": [
+      "off",
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": "none",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
+  "gpt-5.6-terra": {
+    "name": "GPT-5.6 Terra",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-responses",
+    "thinkingLevels": [
+      "off",
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": "none",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
+  "gpt-5.6-luna": {
+    "name": "GPT-5.6 Luna",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-responses",
+    "thinkingLevels": [
+      "off",
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": "none",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
+  "text-embedding-3-large": {
+    "name": "Text Embedding 3 Large",
+    "context": 8191,
+    "maxOutput": null
+  },
+  "text-embedding-3-small": {
+    "name": "Text Embedding 3 Small",
+    "context": 8191,
+    "maxOutput": null
+  },
+  "chatgpt-4o-latest": {
+    "name": "Chatgpt 4o Latest",
+    "context": 128000,
+    "maxOutput": 4096,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "ft:gpt-3.5-turbo": {
+    "name": "Ft:Gpt 3.5 Turbo",
+    "context": 16385,
+    "maxOutput": 4096
+  },
+  "ft:gpt-3.5-turbo-0125": {
+    "name": "Ft:Gpt 3.5 Turbo 0125",
+    "context": 16385,
+    "maxOutput": 4096
+  },
+  "ft:gpt-3.5-turbo-0613": {
+    "name": "Ft:Gpt 3.5 Turbo 0613",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "ft:gpt-3.5-turbo-1106": {
+    "name": "Ft:Gpt 3.5 Turbo 1106",
+    "context": 16385,
+    "maxOutput": 4096
+  },
+  "ft:gpt-4-0613": {
+    "name": "Ft:Gpt 4.0613",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "ft:gpt-4o-2024-08-06": {
+    "name": "Ft:Gpt 4o 2024.08.06",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "ft:gpt-4o-2024-11-20": {
+    "name": "Ft:Gpt 4o 2024.11.20",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "ft:gpt-4o-mini-2024-07-18": {
+    "name": "Ft:Gpt 4o Mini 2024.07.18",
+    "context": 128000,
+    "maxOutput": 16384
+  },
+  "ft:gpt-4.1-2025-04-14": {
+    "name": "Ft:Gpt 4.1.2025.04.14",
+    "context": 1047576,
+    "maxOutput": 32768
+  },
+  "ft:gpt-4.1-mini-2025-04-14": {
+    "name": "Ft:Gpt 4.1 Mini 2025.04.14",
+    "context": 1047576,
+    "maxOutput": 32768
+  },
+  "ft:gpt-4.1-nano-2025-04-14": {
+    "name": "Ft:Gpt 4.1 Nano 2025.04.14",
+    "context": 1047576,
+    "maxOutput": 32768
+  },
+  "ft:o4-mini-2025-04-16": {
+    "name": "Ft:O4 Mini 2025.04.16",
+    "context": 200000,
+    "maxOutput": 100000,
+    "reasoning": true
+  },
+  "gpt-3.5-turbo": {
+    "name": "Gpt 3.5 Turbo",
+    "context": 16385,
+    "maxOutput": 4096
+  },
+  "gpt-3.5-turbo-0125": {
+    "name": "Gpt 3.5 Turbo 0125",
+    "context": 16385,
+    "maxOutput": 4096
+  },
+  "gpt-3.5-turbo-1106": {
+    "name": "Gpt 3.5 Turbo 1106",
+    "context": 16385,
+    "maxOutput": 4096
+  },
+  "gpt-3.5-turbo-16k": {
+    "name": "Gpt 3.5 Turbo 16k",
+    "context": 16385,
+    "maxOutput": 4096
+  },
+  "gpt-4": {
+    "name": "Gpt 4",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "gpt-4-0125-preview": {
+    "name": "Gpt 4.0125 Preview",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4-0314": {
+    "name": "Gpt 4.0314",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "gpt-4-0613": {
+    "name": "Gpt 4.0613",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "gpt-4-1106-preview": {
+    "name": "Gpt 4.1106 Preview",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4-turbo": {
+    "name": "Gpt 4 Turbo",
+    "context": 128000,
+    "maxOutput": 4096,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4-turbo-2024-04-09": {
+    "name": "Gpt 4 Turbo 2024.04.09",
+    "context": 128000,
+    "maxOutput": 4096,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4-turbo-preview": {
+    "name": "Gpt 4 Turbo Preview",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4.1-2025-04-14": {
+    "name": "Gpt 4.1.2025.04.14",
+    "context": 1047576,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4.1-mini-2025-04-14": {
+    "name": "Gpt 4.1 Mini 2025.04.14",
+    "context": 1047576,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4.1-nano-2025-04-14": {
+    "name": "Gpt 4.1 Nano 2025.04.14",
+    "context": 1047576,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-2024-05-13": {
+    "name": "Gpt 4o 2024.05.13",
+    "context": 128000,
+    "maxOutput": 4096,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-2024-08-06": {
+    "name": "Gpt 4o 2024.08.06",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-2024-11-20": {
+    "name": "Gpt 4o 2024.11.20",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-audio-preview": {
+    "name": "Gpt 4o Audio Preview",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-4o-audio-preview-2024-12-17": {
+    "name": "Gpt 4o Audio Preview 2024.12.17",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-4o-audio-preview-2025-06-03": {
+    "name": "Gpt 4o Audio Preview 2025.06.03",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-audio": {
+    "name": "Gpt Audio",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-audio-1.5": {
+    "name": "Gpt Audio 1.5",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-audio-2025-08-28": {
+    "name": "Gpt Audio 2025.08.28",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-audio-mini": {
+    "name": "Gpt Audio Mini",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-audio-mini-2025-10-06": {
+    "name": "Gpt Audio Mini 2025.10.06",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-audio-mini-2025-12-15": {
+    "name": "Gpt Audio Mini 2025.12.15",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-4o-mini-2024-07-18": {
+    "name": "Gpt 4o Mini 2024.07.18",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-mini-audio-preview": {
+    "name": "Gpt 4o Mini Audio Preview",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-4o-mini-audio-preview-2024-12-17": {
+    "name": "Gpt 4o Mini Audio Preview 2024.12.17",
+    "context": 128000,
+    "maxOutput": 16384,
+    "audio": true
+  },
+  "gpt-4o-mini-realtime-preview": {
+    "name": "Gpt 4o Mini Realtime Preview",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4o-mini-realtime-preview-2024-12-17": {
+    "name": "Gpt 4o Mini Realtime Preview 2024.12.17",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4o-mini-search-preview": {
+    "name": "Gpt 4o Mini Search Preview",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-mini-search-preview-2025-03-11": {
+    "name": "Gpt 4o Mini Search Preview 2025.03.11",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-realtime-preview": {
+    "name": "Gpt 4o Realtime Preview",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4o-realtime-preview-2024-12-17": {
+    "name": "Gpt 4o Realtime Preview 2024.12.17",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4o-realtime-preview-2025-06-03": {
+    "name": "Gpt 4o Realtime Preview 2025.06.03",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-4o-search-preview": {
+    "name": "Gpt 4o Search Preview",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-4o-search-preview-2025-03-11": {
+    "name": "Gpt 4o Search Preview 2025.03.11",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5": {
+    "name": "Gpt 5",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.1-2025-11-13": {
+    "name": "Gpt 5.1.2025.11.13",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.1-chat-latest": {
+    "name": "Gpt 5.1 Chat Latest",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.2-2025-12-11": {
+    "name": "Gpt 5.2.2025.12.11",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.2-chat-latest": {
+    "name": "Gpt 5.2 Chat Latest",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.3-chat-latest": {
+    "name": "Gpt 5.3 Chat Latest",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": false,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.4-2026-03-05": {
+    "name": "Gpt 5.4.2026.03.05",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.4-mini": {
+    "name": "Gpt 5.4 Mini",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5.4-nano": {
+    "name": "Gpt 5.4 Nano",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-2025-08-07": {
+    "name": "Gpt 5.2025.08.07",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-chat": {
+    "name": "Gpt 5 Chat",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-chat-latest": {
+    "name": "Gpt 5 Chat Latest",
+    "context": 128000,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": false,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-mini": {
+    "name": "Gpt 5 Mini",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-mini-2025-08-07": {
+    "name": "Gpt 5 Mini 2025.08.07",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-nano": {
+    "name": "Gpt 5 Nano",
+    "context": 400000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-nano-2025-08-07": {
+    "name": "Gpt 5 Nano 2025.08.07",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-realtime": {
+    "name": "Gpt Realtime",
+    "context": 32000,
+    "maxOutput": 4096
+  },
+  "gpt-realtime-1.5": {
+    "name": "Gpt Realtime 1.5",
+    "context": 32000,
+    "maxOutput": 4096
+  },
+  "gpt-realtime-mini": {
+    "name": "Gpt Realtime Mini",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-realtime-2025-08-28": {
+    "name": "Gpt Realtime 2025.08.28",
+    "context": 32000,
+    "maxOutput": 4096
+  },
+  "o1": {
+    "name": "O1",
+    "context": 200000,
+    "maxOutput": 100000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "o1-2024-12-17": {
+    "name": "O1.2024.12.17",
+    "context": 200000,
+    "maxOutput": 100000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "o3-2025-04-16": {
+    "name": "O3.2025.04.16",
+    "context": 200000,
+    "maxOutput": 100000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "o3-mini-2025-01-31": {
+    "name": "O3 Mini 2025.01.31",
+    "context": 200000,
+    "maxOutput": 100000,
+    "reasoning": true
+  },
+  "o4-mini-2025-04-16": {
+    "name": "O4 Mini 2025.04.16",
+    "context": 200000,
+    "maxOutput": 100000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "container": {
+    "name": "Container",
+    "context": 128000
+  },
+  "gpt-5-search-api": {
+    "name": "Gpt 5 Search Api",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-5-search-api-2025-10-14": {
+    "name": "Gpt 5 Search Api 2025.10.14",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "gpt-realtime-mini-2025-10-06": {
+    "name": "Gpt Realtime Mini 2025.10.06",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-realtime-mini-2025-12-15": {
+    "name": "Gpt Realtime Mini 2025.12.15",
+    "context": 128000,
+    "maxOutput": 4096
+  },
+  "gpt-image-2": {
+    "name": "GPT Image 2",
+    "type": "image"
+  },
+  "gpt-image-1": {
+    "name": "GPT Image 1",
+    "type": "image"
+  },
+  "gpt-image-1.5": {
+    "name": "GPT Image 1.5",
+    "type": "image"
+  },
+  "gpt-image-1-mini": {
+    "name": "GPT Image 1 Mini",
+    "type": "image"
+  },
+  "dall-e-3": {
+    "name": "DALL-E 3",
+    "type": "image"
+  }
+}

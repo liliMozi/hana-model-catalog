@@ -1,0 +1,267 @@
+{
+  "codestral-2405": {
+    "name": "Codestral 2405",
+    "context": 32000,
+    "maxOutput": 8191
+  },
+  "codestral-2508": {
+    "name": "Codestral 2508",
+    "context": 256000,
+    "maxOutput": 256000
+  },
+  "codestral-latest": {
+    "name": "Codestral Latest",
+    "context": 256000,
+    "maxOutput": 8191
+  },
+  "codestral-mamba-latest": {
+    "name": "Codestral Mamba Latest",
+    "context": 256000,
+    "maxOutput": 256000
+  },
+  "devstral-medium-2507": {
+    "name": "Devstral Medium 2507",
+    "context": 128000,
+    "maxOutput": 128000
+  },
+  "devstral-small-2505": {
+    "name": "Devstral Small 2505",
+    "context": 128000,
+    "maxOutput": 128000
+  },
+  "devstral-small-2507": {
+    "name": "Devstral Small 2507",
+    "context": 128000,
+    "maxOutput": 128000
+  },
+  "devstral-small-latest": {
+    "name": "Devstral Small Latest",
+    "context": 256000,
+    "maxOutput": 256000
+  },
+  "labs-devstral-small-2512": {
+    "name": "Labs Devstral Small 2512",
+    "context": 256000,
+    "maxOutput": 256000,
+    "image": true
+  },
+  "devstral-latest": {
+    "name": "Devstral Latest",
+    "context": 262144,
+    "maxOutput": 262144
+  },
+  "devstral-medium-latest": {
+    "name": "Devstral Medium Latest",
+    "context": 262144,
+    "maxOutput": 262144
+  },
+  "devstral-2512": {
+    "name": "Devstral 2512",
+    "context": 262144,
+    "maxOutput": 262144
+  },
+  "magistral-medium-2506": {
+    "name": "Magistral Medium 2506",
+    "context": 40000,
+    "maxOutput": 40000,
+    "reasoning": true
+  },
+  "magistral-medium-2509": {
+    "name": "Magistral Medium 2509",
+    "context": 40000,
+    "maxOutput": 40000,
+    "reasoning": true
+  },
+  "magistral-medium-1-2-2509": {
+    "name": "Magistral Medium 1.2 2509",
+    "context": 40000,
+    "maxOutput": 40000,
+    "reasoning": true
+  },
+  "magistral-medium-latest": {
+    "name": "Magistral Medium Latest",
+    "context": 128000,
+    "maxOutput": 16384,
+    "reasoning": true
+  },
+  "magistral-small-2506": {
+    "name": "Magistral Small 2506",
+    "context": 40000,
+    "maxOutput": 40000,
+    "reasoning": true
+  },
+  "magistral-small-latest": {
+    "name": "Magistral Small Latest",
+    "context": 40000,
+    "maxOutput": 40000,
+    "reasoning": true
+  },
+  "magistral-small-1-2-2509": {
+    "name": "Magistral Small 1.2 2509",
+    "context": 40000,
+    "maxOutput": 40000,
+    "reasoning": true
+  },
+  "mistral-large-2402": {
+    "name": "Mistral Large 2402",
+    "context": 32000,
+    "maxOutput": 8191
+  },
+  "mistral-large-2407": {
+    "name": "Mistral Large 2407",
+    "context": 128000,
+    "maxOutput": 128000
+  },
+  "mistral-large-2411": {
+    "name": "Mistral Large 2411",
+    "context": 131072,
+    "maxOutput": 16384
+  },
+  "mistral-large-latest": {
+    "name": "Mistral Large Latest",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true
+  },
+  "mistral-large-3": {
+    "name": "Mistral Large 3",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true
+  },
+  "mistral-large-2512": {
+    "name": "Mistral Large 2512",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true
+  },
+  "mistral-medium": {
+    "name": "Mistral Medium",
+    "context": 32000,
+    "maxOutput": 8191
+  },
+  "mistral-medium-2312": {
+    "name": "Mistral Medium 2312",
+    "context": 32000,
+    "maxOutput": 8191
+  },
+  "mistral-medium-2505": {
+    "name": "Mistral Medium 2505",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true
+  },
+  "mistral-medium-latest": {
+    "name": "Mistral Medium Latest",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true
+  },
+  "mistral-medium-3-1-2508": {
+    "name": "Mistral Medium 3.1 2508",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true
+  },
+  "mistral-small": {
+    "name": "Mistral Small",
+    "context": 32000,
+    "maxOutput": 8191
+  },
+  "mistral-small-latest": {
+    "name": "Mistral Small Latest",
+    "context": 256000,
+    "maxOutput": 256000,
+    "image": true
+  },
+  "mistral-small-3-2-2506": {
+    "name": "Mistral Small 3.2 2506",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true
+  },
+  "mistral-small-2603": {
+    "name": "Mistral Small 4 2603",
+    "context": 256000,
+    "maxOutput": 256000,
+    "reasoning": true,
+    "image": true
+  },
+  "labs-leanstral-2603": {
+    "name": "Labs Leanstral 2603",
+    "context": 256000,
+    "maxOutput": 256000,
+    "reasoning": true
+  },
+  "ministral-3-3b-2512": {
+    "name": "Ministral 3.3b 2512",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true
+  },
+  "ministral-3-8b-2512": {
+    "name": "Ministral 3.8b 2512",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true
+  },
+  "ministral-3-14b-2512": {
+    "name": "Ministral 3.14b 2512",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true
+  },
+  "mistral-tiny": {
+    "name": "Mistral Tiny",
+    "context": 32000,
+    "maxOutput": 8191
+  },
+  "open-codestral-mamba": {
+    "name": "Open Codestral Mamba",
+    "context": 256000,
+    "maxOutput": 256000
+  },
+  "open-mistral-7b": {
+    "name": "Open Mistral 7b",
+    "context": 8000,
+    "maxOutput": 8000
+  },
+  "open-mistral-nemo": {
+    "name": "Open Mistral Nemo",
+    "context": 128000,
+    "maxOutput": 128000
+  },
+  "open-mistral-nemo-2407": {
+    "name": "Open Mistral Nemo 2407",
+    "context": 128000,
+    "maxOutput": 128000
+  },
+  "open-mixtral-8x22b": {
+    "name": "Open Mixtral 8x22b",
+    "context": 64000,
+    "maxOutput": 64000
+  },
+  "open-mixtral-8x7b": {
+    "name": "Open Mixtral 8x7b",
+    "context": 32000,
+    "maxOutput": 32000
+  },
+  "pixtral-12b-2409": {
+    "name": "Pixtral 12b 2409",
+    "context": 128000,
+    "maxOutput": 128000,
+    "image": true
+  },
+  "pixtral-large-2411": {
+    "name": "Pixtral Large 2411",
+    "context": 128000,
+    "maxOutput": 128000,
+    "image": true
+  },
+  "pixtral-large-latest": {
+    "name": "Pixtral Large Latest",
+    "context": 128000,
+    "maxOutput": 128000,
+    "image": true
+  }
+}

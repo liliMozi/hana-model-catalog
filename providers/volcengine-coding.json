@@ -1,0 +1,118 @@
+{
+  "doubao-seed-2-1-pro": {
+    "name": "Doubao Seed 2.1 Pro",
+    "image": true,
+    "reasoning": true
+  },
+  "doubao-seed-2-1-turbo": {
+    "name": "Doubao Seed 2.1 Turbo",
+    "image": true,
+    "reasoning": true
+  },
+  "doubao-seed-2-1-pro-260628": {
+    "name": "Doubao Seed 2.1 Pro (260628)",
+    "image": true,
+    "reasoning": true
+  },
+  "doubao-seed-2-0-pro-260215": {
+    "name": "Doubao Seed 2.0 Pro",
+    "context": 262144,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true
+  },
+  "doubao-seed-2-0-mini-260215": {
+    "name": "Doubao Seed 2.0 Mini",
+    "context": 131072,
+    "maxOutput": 16384,
+    "image": true
+  },
+  "doubao-pro-256k": {
+    "name": "Doubao Pro 256K",
+    "context": 262144,
+    "maxOutput": 4096
+  },
+  "doubao-pro-128k": {
+    "name": "Doubao Pro 128K",
+    "context": 131072,
+    "maxOutput": 4096
+  },
+  "doubao-pro-32k": {
+    "name": "Doubao Pro 32K",
+    "context": 32768,
+    "maxOutput": 4096
+  },
+  "doubao-pro-4k": {
+    "name": "Doubao Pro 4K",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "doubao-lite-128k": {
+    "name": "Doubao Lite 128K",
+    "context": 131072,
+    "maxOutput": 4096
+  },
+  "doubao-lite-32k": {
+    "name": "Doubao Lite 32K",
+    "context": 32768,
+    "maxOutput": 4096
+  },
+  "doubao-lite-4k": {
+    "name": "Doubao Lite 4K",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "doubao-vision-pro-32k": {
+    "name": "Doubao Vision Pro 32K",
+    "context": 32768,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "doubao-vision-lite-32k": {
+    "name": "Doubao Vision Lite 32K",
+    "context": 32768,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "deepseek-v3-2-251201": {
+    "name": "Deepseek V3.2",
+    "context": 98304,
+    "maxOutput": 32768,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-4-7-251222": {
+    "name": "Glm 4.7",
+    "context": 204800,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "kimi-k2-thinking-251104": {
+    "name": "Kimi K2 Thinking",
+    "context": 229376,
+    "maxOutput": 32768,
+    "reasoning": true
+  },
+  "doubao-seed-2-0-lite-260215": {
+    "name": "Doubao Seed 2.0 Lite",
+    "context": 256000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "doubao-seed-2-0-lite-260428": {
+    "name": "Doubao Seed 2.0 Lite (Full-Modal)",
+    "context": 256000,
+    "maxOutput": 128000,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "doubao-seed-2-0-code-preview-260215": {
+    "name": "Doubao Seed 2.0 Code Preview",
+    "context": 256000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  }
+}

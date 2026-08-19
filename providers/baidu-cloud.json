@@ -1,0 +1,46 @@
+{
+  "ernie-4.5-8k": {
+    "name": "ERNIE 4.5 8K",
+    "context": 8192,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "ernie-4.5-128k": {
+    "name": "ERNIE 4.5 128K",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true
+  },
+  "ernie-4.0-8k": {
+    "name": "ERNIE 4.0 8K",
+    "context": 8192,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "ernie-4.0-turbo-8k": {
+    "name": "ERNIE 4.0 Turbo 8K",
+    "context": 8192,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "ernie-3.5-8k": {
+    "name": "ERNIE 3.5 8K",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "ernie-speed-8k": {
+    "name": "ERNIE Speed 8K",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "ernie-lite-8k": {
+    "name": "ERNIE Lite 8K",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "ernie-tiny-8k": {
+    "name": "ERNIE Tiny 8K",
+    "context": 8192,
+    "maxOutput": 4096
+  }
+}

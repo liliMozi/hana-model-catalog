@@ -1,0 +1,127 @@
+{
+  "deepseek-chat": {
+    "name": "DeepSeek Chat",
+    "context": 128000,
+    "maxOutput": 8192,
+    "image": false
+  },
+  "deepseek-reasoner": {
+    "name": "DeepSeek Reasoner",
+    "context": 128000,
+    "maxOutput": 64000,
+    "reasoning": true,
+    "image": false
+  },
+  "deepseek-v3.2": {
+    "name": "DeepSeek V3.2",
+    "context": 163840,
+    "maxOutput": 65536,
+    "image": false
+  },
+  "qwen3-max": {
+    "name": "Qwen 3 Max",
+    "context": 262144,
+    "maxOutput": 32768,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3-plus": {
+    "name": "Qwen 3 Plus",
+    "context": 131072,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3-mini": {
+    "name": "Qwen 3 Mini",
+    "context": 131072,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3.5-plus": {
+    "name": "Qwen 3.5 Plus",
+    "context": 1000000,
+    "maxOutput": 65536,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3.5-max": {
+    "name": "Qwen 3.5 Max",
+    "context": 1000000,
+    "maxOutput": 65536,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3.5-flash": {
+    "name": "Qwen 3.5 Flash",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "kimi-k2.5": {
+    "name": "Kimi K2.5",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true,
+    "reasoning": true
+  },
+  "kimi-k2": {
+    "name": "Kimi K2",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true
+  },
+  "glm-5": {
+    "name": "GLM-5",
+    "context": 200000,
+    "maxOutput": 128000,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-5-turbo": {
+    "name": "GLM-5 Turbo",
+    "context": 205000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-4-plus": {
+    "name": "GLM-4 Plus",
+    "context": 131072,
+    "maxOutput": 16384,
+    "image": true
+  },
+  "glm-4-flash": {
+    "name": "GLM-4 Flash",
+    "context": 131072,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "deepseek-r1": {
+    "name": "Deepseek R1",
+    "context": 65536,
+    "maxOutput": 8192,
+    "reasoning": true,
+    "image": false
+  }
+}

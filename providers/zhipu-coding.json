@@ -1,0 +1,39 @@
+{
+  "glm-5.3": {
+    "name": "GLM-5.3",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true,
+    "xhigh": true
+  },
+  "glm-5.2": {
+    "name": "GLM-5.2",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true,
+    "xhigh": true
+  },
+  "glm-5-turbo": {
+    "name": "GLM-5 Turbo",
+    "context": 200000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-4.7": {
+    "name": "GLM-4.7",
+    "context": 200000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-4.5-air": {
+    "name": "GLM-4.5 Air",
+    "context": 200000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true
+  }
+}

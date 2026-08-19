@@ -1,0 +1,65 @@
+{
+  "glm-5.3": {
+    "name": "GLM-5.3",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true,
+    "xhigh": true
+  },
+  "glm-5.2": {
+    "name": "GLM-5.2",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true,
+    "xhigh": true
+  },
+  "glm-5.1": {
+    "name": "GLM-5.1",
+    "context": 200000,
+    "maxOutput": 128000,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-5": {
+    "name": "GLM-5",
+    "context": 200000,
+    "maxOutput": 128000,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-5-turbo": {
+    "name": "GLM-5 Turbo",
+    "context": 205000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-5v-turbo": {
+    "name": "GLM-5V Turbo",
+    "context": 200000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "glm-4.7-flash": {
+    "name": "GLM-4.7 Flash",
+    "context": 200000,
+    "maxOutput": 128000,
+    "image": false,
+    "reasoning": true
+  },
+  "glm-4-plus": {
+    "name": "GLM-4 Plus",
+    "context": 131072,
+    "maxOutput": 16384,
+    "image": true
+  },
+  "glm-4-flash": {
+    "name": "GLM-4 Flash",
+    "context": 131072,
+    "maxOutput": 4096,
+    "image": true
+  }
+}

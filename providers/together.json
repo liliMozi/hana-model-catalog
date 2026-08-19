@@ -1,0 +1,183 @@
+{
+  "together-ai-21.1b-41b": {
+    "name": "Together Ai 21.1b 41b",
+    "context": 128000
+  },
+  "together-ai-4.1b-8b": {
+    "name": "Together Ai 4.1b 8b",
+    "context": 128000
+  },
+  "together-ai-41.1b-80b": {
+    "name": "Together Ai 41.1b 80b",
+    "context": 128000
+  },
+  "together-ai-8.1b-21b": {
+    "name": "Together Ai 8.1b 21b",
+    "context": 1000
+  },
+  "together-ai-81.1b-110b": {
+    "name": "Together Ai 81.1b 110b",
+    "context": 128000
+  },
+  "together-ai-up-to-4b": {
+    "name": "Together Ai Up To 4b",
+    "context": 128000
+  },
+  "Qwen/Qwen2.5-72B-Instruct-Turbo": {
+    "name": "Qwen/Qwen2.5.72B Instruct Turbo",
+    "context": 128000
+  },
+  "Qwen/Qwen2.5-7B-Instruct-Turbo": {
+    "name": "Qwen/Qwen2.5.7B Instruct Turbo",
+    "context": 32768,
+    "maxOutput": 32768
+  },
+  "Qwen/Qwen3-235B-A22B-Instruct-2507-tput": {
+    "name": "Qwen/Qwen3.235B A22B Instruct 2507 Tput",
+    "context": 262144,
+    "maxOutput": 262144
+  },
+  "Qwen/Qwen3-235B-A22B-Thinking-2507": {
+    "name": "Qwen/Qwen3.235B A22B Thinking 2507",
+    "context": 256000
+  },
+  "Qwen/Qwen3-235B-A22B-fp8-tput": {
+    "name": "Qwen/Qwen3.235B A22B Fp8 Tput",
+    "context": 40000
+  },
+  "Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8": {
+    "name": "Qwen/Qwen3 Coder 480B A35B Instruct FP8",
+    "context": 256000
+  },
+  "deepseek-ai/DeepSeek-R1": {
+    "name": "Deepseek Ai/DeepSeek R1",
+    "context": 128000,
+    "maxOutput": 20480,
+    "image": false,
+    "reasoning": true
+  },
+  "deepseek-ai/DeepSeek-R1-0528-tput": {
+    "name": "Deepseek Ai/DeepSeek R1.0528 Tput",
+    "context": 128000
+  },
+  "deepseek-ai/DeepSeek-V3": {
+    "name": "Deepseek Ai/DeepSeek V3",
+    "context": 65536,
+    "maxOutput": 8192,
+    "image": false
+  },
+  "deepseek-ai/DeepSeek-V3.1": {
+    "name": "Deepseek Ai/DeepSeek V3.1",
+    "context": 128000,
+    "reasoning": true
+  },
+  "meta-llama/Llama-3.2-3B-Instruct-Turbo": {
+    "name": "Meta Llama/Llama 3.2.3B Instruct Turbo",
+    "context": 128000
+  },
+  "meta-llama/Llama-3.3-70B-Instruct-Turbo": {
+    "name": "Meta Llama/Llama 3.3.70B Instruct Turbo",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free": {
+    "name": "Meta Llama/Llama 3.3.70B Instruct Turbo Free",
+    "context": 128000
+  },
+  "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8": {
+    "name": "Meta Llama/Llama 4 Maverick 17B 128E Instruct FP8",
+    "context": 128000
+  },
+  "meta-llama/Llama-4-Scout-17B-16E-Instruct": {
+    "name": "Meta Llama/Llama 4 Scout 17B 16E Instruct",
+    "context": 128000,
+    "image": true
+  },
+  "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo": {
+    "name": "Meta Llama/Meta Llama 3.1.405B Instruct Turbo",
+    "context": 128000
+  },
+  "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo": {
+    "name": "Meta Llama/Meta Llama 3.1.70B Instruct Turbo",
+    "context": 128000
+  },
+  "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo": {
+    "name": "Meta Llama/Meta Llama 3.1.8B Instruct Turbo",
+    "context": 128000
+  },
+  "mistralai/Mistral-7B-Instruct-v0.1": {
+    "name": "Mistralai/Mistral 7B Instruct V0.1",
+    "context": 128000
+  },
+  "mistralai/Mistral-Small-24B-Instruct-2501": {
+    "name": "Mistralai/Mistral Small 24B Instruct 2501",
+    "context": 128000
+  },
+  "mistralai/Mixtral-8x7B-Instruct-v0.1": {
+    "name": "Mistralai/Mixtral 8x7B Instruct V0.1",
+    "context": 128000
+  },
+  "moonshotai/Kimi-K2-Instruct": {
+    "name": "Moonshotai/Kimi K2 Instruct",
+    "context": 128000,
+    "image": true
+  },
+  "openai/gpt-oss-120b": {
+    "name": "Openai/Gpt Oss 120b",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "openai/gpt-oss-20b": {
+    "name": "Openai/Gpt Oss 20b",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "togethercomputer/CodeLlama-34b-Instruct": {
+    "name": "Togethercomputer/CodeLlama 34b Instruct",
+    "context": 128000
+  },
+  "zai-org/GLM-4.5-Air-FP8": {
+    "name": "Zai Org/GLM 4.5 Air FP8",
+    "context": 128000
+  },
+  "zai-org/GLM-4.6": {
+    "name": "Zai Org/GLM 4.6",
+    "context": 200000,
+    "maxOutput": 200000,
+    "reasoning": true
+  },
+  "zai-org/GLM-4.7": {
+    "name": "Zai Org/GLM 4.7",
+    "context": 200000,
+    "maxOutput": 200000,
+    "reasoning": true
+  },
+  "moonshotai/Kimi-K2.5": {
+    "name": "Moonshotai/Kimi K2.5",
+    "context": 256000,
+    "maxOutput": 256000,
+    "image": true,
+    "reasoning": true
+  },
+  "moonshotai/Kimi-K2-Instruct-0905": {
+    "name": "Moonshotai/Kimi K2 Instruct 0905",
+    "context": 262144
+  },
+  "Qwen/Qwen3-Next-80B-A3B-Instruct": {
+    "name": "Qwen/Qwen3 Next 80B A3B Instruct",
+    "context": 262144
+  },
+  "Qwen/Qwen3-Next-80B-A3B-Thinking": {
+    "name": "Qwen/Qwen3 Next 80B A3B Thinking",
+    "context": 262144
+  },
+  "Qwen/Qwen3.5-397B-A17B": {
+    "name": "Qwen/Qwen3.5.397B A17B",
+    "context": 262144,
+    "image": true,
+    "reasoning": true,
+    "maxOutput": 130000
+  }
+}

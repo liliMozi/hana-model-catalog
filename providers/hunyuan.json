@@ -1,0 +1,43 @@
+{
+  "hunyuan-t1-latest": {
+    "name": "Hunyuan T1",
+    "context": 262144,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true
+  },
+  "hunyuan-turbos-latest": {
+    "name": "Hunyuan TurboS",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true
+  },
+  "hunyuan-turbo-latest": {
+    "name": "Hunyuan Turbo",
+    "context": 131072,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "hunyuan-pro-latest": {
+    "name": "Hunyuan Pro",
+    "context": 32768,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "hunyuan-standard-latest": {
+    "name": "Hunyuan Standard",
+    "context": 32768,
+    "maxOutput": 4096
+  },
+  "hunyuan-lite-latest": {
+    "name": "Hunyuan Lite",
+    "context": 16384,
+    "maxOutput": 4096
+  },
+  "hunyuan-vision-latest": {
+    "name": "Hunyuan Vision",
+    "context": 8192,
+    "maxOutput": 4096,
+    "image": true
+  }
+}

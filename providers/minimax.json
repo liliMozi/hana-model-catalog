@@ -1,0 +1,72 @@
+{
+  "MiniMax-M3": {
+    "name": "MiniMax M3",
+    "context": 500000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "MiniMax-M2": {
+    "name": "MiniMax M2",
+    "context": 204800,
+    "maxOutput": 204800,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.1": {
+    "name": "MiniMax M2.1",
+    "context": 204800,
+    "maxOutput": 204800,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.1-highspeed": {
+    "name": "MiniMax M2.1 Highspeed",
+    "context": 204800,
+    "maxOutput": 204800,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.5": {
+    "name": "MiniMax M2.5",
+    "context": 204800,
+    "maxOutput": 204800,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.5-highspeed": {
+    "name": "MiniMax M2.5 Highspeed",
+    "context": 204800,
+    "maxOutput": 204800,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.7": {
+    "name": "MiniMax M2.7",
+    "context": 204800,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.7-highspeed": {
+    "name": "MiniMax M2.7 Highspeed",
+    "context": 204800,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.1-lightning": {
+    "name": "MiniMax M2.1 Lightning",
+    "context": 1000000,
+    "maxOutput": 8192,
+    "image": false,
+    "reasoning": true
+  },
+  "MiniMax-M2.5-lightning": {
+    "name": "MiniMax M2.5 Lightning",
+    "context": 1000000,
+    "maxOutput": 8192,
+    "image": false,
+    "reasoning": true
+  }
+}

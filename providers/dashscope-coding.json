@@ -1,0 +1,21 @@
+{
+  "kimi-k2.5": {
+    "name": "Kimi K2.5",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "kimi-k2": {
+    "name": "Kimi K2",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  }
+}

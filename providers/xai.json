@@ -1,0 +1,304 @@
+{
+  "grok-2": {
+    "name": "Grok 2",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "grok-2-1212": {
+    "name": "Grok 2.1212",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "grok-2-latest": {
+    "name": "Grok 2 Latest",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "grok-2-vision": {
+    "name": "Grok 2 Vision",
+    "context": 32768,
+    "maxOutput": 32768,
+    "image": true
+  },
+  "grok-2-vision-1212": {
+    "name": "Grok 2 Vision 1212",
+    "context": 32768,
+    "maxOutput": 32768,
+    "image": true
+  },
+  "grok-2-vision-latest": {
+    "name": "Grok 2 Vision Latest",
+    "context": 32768,
+    "maxOutput": 32768,
+    "image": true
+  },
+  "grok-3": {
+    "name": "Grok 3",
+    "context": 131072,
+    "maxOutput": 8192
+  },
+  "grok-3-beta": {
+    "name": "Grok 3 Beta",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "grok-3-fast-beta": {
+    "name": "Grok 3 Fast Beta",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "grok-3-fast-latest": {
+    "name": "Grok 3 Fast Latest",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "grok-3-latest": {
+    "name": "Grok 3 Latest",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "grok-3-mini": {
+    "name": "Grok 3 Mini",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "grok-3-mini-beta": {
+    "name": "Grok 3 Mini Beta",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "grok-3-mini-fast": {
+    "name": "Grok 3 Mini Fast",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "grok-3-mini-fast-beta": {
+    "name": "Grok 3 Mini Fast Beta",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "grok-3-mini-fast-latest": {
+    "name": "Grok 3 Mini Fast Latest",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "grok-3-mini-latest": {
+    "name": "Grok 3 Mini Latest",
+    "context": 131072,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "grok-4.5": {
+    "name": "Grok 4.5",
+    "context": 500000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "supportsReasoningEffort": true
+    }
+  },
+  "grok-4.5-latest": {
+    "name": "Grok 4.5 Latest",
+    "context": 500000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "high"
+  },
+  "grok-4.6": {
+    "name": "Grok 4.6",
+    "context": 500000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "supportsReasoningEffort": true
+    },
+    "thinkingLevelMap": {
+      "xhigh": "xhigh"
+    }
+  },
+  "grok-build-latest": {
+    "name": "Grok Build Latest",
+    "context": 500000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "high"
+  },
+  "grok-4.3": {
+    "name": "Grok 4.3",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4": {
+    "name": "Grok 4",
+    "context": 256000,
+    "maxOutput": 256000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4-fast-reasoning": {
+    "name": "Grok 4 Fast Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4-fast-non-reasoning": {
+    "name": "Grok 4 Fast Non Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true
+  },
+  "grok-4-0709": {
+    "name": "Grok 4.0709",
+    "context": 256000,
+    "maxOutput": 256000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4-latest": {
+    "name": "Grok 4 Latest",
+    "context": 256000,
+    "maxOutput": 256000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4-1-fast": {
+    "name": "Grok 4.1 Fast",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4-1-fast-reasoning": {
+    "name": "Grok 4.1 Fast Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4-1-fast-reasoning-latest": {
+    "name": "Grok 4.1 Fast Reasoning Latest",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4-1-fast-non-reasoning": {
+    "name": "Grok 4.1 Fast Non Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true
+  },
+  "grok-4-1-fast-non-reasoning-latest": {
+    "name": "Grok 4.1 Fast Non Reasoning Latest",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true
+  },
+  "grok-4.20-multi-agent-beta-0309": {
+    "name": "Grok 4.20 Multi Agent Beta 0309",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4.20-multi-agent": {
+    "name": "Grok 4.20 Multi Agent",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true,
+    "compat": {
+      "supportsReasoningEffort": true
+    }
+  },
+  "grok-4.20-beta-0309-reasoning": {
+    "name": "Grok 4.20 Beta 0309 Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4.20-reasoning": {
+    "name": "Grok 4.20 Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true,
+    "reasoning": true
+  },
+  "grok-4.20-beta-0309-non-reasoning": {
+    "name": "Grok 4.20 Beta 0309 Non Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true
+  },
+  "grok-4.20-non-reasoning": {
+    "name": "Grok 4.20 Non Reasoning",
+    "context": 2000000,
+    "maxOutput": 2000000,
+    "image": true
+  },
+  "grok-beta": {
+    "name": "Grok Beta",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true
+  },
+  "grok-code-fast": {
+    "name": "Grok Code Fast",
+    "context": 256000,
+    "maxOutput": 256000,
+    "reasoning": true
+  },
+  "grok-code-fast-1": {
+    "name": "Grok Code Fast 1",
+    "context": 256000,
+    "maxOutput": 256000,
+    "reasoning": true
+  },
+  "grok-code-fast-1-0825": {
+    "name": "Grok Code Fast 1.0825",
+    "context": 256000,
+    "maxOutput": 256000,
+    "reasoning": true
+  },
+  "grok-vision-beta": {
+    "name": "Grok Vision Beta",
+    "context": 8192,
+    "maxOutput": 8192,
+    "image": true
+  }
+}

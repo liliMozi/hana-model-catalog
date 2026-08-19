@@ -1,0 +1,121 @@
+{
+  "k3": {
+    "name": "Kimi K3",
+    "context": 1048576,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "low": "low",
+      "medium": "low",
+      "high": "high",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "max"
+  },
+  "k3-256k": {
+    "name": "Kimi K3 256K",
+    "context": 262144,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "low": "low",
+      "medium": "low",
+      "high": "high",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high"
+  },
+  "kimi-for-coding": {
+    "name": "Kimi for Coding",
+    "context": 262144,
+    "maxOutput": 32768,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "off",
+      "low",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": null,
+      "low": "low",
+      "medium": "high",
+      "high": "high",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "kimi",
+      "reasoningProfile": "kimi-openai"
+    },
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-k2.6": {
+    "name": "Kimi K2.6",
+    "context": 262144,
+    "maxOutput": 98304,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-k2.5": {
+    "name": "Kimi K2.5",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-k2": {
+    "name": "Kimi K2",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  }
+}

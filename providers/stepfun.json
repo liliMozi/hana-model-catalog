@@ -1,0 +1,49 @@
+{
+  "step-3.5-flash": {
+    "name": "Step 3.5 Flash",
+    "context": 262144,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true
+  },
+  "step-3": {
+    "name": "Step 3",
+    "context": 262144,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true
+  },
+  "step-2-16k": {
+    "name": "Step 2 16K",
+    "context": 16384,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "step-2-mini": {
+    "name": "Step 2 Mini",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "step-1-8k": {
+    "name": "Step 1 8K",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "step-1-32k": {
+    "name": "Step 1 32K",
+    "context": 32768,
+    "maxOutput": 4096
+  },
+  "step-1v-8k": {
+    "name": "Step 1V 8K",
+    "context": 8192,
+    "maxOutput": 4096,
+    "image": true
+  },
+  "step-1v-32k": {
+    "name": "Step 1V 32K",
+    "context": 32768,
+    "maxOutput": 4096,
+    "image": true
+  }
+}

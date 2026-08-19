@@ -1,0 +1,25 @@
+{
+  "qwen3.8-max-preview": {
+    "name": "Qwen 3.8 Max Preview",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ],
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "max"
+    ],
+    "defaultThinkingLevel": "max",
+    "thinkingLevelMap": {
+      "off": null,
+      "low": "low",
+      "medium": "medium",
+      "high": "xhigh",
+      "xhigh": "xhigh"
+    }
+  }
+}

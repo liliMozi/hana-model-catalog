@@ -1,0 +1,63 @@
+{
+  "llama-3.1-8b-instant": {
+    "name": "Llama 3.1.8b Instant",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "llama-3.3-70b-versatile": {
+    "name": "Llama 3.3.70b Versatile",
+    "context": 131072,
+    "maxOutput": 32768
+  },
+  "gemma-7b-it": {
+    "name": "Gemma 7b It",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "meta-llama/llama-guard-4-12b": {
+    "name": "Meta Llama/Llama Guard 4.12b",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "meta-llama/llama-4-maverick-17b-128e-instruct": {
+    "name": "Meta Llama/Llama 4 Maverick 17b 128e Instruct",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true
+  },
+  "meta-llama/llama-4-scout-17b-16e-instruct": {
+    "name": "Meta Llama/Llama 4 Scout 17b 16e Instruct",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true
+  },
+  "moonshotai/kimi-k2-instruct-0905": {
+    "name": "Moonshotai/Kimi K2 Instruct 0905",
+    "context": 262144,
+    "maxOutput": 16384
+  },
+  "openai/gpt-oss-120b": {
+    "name": "Openai/Gpt Oss 120b",
+    "context": 131072,
+    "maxOutput": 65536,
+    "reasoning": true
+  },
+  "openai/gpt-oss-20b": {
+    "name": "Openai/Gpt Oss 20b",
+    "context": 131072,
+    "maxOutput": 65536,
+    "reasoning": true
+  },
+  "openai/gpt-oss-safeguard-20b": {
+    "name": "Openai/Gpt Oss Safeguard 20b",
+    "context": 131072,
+    "maxOutput": 65536,
+    "reasoning": true
+  },
+  "qwen/qwen3-32b": {
+    "name": "Qwen/Qwen3.32b",
+    "context": 131072,
+    "maxOutput": 40960,
+    "reasoning": true
+  }
+}

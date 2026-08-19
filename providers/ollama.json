@@ -1,0 +1,160 @@
+{
+  "llama3.1": {
+    "name": "Llama 3.1",
+    "context": 131072,
+    "maxOutput": 8192
+  },
+  "llama3.2": {
+    "name": "Llama 3.2",
+    "context": 131072,
+    "maxOutput": 8192
+  },
+  "qwen2.5": {
+    "name": "Qwen 2.5",
+    "context": 131072,
+    "maxOutput": 8192
+  },
+  "qwen3": {
+    "name": "Qwen 3",
+    "context": 131072,
+    "maxOutput": 8192
+  },
+  "gemma2": {
+    "name": "Gemma 2",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "gemma3": {
+    "name": "Gemma 3",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true
+  },
+  "mistral": {
+    "name": "Mistral",
+    "context": 32768,
+    "maxOutput": 8192
+  },
+  "deepseek-r1": {
+    "name": "DeepSeek R1",
+    "context": 131072,
+    "maxOutput": 8192,
+    "reasoning": true,
+    "image": false
+  },
+  "phi3": {
+    "name": "Phi 3",
+    "context": 131072,
+    "maxOutput": 4096
+  },
+  "phi4": {
+    "name": "Phi 4",
+    "context": 16384,
+    "maxOutput": 4096
+  },
+  "codellama": {
+    "name": "Code Llama",
+    "context": 16384,
+    "maxOutput": 4096
+  },
+  "codegeex4": {
+    "name": "Codegeex4",
+    "context": 32768,
+    "maxOutput": 8192
+  },
+  "deepseek-coder-v2-instruct": {
+    "name": "Deepseek Coder V2 Instruct",
+    "context": 32768,
+    "maxOutput": 8192
+  },
+  "deepseek-coder-v2-lite-instruct": {
+    "name": "Deepseek Coder V2 Lite Instruct",
+    "context": 32768,
+    "maxOutput": 8192
+  },
+  "deepseek-v3.1:671b-cloud": {
+    "name": "Deepseek V3.1:671b Cloud",
+    "context": 163840,
+    "maxOutput": 163840
+  },
+  "gpt-oss:120b-cloud": {
+    "name": "Gpt Oss:120b Cloud",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "gpt-oss:20b-cloud": {
+    "name": "Gpt Oss:20b Cloud",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "internlm2_5-20b-chat": {
+    "name": "Internlm2.5 20b Chat",
+    "context": 32768,
+    "maxOutput": 8192
+  },
+  "llama2": {
+    "name": "Llama2",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "llama2:13b": {
+    "name": "Llama2:13b",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "llama2:70b": {
+    "name": "Llama2:70b",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "llama2:7b": {
+    "name": "Llama2:7b",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "llama3": {
+    "name": "Llama3",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "llama3:70b": {
+    "name": "Llama3:70b",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "llama3:8b": {
+    "name": "Llama3:8b",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "mistral-7B-Instruct-v0.1": {
+    "name": "Mistral 7B Instruct V0.1",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "mistral-7B-Instruct-v0.2": {
+    "name": "Mistral 7B Instruct V0.2",
+    "context": 32768,
+    "maxOutput": 32768
+  },
+  "mistral-large-instruct-2407": {
+    "name": "Mistral Large Instruct 2407",
+    "context": 65536,
+    "maxOutput": 8192
+  },
+  "mixtral-8x22B-Instruct-v0.1": {
+    "name": "Mixtral 8x22B Instruct V0.1",
+    "context": 65536,
+    "maxOutput": 65536
+  },
+  "mixtral-8x7B-Instruct-v0.1": {
+    "name": "Mixtral 8x7B Instruct V0.1",
+    "context": 32768,
+    "maxOutput": 32768
+  },
+  "qwen3-coder:480b-cloud": {
+    "name": "Qwen3 Coder:480b Cloud",
+    "context": 262144,
+    "maxOutput": 262144
+  }
+}

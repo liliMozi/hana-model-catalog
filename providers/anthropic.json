@@ -1,0 +1,434 @@
+{
+  "claude-opus-5": {
+    "name": "Claude Opus 5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    },
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-sonnet-5": {
+    "name": "Claude Sonnet 5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    },
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-fable-5": {
+    "name": "Claude Fable 5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    },
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-mythos-5": {
+    "name": "Claude Mythos 5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    },
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-7": {
+    "name": "Claude Opus 4.7",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-6": {
+    "name": "Claude Opus 4.6",
+    "context": 200000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-sonnet-4-6": {
+    "name": "Claude Sonnet 4.6",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-sonnet-4-5": {
+    "name": "Claude Sonnet 4.5",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-5": {
+    "name": "Claude Opus 4.5",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-1": {
+    "name": "Claude Opus 4.1",
+    "context": 200000,
+    "maxOutput": 32000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-sonnet-4-20250514": {
+    "name": "Claude Sonnet 4",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-20250514": {
+    "name": "Claude Opus 4",
+    "context": 200000,
+    "maxOutput": 32000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-3-7-sonnet": {
+    "name": "Claude 3.7 Sonnet",
+    "context": 200000,
+    "maxOutput": 16000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-3-5-sonnet": {
+    "name": "Claude 3.5 Sonnet",
+    "context": 200000,
+    "maxOutput": 8192,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-3-5-haiku": {
+    "name": "Claude 3.5 Haiku",
+    "context": 200000,
+    "maxOutput": 8192,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-haiku-4-5": {
+    "name": "Claude Haiku 4.5",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-haiku-4-5-20251001": {
+    "name": "Claude Haiku 4.5 20251001",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-3-7-sonnet-20250219": {
+    "name": "Claude 3.7 Sonnet 20250219",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-3-haiku-20240307": {
+    "name": "Claude 3 Haiku 20240307",
+    "context": 200000,
+    "maxOutput": 4096,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-3-opus-20240229": {
+    "name": "Claude 3 Opus 20240229",
+    "context": 200000,
+    "maxOutput": 4096,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-4-opus-20250514": {
+    "name": "Claude 4 Opus 20250514",
+    "context": 200000,
+    "maxOutput": 32000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-4-sonnet-20250514": {
+    "name": "Claude 4 Sonnet 20250514",
+    "context": 1000000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-sonnet-4-5-20250929": {
+    "name": "Claude Sonnet 4.5 20250929",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-1-20250805": {
+    "name": "Claude Opus 4.1 20250805",
+    "context": 200000,
+    "maxOutput": 32000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-5-20251101": {
+    "name": "Claude Opus 4.5 20251101",
+    "context": 200000,
+    "maxOutput": 64000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "claude-opus-4-6-20260205": {
+    "name": "Claude Opus 4.6 20260205",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  }
+}

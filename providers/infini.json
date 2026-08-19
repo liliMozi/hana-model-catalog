@@ -1,0 +1,41 @@
+{
+  "deepseek-chat": {
+    "name": "DeepSeek Chat",
+    "context": 128000,
+    "maxOutput": 8192,
+    "image": false
+  },
+  "deepseek-reasoner": {
+    "name": "DeepSeek Reasoner",
+    "context": 128000,
+    "maxOutput": 64000,
+    "reasoning": true,
+    "image": false
+  },
+  "deepseek-v3.2": {
+    "name": "DeepSeek V3.2",
+    "context": 163840,
+    "maxOutput": 65536,
+    "image": false
+  },
+  "qwen3-max": {
+    "name": "Qwen 3 Max",
+    "context": 262144,
+    "maxOutput": 32768,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3-plus": {
+    "name": "Qwen 3 Plus",
+    "context": 131072,
+    "maxOutput": 16384,
+    "image": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  }
+}

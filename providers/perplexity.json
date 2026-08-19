@@ -1,0 +1,101 @@
+{
+  "codellama-34b-instruct": {
+    "name": "Codellama 34b Instruct",
+    "context": 16384,
+    "maxOutput": 16384
+  },
+  "codellama-70b-instruct": {
+    "name": "Codellama 70b Instruct",
+    "context": 16384,
+    "maxOutput": 16384
+  },
+  "llama-2-70b-chat": {
+    "name": "Llama 2.70b Chat",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "llama-3.1-70b-instruct": {
+    "name": "Llama 3.1.70b Instruct",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "llama-3.1-8b-instruct": {
+    "name": "Llama 3.1.8b Instruct",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "mistral-7b-instruct": {
+    "name": "Mistral 7b Instruct",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "mixtral-8x7b-instruct": {
+    "name": "Mixtral 8x7b Instruct",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "pplx-70b-chat": {
+    "name": "Pplx 70b Chat",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "pplx-70b-online": {
+    "name": "Pplx 70b Online",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "pplx-7b-chat": {
+    "name": "Pplx 7b Chat",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "pplx-7b-online": {
+    "name": "Pplx 7b Online",
+    "context": 4096,
+    "maxOutput": 4096
+  },
+  "sonar": {
+    "name": "Sonar",
+    "context": 128000
+  },
+  "sonar-deep-research": {
+    "name": "Sonar Deep Research",
+    "context": 128000,
+    "reasoning": true
+  },
+  "sonar-medium-chat": {
+    "name": "Sonar Medium Chat",
+    "context": 16384,
+    "maxOutput": 16384
+  },
+  "sonar-medium-online": {
+    "name": "Sonar Medium Online",
+    "context": 12000,
+    "maxOutput": 12000
+  },
+  "sonar-pro": {
+    "name": "Sonar Pro",
+    "context": 200000,
+    "maxOutput": 8000
+  },
+  "sonar-reasoning": {
+    "name": "Sonar Reasoning",
+    "context": 128000,
+    "reasoning": true
+  },
+  "sonar-reasoning-pro": {
+    "name": "Sonar Reasoning Pro",
+    "context": 128000,
+    "reasoning": true
+  },
+  "sonar-small-chat": {
+    "name": "Sonar Small Chat",
+    "context": 16384,
+    "maxOutput": 16384
+  },
+  "sonar-small-online": {
+    "name": "Sonar Small Online",
+    "context": 12000,
+    "maxOutput": 12000
+  }
+}

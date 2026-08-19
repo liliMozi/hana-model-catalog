@@ -1,0 +1,17 @@
+{
+  "Baichuan4-Air": {
+    "name": "Baichuan 4 Air",
+    "context": 32768,
+    "maxOutput": 4096
+  },
+  "Baichuan4-Turbo": {
+    "name": "Baichuan 4 Turbo",
+    "context": 32768,
+    "maxOutput": 4096
+  },
+  "Baichuan3-Turbo": {
+    "name": "Baichuan 3 Turbo",
+    "context": 32768,
+    "maxOutput": 4096
+  }
+}

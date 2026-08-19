@@ -1,0 +1,12 @@
+{
+  "agnes-2.0-flash": {
+    "name": "Agnes 2.0 Flash",
+    "image": true,
+    "reasoning": false,
+    "toolUse": {
+      "supportsTools": true,
+      "dialect": "openai",
+      "toolResultFormat": "message"
+    }
+  }
+}

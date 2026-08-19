@@ -1,0 +1,232 @@
+{
+  "kimi-k2.6": {
+    "name": "Kimi K2.6",
+    "context": 262144,
+    "maxOutput": 98304,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-k2.5": {
+    "name": "Kimi K2.5",
+    "context": 262144,
+    "maxOutput": 262144,
+    "image": true,
+    "reasoning": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-k2": {
+    "name": "Kimi K2",
+    "context": 131072,
+    "maxOutput": 8192,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "moonshot-v1-128k": {
+    "name": "Moonshot V1 128K",
+    "context": 131072,
+    "maxOutput": 4096
+  },
+  "moonshot-v1-32k": {
+    "name": "Moonshot V1 32K",
+    "context": 32768,
+    "maxOutput": 4096
+  },
+  "moonshot-v1-8k": {
+    "name": "Moonshot V1 8K",
+    "context": 8192,
+    "maxOutput": 4096
+  },
+  "kimi-k2-0711-preview": {
+    "name": "Kimi K2.0711 Preview",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "kimi-k2-0905-preview": {
+    "name": "Kimi K2.0905 Preview",
+    "context": 262144,
+    "maxOutput": 262144
+  },
+  "kimi-k2-turbo-preview": {
+    "name": "Kimi K2 Turbo Preview",
+    "context": 262144,
+    "maxOutput": 262144
+  },
+  "kimi-latest": {
+    "name": "Kimi Latest",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-latest-128k": {
+    "name": "Kimi Latest 128k",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-latest-32k": {
+    "name": "Kimi Latest 32k",
+    "context": 32768,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-latest-8k": {
+    "name": "Kimi Latest 8k",
+    "context": 8192,
+    "maxOutput": 8192,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-thinking-preview": {
+    "name": "Kimi Thinking Preview",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "kimi-k2-thinking": {
+    "name": "Kimi K2 Thinking",
+    "context": 262144,
+    "maxOutput": 262144,
+    "reasoning": true
+  },
+  "kimi-k2-thinking-turbo": {
+    "name": "Kimi K2 Thinking Turbo",
+    "context": 262144,
+    "maxOutput": 262144,
+    "reasoning": true
+  },
+  "moonshot-v1-128k-0430": {
+    "name": "Moonshot V1.128k 0430",
+    "context": 131072,
+    "maxOutput": 131072
+  },
+  "moonshot-v1-128k-vision-preview": {
+    "name": "Moonshot V1.128k Vision Preview",
+    "context": 131072,
+    "maxOutput": 131072,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "moonshot-v1-32k-0430": {
+    "name": "Moonshot V1.32k 0430",
+    "context": 32768,
+    "maxOutput": 32768
+  },
+  "moonshot-v1-32k-vision-preview": {
+    "name": "Moonshot V1.32k Vision Preview",
+    "context": 32768,
+    "maxOutput": 32768,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "moonshot-v1-8k-0430": {
+    "name": "Moonshot V1.8k 0430",
+    "context": 8192,
+    "maxOutput": 8192
+  },
+  "moonshot-v1-8k-vision-preview": {
+    "name": "Moonshot V1.8k Vision Preview",
+    "context": 8192,
+    "maxOutput": 8192,
+    "image": true,
+    "visionCapabilities": {
+      "grounding": true,
+      "boxes": true,
+      "points": true,
+      "coordinateSpace": "norm-1000",
+      "boxOrder": "xyxy",
+      "outputFormat": "anchor",
+      "groundingMode": "prompted"
+    }
+  },
+  "moonshot-v1-auto": {
+    "name": "Moonshot V1 Auto",
+    "context": 131072,
+    "maxOutput": 131072
+  }
+}

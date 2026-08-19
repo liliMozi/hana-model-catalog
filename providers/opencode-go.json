@@ -1,0 +1,19 @@
+{
+  "glm-5.2": {
+    "name": "GLM-5.2",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "zhipu",
+      "reasoningProfile": "zhipu-openai"
+    },
+    "toolUse": {
+      "supportsTools": true,
+      "dialect": "openai",
+      "toolResultFormat": "message"
+    }
+  }
+}
