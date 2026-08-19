@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/liliMozi/hana-model-catalog/main/schemas/model-catalog.v1.schema.json",
+  "title": "Hana model-catalog.v1",
+  "description": "Runtime shape of the compiled model-catalog.v1 artifact (model-catalog.v1.json). This schema mirrors the structural rules enforced by the application's built-in catalog validator. JSON Schema cannot express every rule that validator enforces; the cross-field and content-pattern rules noted below in field descriptions are NOT checked by this schema alone and are re-enforced by scripts/validate-catalog.mjs in this repository. A catalog that only satisfies this schema is necessary but not sufficient — it must also pass scripts/validate-catalog.mjs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "catalogVersion", "publishedAt", "providers", "fallbacks"],
+  "properties": {
+    "schemaVersion": {
+      "const": 1,
+      "description": "Fixed at 1 for this schema generation. A reader that does not recognize schemaVersion must keep its current catalog rather than treat the file as corrupt (spec: Schema evolution is explicit)."
+    },
+    "catalogVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Strictly increasing publication counter. NOT checked here: that a given publication's catalogVersion is strictly greater than the previously published catalogVersion — that is a repository-history invariant enforced by scripts/validate-catalog.mjs / CI, not a single-document shape rule."
+    },
+    "publishedAt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "A date/time string parseable by Date.parse. Not restricted to strict RFC 3339 by this schema; scripts/validate-catalog.mjs re-checks parseability the same way the client validator does."
+    },
+    "providers": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/providerModels"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Keyed by provider id. Every provider key must satisfy identifierKey (non-empty, non-whitespace-only, must not start with '_')."
+    },
+    "fallbacks": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/fallbackModelEntry"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Keyed by bare model id. Generic best-effort baseline used only when no provider-specific entry matches. Must NOT carry any protocol-level field (see $defs/fallbackModelEntry) — this prevents an unknown/custom provider from implicitly inheriting another provider's wire contract."
+    }
+  },
+  "$defs": {
+    "identifierKey": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "^_" },
+      "description": "A provider key or model id must be a non-empty string, non-empty after trim, and must not start with '_' (the '_comment' convention used in the pre-split source dictionaries is stripped before this schema applies and must never appear as a real key here)."
+    },
+    "providerModels": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/providerModelEntry"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Keyed by bare model id within one provider partition."
+    },
+    "safeString": {
+      "type": "string",
+      "not": { "pattern": "^https?://" },
+      "description": "A string value that is not itself a URL (case-insensitive http(s):// prefix rejected). The 'no URL/link fields' rule is load-bearing for this data channel's decision to publish without artifact signing: a URL field would let a compromised catalog redirect a client's next download, so any URL-shaped string anywhere in a catalog value must be rejected. If this schema is ever widened to add any URL-like field, that no-signing decision must be re-evaluated first."
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "modelFieldsBase": {
+      "description": "The 20-field whitelist shared by provider entries and fallback entries. An object with any key outside this set must be rejected — unknown runtime fields under the current schema are a hard rejection at publish-validation time.",
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "#/$defs/safeString" },
+        "context": { "$ref": "#/$defs/positiveInteger" },
+        "maxContext": {
+          "allOf": [{ "$ref": "#/$defs/positiveInteger" }],
+          "description": "Protocol-level field. Forbidden on fallback entries."
+        },
+        "maxOutput": {
+          "description": "Positive integer, or null. null is the one numeric field observed to be nullable in the source dictionaries.",
+          "oneOf": [
+            { "$ref": "#/$defs/positiveInteger" },
+            { "type": "null" }
+          ]
+        },
+        "image": { "type": "boolean" },
+        "video": { "type": "boolean" },
+        "audio": { "type": "boolean" },
+        "reasoning": { "type": "boolean" },
+        "toolUse": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "supportsTools": { "type": "boolean" },
+            "dialect": { "$ref": "#/$defs/safeString" },
+            "toolResultFormat": { "$ref": "#/$defs/safeString" }
+          }
+        },
+        "type": {
+          "enum": ["image"],
+          "description": "Closed enum observed in the source data; the only recognized value is 'image'."
+        },
+        "api": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Closed enum of wire-protocol selectors observed in the source data.",
+          "enum": ["openai-codex-responses", "openai-completions", "openai-responses"]
+        },
+        "compat": {
+          "description": "Protocol-level field. Forbidden on fallback entries.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thinkingFormat": { "$ref": "#/$defs/safeString" },
+            "reasoningProfile": { "$ref": "#/$defs/safeString" },
+            "supportsReasoningEffort": { "type": "boolean" }
+          }
+        },
+        "quirks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/safeString" }
+        },
+        "thinkingLevels": {
+          "description": "Protocol-level field. Forbidden on fallback entries. NOT checked here: the cross-field rule that when this array is present and does not contain \"max\", the sibling xhigh field must not be true (see xhigh description below) — enforced by scripts/validate-catalog.mjs in this repository.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/safeString" }
+        },
+        "thinkingLevelMap": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Key set is the union of three key-sets observed in the source data: {high,low,medium,off,xhigh}, {off,xhigh}, {minimal,off,xhigh}. Only 'off' and 'minimal' are allowed to be null; low/medium/high/xhigh must be a non-URL string when present.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "off": { "oneOf": [{ "$ref": "#/$defs/safeString" }, { "type": "null" }] },
+            "minimal": { "oneOf": [{ "$ref": "#/$defs/safeString" }, { "type": "null" }] },
+            "low": { "$ref": "#/$defs/safeString" },
+            "medium": { "$ref": "#/$defs/safeString" },
+            "high": { "$ref": "#/$defs/safeString" },
+            "xhigh": { "$ref": "#/$defs/safeString" }
+          }
+        },
+        "defaultThinkingLevel": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Closed enum observed in the source data.",
+          "enum": ["high", "low", "medium", "max"]
+        },
+        "visionCapabilities": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "grounding": { "type": "boolean" },
+            "boxes": { "type": "boolean" },
+            "points": { "type": "boolean" },
+            "coordinateSpace": { "$ref": "#/$defs/safeString" },
+            "boxOrder": { "$ref": "#/$defs/safeString" },
+            "outputFormat": { "$ref": "#/$defs/safeString" },
+            "groundingMode": { "$ref": "#/$defs/safeString" }
+          }
+        },
+        "xhigh": {
+          "type": "boolean",
+          "description": "Whether the model supports an extra top-of-ladder thinking level beyond the standard three. NOT checked here: when a sibling thinkingLevels array is present and omits \"max\", xhigh:true is a contradiction (the array wins at read time and the xhigh promise is silently dropped) — this cross-field rule is enforced only by scripts/validate-catalog.mjs in this repository. A redundant-but-consistent combination (array contains \"max\" AND xhigh:true) is allowed."
+        },
+        "legacyCompatibility": {
+          "type": "boolean",
+          "description": "Protocol-level field. Forbidden on fallback entries."
+        },
+        "serviceTiers": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Non-empty array drawn from the closed v1 enum {standard, fast}, no duplicates.",
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["standard", "fast"] },
+          "uniqueItems": true
+        }
+      }
+    },
+    "providerModelEntry": {
+      "description": "A model entry inside a provider partition. All 20 whitelisted fields are permitted, including the protocol-level subset.",
+      "allOf": [{ "$ref": "#/$defs/modelFieldsBase" }],
+      "additionalProperties": false,
+      "properties": {
+        "name": true, "context": true, "maxContext": true, "maxOutput": true,
+        "image": true, "video": true, "audio": true, "reasoning": true,
+        "toolUse": true, "type": true, "api": true, "compat": true, "quirks": true,
+        "thinkingLevels": true, "thinkingLevelMap": true, "defaultThinkingLevel": true,
+        "visionCapabilities": true, "xhigh": true, "legacyCompatibility": true,
+        "serviceTiers": true
+      }
+    },
+    "fallbackModelEntry": {
+      "description": "A model entry inside fallbacks. Protocol-level fields (api, compat, thinkingLevels, thinkingLevelMap, defaultThinkingLevel, legacyCompatibility, maxContext, serviceTiers) are forbidden here — an unknown/custom provider must never implicitly inherit another provider's wire contract from the generic fallback baseline.",
+      "allOf": [{ "$ref": "#/$defs/modelFieldsBase" }],
+      "additionalProperties": false,
+      "properties": {
+        "name": true, "context": true, "maxOutput": true, "image": true, "video": true,
+        "audio": true, "reasoning": true, "toolUse": true, "type": true, "quirks": true,
+        "visionCapabilities": true, "xhigh": true
+      }
+    }
+  }
+}
