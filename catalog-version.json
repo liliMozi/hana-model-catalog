@@ -1,4 +1,0 @@
-{
-  "_comment": "Source of truth for the catalogVersion baked into the next build. The application's packaged baseline ships catalogVersion 1; every value published from this repository's CI must be strictly greater than whatever was previously published, and must never be reused or decreased. Bump this by hand before cutting a release.",
-  "catalogVersion": 3
-}

@@ -23,17 +23,16 @@ per-provider patch.
 
 ## Release artifacts
 
-Each release publishes exactly two immutable assets:
+Each release publishes exactly one immutable asset:
 
 ```text
-model-catalog.v1.json            the complete catalog snapshot
-model-catalog-manifest.v1.json   schemaVersion, strictly increasing
-                                 catalogVersion, publishedAt, target SHA-256,
-                                 byte size
+model-catalog.v1.json   the complete catalog snapshot
 ```
 
-The app consumes release assets only. It never reads the mutable default
-branch, never clones this repository, and never executes anything from it.
+The file is a full, self-contained snapshot — never a per-provider patch —
+and is never modified in place once published. The app consumes this
+release asset only, over HTTPS. It never reads the mutable default branch,
+never clones this repository, and never executes anything from it.
 
 ## Validation
 
@@ -45,7 +44,6 @@ CI must reject:
 - invalid numeric limits or capability values;
 - credential material, authorization headers, cookies, API keys or secrets;
 - provider base URLs, links, or any executable/network instructions;
-- a publication whose `catalogVersion` does not advance;
 - an artifact that differs from the canonical build output.
 
 The "no URL/link fields" rule is load-bearing for the channel's trust model.
@@ -59,7 +57,7 @@ Node.js >= 18 install.
 
 ```sh
 node scripts/validate-catalog.mjs                       # validate providers/*.json + fallbacks.json
-node scripts/build-catalog.mjs                           # compile dist/model-catalog.v1.json + manifest
+node scripts/build-catalog.mjs                           # compile dist/model-catalog.v1.json
 node scripts/validate-catalog.mjs --artifact dist/model-catalog.v1.json
 npm test                                                  # node:test suite
 ```
@@ -68,11 +66,10 @@ npm test                                                  # node:test suite
 the compiled artifact again before writing anything to `dist/`; either
 validation failing leaves `dist/` untouched and exits non-zero.
 
-The compiled `catalogVersion` comes from `catalog-version.json` at the
-repository root. Bump it by hand, by at least 1, before every release —
-`catalogVersion` must strictly increase from whatever was last published;
-publishing a value that does not advance is a protocol violation the
-application's update client treats as a rollback attempt and rejects.
+`publishedAt` is stamped with the current UTC time at build. Pass
+`--published-at <iso-8601-utc>` (e.g. `--published-at 2026-08-20T12:34:56Z`)
+to pin it instead, for a reproducible build; an invalid or non-UTC value is
+rejected.
 
 ## CI and release process
 
@@ -82,12 +79,11 @@ does **not** publish anything — it is a gate, not a release pipeline.
 
 Publishing a release is a separate, manual, owner-controlled step:
 
-1. Bump `catalogVersion` in `catalog-version.json`.
-2. Run `node scripts/build-catalog.mjs` locally to produce
-   `dist/model-catalog.v1.json` and `dist/model-catalog-manifest.v1.json`.
-3. Create a GitHub Release and upload exactly those two files as its assets,
+1. Run `node scripts/build-catalog.mjs` locally to produce
+   `dist/model-catalog.v1.json`.
+2. Create a GitHub Release and upload that single file as its asset,
    unmodified.
 
-The application consumes only these two immutable release assets over HTTPS.
+The application consumes only this one immutable release asset over HTTPS.
 It never reads this repository's mutable default branch, never clones the
 repository, and never executes anything from it.

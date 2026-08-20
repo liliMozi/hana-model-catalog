@@ -9,10 +9,10 @@
 // it must keep passing in this repository's own CI, on any machine, forever
 // -- not only on the machine that performed the migration.
 //
-// publishedAt and catalogVersion are intentionally excluded from the
-// comparison: the fixture is frozen at the application's packaged-baseline
-// version (1), while this repository's catalog-version.json advances
-// independently and must always publish a value strictly greater than 1.
+// publishedAt is intentionally excluded from the comparison: the fixture is
+// frozen at its capture time, while every build of this repository stamps
+// publishedAt with the current build time (or an explicit --published-at
+// override).
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -24,7 +24,7 @@ import { buildCatalog } from "../scripts/build-catalog.mjs";
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXTURE_PATH = join(REPO_ROOT, "tests", "fixtures", "client-baseline-catalog.v1.json");
 
-test("build output matches the frozen client baseline, ignoring publishedAt/catalogVersion", () => {
+test("build output matches the frozen client baseline, ignoring publishedAt", () => {
   const baseline = JSON.parse(readFileSync(FIXTURE_PATH, "utf8"));
   const { catalog } = buildCatalog(REPO_ROOT);
 
@@ -32,7 +32,6 @@ test("build output matches the frozen client baseline, ignoring publishedAt/cata
   assert.deepStrictEqual(catalog.providers, baseline.providers);
   assert.deepStrictEqual(catalog.fallbacks, baseline.fallbacks);
 
-  assert.ok(typeof baseline.catalogVersion === "number" && typeof catalog.catalogVersion === "number");
   assert.ok(typeof baseline.publishedAt === "string" && typeof catalog.publishedAt === "string");
 });
 

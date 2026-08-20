@@ -35,17 +35,20 @@ test("build output is deterministic given the same clock", () => {
   const first = buildCatalog(REPO_ROOT, { now: fixedNow });
   const second = buildCatalog(REPO_ROOT, { now: fixedNow });
   assert.deepStrictEqual(first.catalog, second.catalog);
-  assert.strictEqual(first.manifest.target.sha256, second.manifest.target.sha256);
-  assert.strictEqual(first.manifest.target.byteSize, second.manifest.target.byteSize);
+  assert.strictEqual(first.catalogText, second.catalogText);
 });
 
-test("manifest byte size and sha256 match the actual catalog text", () => {
-  const { catalogText, manifest } = buildCatalog(REPO_ROOT);
-  assert.strictEqual(Buffer.byteLength(catalogText, "utf8"), manifest.target.byteSize);
-  assert.match(manifest.target.sha256, /^[0-9a-f]{64}$/);
+test("build output has no catalogVersion field and a valid publishedAt", () => {
+  const { catalog } = buildCatalog(REPO_ROOT, { now: () => new Date("2026-01-01T00:00:00.000Z") });
+  assert.strictEqual(Object.prototype.hasOwnProperty.call(catalog, "catalogVersion"), false);
+  assert.ok(typeof catalog.publishedAt === "string" && !Number.isNaN(Date.parse(catalog.publishedAt)));
 });
 
-test("catalogVersion is sourced from catalog-version.json and advances past the packaged baseline (1)", () => {
-  const { catalog } = buildCatalog(REPO_ROOT);
-  assert.ok(Number.isInteger(catalog.catalogVersion) && catalog.catalogVersion > 1);
+test("--published-at overrides the timestamp when valid, and rejects non-ISO-8601-UTC values", () => {
+  const { catalog } = buildCatalog(REPO_ROOT, { publishedAt: "2026-03-05T14:30:00Z" });
+  assert.strictEqual(catalog.publishedAt, "2026-03-05T14:30:00Z");
+
+  assert.throws(() => buildCatalog(REPO_ROOT, { publishedAt: "not-a-timestamp" }), /ISO 8601 UTC/);
+  assert.throws(() => buildCatalog(REPO_ROOT, { publishedAt: "2026-03-05" }), /ISO 8601 UTC/);
+  assert.throws(() => buildCatalog(REPO_ROOT, { publishedAt: "2026-03-05T14:30:00+08:00" }), /ISO 8601 UTC/);
 });

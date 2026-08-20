@@ -5,21 +5,16 @@
   "description": "Runtime shape of the compiled model-catalog.v1 artifact (model-catalog.v1.json). This schema mirrors the structural rules enforced by the application's built-in catalog validator. JSON Schema cannot express every rule that validator enforces; the cross-field and content-pattern rules noted below in field descriptions are NOT checked by this schema alone and are re-enforced by scripts/validate-catalog.mjs in this repository. A catalog that only satisfies this schema is necessary but not sufficient — it must also pass scripts/validate-catalog.mjs.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "catalogVersion", "publishedAt", "providers", "fallbacks"],
+  "required": ["schemaVersion", "publishedAt", "providers", "fallbacks"],
   "properties": {
     "schemaVersion": {
       "const": 1,
       "description": "Fixed at 1 for this schema generation. A reader that does not recognize schemaVersion must keep its current catalog rather than treat the file as corrupt (spec: Schema evolution is explicit)."
     },
-    "catalogVersion": {
-      "type": "integer",
-      "minimum": 1,
-      "description": "Strictly increasing publication counter. NOT checked here: that a given publication's catalogVersion is strictly greater than the previously published catalogVersion — that is a repository-history invariant enforced by scripts/validate-catalog.mjs / CI, not a single-document shape rule."
-    },
     "publishedAt": {
       "type": "string",
       "minLength": 1,
-      "description": "A date/time string parseable by Date.parse. Not restricted to strict RFC 3339 by this schema; scripts/validate-catalog.mjs re-checks parseability the same way the client validator does."
+      "description": "The UTC build timestamp, in strict ISO 8601 UTC form (e.g. 2026-08-20T12:34:56Z). This schema only requires a non-empty string; scripts/validate-catalog.mjs additionally enforces the strict ISO 8601 UTC format and calendar validity. There is no separate version counter — content identity is the artifact's own hash (computed by the consumer, not shipped in the artifact), and publishedAt alone orders builds by recency."
     },
     "providers": {
       "type": "object",

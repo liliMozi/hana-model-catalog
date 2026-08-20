@@ -232,35 +232,43 @@ test("allows: a fallback entry with no protocol-level fields", () => {
 });
 
 // ---------------------------------------------------------------------------
-// Full-artifact envelope (schemaVersion / catalogVersion / publishedAt / top-level keys)
+// Full-artifact envelope (schemaVersion / publishedAt / top-level keys)
 // ---------------------------------------------------------------------------
 
-test("rejects: an artifact with an unsupported schemaVersion, missing keys, or bad publishedAt", () => {
+test("rejects: an artifact with an unsupported schemaVersion, missing keys, a catalogVersion field, or a bad publishedAt", () => {
   const base = {
     schemaVersion: 1,
-    catalogVersion: 1,
     publishedAt: "2026-08-19T00:00:00.000Z",
     providers: {},
     fallbacks: {},
   };
 
   assert.ok(validateArtifact({ ...base, schemaVersion: 2 }).some((e) => /unsupported model catalog schemaVersion/.test(e)));
-  assert.ok(validateArtifact({ ...base, catalogVersion: 0 }).some((e) => /catalogVersion must be a positive integer/.test(e)));
-  assert.ok(validateArtifact({ ...base, publishedAt: "not-a-date" }).some((e) => /publishedAt must be a parseable date string/.test(e)));
-  assert.ok(validateArtifact({ ...base, extraKey: 1 }).some((e) => /unknown top-level model catalog key/.test(e)));
+  assert.ok(validateArtifact({ ...base, catalogVersion: 1 }).some((e) => /unknown top-level model catalog key: catalogVersion/.test(e)));
+  assert.ok(validateArtifact({ ...base, publishedAt: "not-a-date" }).some((e) => /publishedAt must be a valid ISO 8601 UTC timestamp/.test(e)));
+  assert.ok(validateArtifact({ ...base, publishedAt: "2026-08-19T00:00:00+08:00" }).some((e) => /publishedAt must be a valid ISO 8601 UTC timestamp/.test(e)));
+  assert.ok(validateArtifact({ ...base, publishedAt: "2026-08-19" }).some((e) => /publishedAt must be a valid ISO 8601 UTC timestamp/.test(e)));
+  assert.ok(validateArtifact({ ...base, extraKey: 1 }).some((e) => /unknown top-level model catalog key: extraKey/.test(e)));
   const { fallbacks, ...missingFallbacks } = base;
   assert.ok(validateArtifact(missingFallbacks).some((e) => /missing required top-level key: fallbacks/.test(e)));
 });
 
-test("allows: a minimal well-formed artifact envelope", () => {
+test("allows: a minimal well-formed artifact envelope, including a publishedAt with fractional seconds", () => {
   const errors = validateArtifact({
     schemaVersion: 1,
-    catalogVersion: 1,
     publishedAt: "2026-08-19T00:00:00.000Z",
     providers: providersOf(goodProviderModel()),
     fallbacks: fallbacksOf(goodFallbackModel()),
   });
   assert.deepStrictEqual(errors, []);
+
+  const errorsNoMillis = validateArtifact({
+    schemaVersion: 1,
+    publishedAt: "2026-08-19T00:00:00Z",
+    providers: providersOf(goodProviderModel()),
+    fallbacks: fallbacksOf(goodFallbackModel()),
+  });
+  assert.deepStrictEqual(errorsNoMillis, []);
 });
 
 // ---------------------------------------------------------------------------

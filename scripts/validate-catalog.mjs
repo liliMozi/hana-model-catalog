@@ -657,8 +657,21 @@ export function validateSource(rootDir) {
 // Compiled-artifact validation: full model-catalog.v1.json envelope.
 // ---------------------------------------------------------------------------
 
-const ALLOWED_TOP_LEVEL_KEYS = Object.freeze(["schemaVersion", "catalogVersion", "publishedAt", "providers", "fallbacks"]);
+const ALLOWED_TOP_LEVEL_KEYS = Object.freeze(["schemaVersion", "publishedAt", "providers", "fallbacks"]);
 const SUPPORTED_SCHEMA_VERSION = 1;
+
+// Strict ISO 8601 UTC timestamp: date, "T", time, optional fractional
+// seconds, "Z". This is deliberately narrower than "anything Date.parse
+// accepts" (which would also admit a non-UTC offset like "+08:00", or a
+// bare date with no time component) — publishedAt is a build-stamped value
+// compared across builds and providers must be able to reason about it
+// without a timezone table.
+const ISO_8601_UTC = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?Z$/;
+
+/** True iff value is a string in strict ISO 8601 UTC form and names a real calendar instant. */
+export function isValidIso8601Utc(value) {
+  return typeof value === "string" && ISO_8601_UTC.test(value) && !Number.isNaN(Date.parse(value));
+}
 
 /** Validate only the top-level envelope of a compiled artifact document. */
 export function validateArtifactShape(raw) {
@@ -681,11 +694,8 @@ export function validateArtifactShape(raw) {
   if (raw.schemaVersion !== SUPPORTED_SCHEMA_VERSION) {
     errors.push(`unsupported model catalog schemaVersion: ${JSON.stringify(raw.schemaVersion)}`);
   }
-  if (!isPositiveInteger(raw.catalogVersion)) {
-    errors.push("catalogVersion must be a positive integer");
-  }
-  if (typeof raw.publishedAt !== "string" || raw.publishedAt.length === 0 || Number.isNaN(Date.parse(raw.publishedAt))) {
-    errors.push("publishedAt must be a parseable date string");
+  if (!isValidIso8601Utc(raw.publishedAt)) {
+    errors.push("publishedAt must be a valid ISO 8601 UTC timestamp");
   }
 
   return errors;
