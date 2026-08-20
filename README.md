@@ -71,6 +71,17 @@ validation failing leaves `dist/` untouched and exits non-zero.
 to pin it instead, for a reproducible build; an invalid or non-UTC value is
 rejected.
 
+## Syncing from the upstream runtime catalog
+
+`scripts/sync-from-pi.mjs` reconciles this repository's whitelisted fields
+(context, max output, image support, reasoning support) against the model
+catalog bundled inside the `pi-ai` npm package, for `(provider, modelId)`
+pairs that already exist here — it never introduces a new model or a new
+field. It requires a local `pi-ai` package install; point it at that
+package's model-catalog directory with `--pi-dist <path>`, which has no
+default and is never guessed. It defaults to a dry-run summary; pass
+`--write` to apply. Run `node scripts/sync-from-pi.mjs --help` for details.
+
 ## CI and release process
 
 CI (`.github/workflows/ci.yml`) runs on every push and pull request and does
