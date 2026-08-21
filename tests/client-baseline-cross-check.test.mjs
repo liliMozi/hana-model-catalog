@@ -9,6 +9,15 @@
 // it must keep passing in this repository's own CI, on any machine, forever
 // -- not only on the machine that performed the migration.
 //
+// The catalog legitimately grows after the migration point -- new providers
+// and models get added over time -- so the build output is not expected to
+// equal the fixture wholesale. What must hold forever is narrower: every
+// entry that already existed at the migration point must still build to the
+// exact same value today. The first test below walks every provider/model
+// key present in the fixture and asserts the corresponding entry in today's
+// build output is unchanged; keys added after the migration point (not
+// present in the fixture) are outside its scope and are not compared.
+//
 // publishedAt is intentionally excluded from the comparison: the fixture is
 // frozen at its capture time, while every build of this repository stamps
 // publishedAt with the current build time (or an explicit --published-at
@@ -24,13 +33,30 @@ import { buildCatalog } from "../scripts/build-catalog.mjs";
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXTURE_PATH = join(REPO_ROOT, "tests", "fixtures", "client-baseline-catalog.v1.json");
 
-test("build output matches the frozen client baseline, ignoring publishedAt", () => {
+test("build output preserves every entry of the frozen client baseline, ignoring publishedAt", () => {
   const baseline = JSON.parse(readFileSync(FIXTURE_PATH, "utf8"));
   const { catalog } = buildCatalog(REPO_ROOT);
 
   assert.strictEqual(catalog.schemaVersion, baseline.schemaVersion);
-  assert.deepStrictEqual(catalog.providers, baseline.providers);
-  assert.deepStrictEqual(catalog.fallbacks, baseline.fallbacks);
+
+  for (const [group, baselineGroup] of Object.entries(baseline.providers)) {
+    assert.ok(catalog.providers[group], `providers.${group} was removed from the build output`);
+    for (const [model, baselineEntry] of Object.entries(baselineGroup)) {
+      assert.deepStrictEqual(
+        catalog.providers[group][model],
+        baselineEntry,
+        `providers.${group}.${model} no longer matches the frozen baseline`,
+      );
+    }
+  }
+
+  for (const [model, baselineEntry] of Object.entries(baseline.fallbacks)) {
+    assert.deepStrictEqual(
+      catalog.fallbacks[model],
+      baselineEntry,
+      `fallbacks.${model} no longer matches the frozen baseline`,
+    );
+  }
 
   assert.ok(typeof baseline.publishedAt === "string" && typeof catalog.publishedAt === "string");
 });
