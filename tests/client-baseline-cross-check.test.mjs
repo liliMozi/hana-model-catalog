@@ -10,13 +10,17 @@
 // -- not only on the machine that performed the migration.
 //
 // The catalog legitimately grows after the migration point -- new providers
-// and models get added over time -- so the build output is not expected to
-// equal the fixture wholesale. What must hold forever is narrower: every
-// entry that already existed at the migration point must still build to the
-// exact same value today. The first test below walks every provider/model
-// key present in the fixture and asserts the corresponding entry in today's
-// build output is unchanged; keys added after the migration point (not
-// present in the fixture) are outside its scope and are not compared.
+// and models get added over time, and existing entries may gain new fields
+// -- so the build output is not expected to equal the fixture wholesale.
+// What must hold forever is narrower: every field that already existed on a
+// baseline entry must still build to the exact same value today. The first
+// test below walks every provider/model key present in the fixture and,
+// field by field, asserts the corresponding field in today's build output
+// is unchanged; a removed entry, a removed field, or a changed value on an
+// existing field still fails the test, but an additive field on an entry
+// the baseline already covers does not. Keys added after the migration
+// point (not present in the fixture) are outside its scope and are not
+// compared.
 //
 // publishedAt is intentionally excluded from the comparison: the fixture is
 // frozen at its capture time, while every build of this repository stamps
@@ -42,20 +46,36 @@ test("build output preserves every entry of the frozen client baseline, ignoring
   for (const [group, baselineGroup] of Object.entries(baseline.providers)) {
     assert.ok(catalog.providers[group], `providers.${group} was removed from the build output`);
     for (const [model, baselineEntry] of Object.entries(baselineGroup)) {
-      assert.deepStrictEqual(
-        catalog.providers[group][model],
-        baselineEntry,
-        `providers.${group}.${model} no longer matches the frozen baseline`,
-      );
+      const catalogEntry = catalog.providers[group][model];
+      assert.ok(catalogEntry, `providers.${group}.${model} was removed from the build output`);
+      for (const [field, baselineValue] of Object.entries(baselineEntry)) {
+        assert.ok(
+          Object.prototype.hasOwnProperty.call(catalogEntry, field),
+          `providers.${group}.${model}.${field} was removed from the build output`,
+        );
+        assert.deepStrictEqual(
+          catalogEntry[field],
+          baselineValue,
+          `providers.${group}.${model}.${field} no longer matches the frozen baseline`,
+        );
+      }
     }
   }
 
   for (const [model, baselineEntry] of Object.entries(baseline.fallbacks)) {
-    assert.deepStrictEqual(
-      catalog.fallbacks[model],
-      baselineEntry,
-      `fallbacks.${model} no longer matches the frozen baseline`,
-    );
+    const catalogEntry = catalog.fallbacks[model];
+    assert.ok(catalogEntry, `fallbacks.${model} was removed from the build output`);
+    for (const [field, baselineValue] of Object.entries(baselineEntry)) {
+      assert.ok(
+        Object.prototype.hasOwnProperty.call(catalogEntry, field),
+        `fallbacks.${model}.${field} was removed from the build output`,
+      );
+      assert.deepStrictEqual(
+        catalogEntry[field],
+        baselineValue,
+        `fallbacks.${model}.${field} no longer matches the frozen baseline`,
+      );
+    }
   }
 
   assert.ok(typeof baseline.publishedAt === "string" && typeof catalog.publishedAt === "string");
