@@ -24,7 +24,9 @@
     "maxOutput": 384000,
     "image": false,
     "reasoning": true,
-    "xhigh": true
+    "xhigh": true,
+    "thinkingLevels": ["off", "low", "high", "max"],
+    "defaultThinkingLevel": "high"
   },
   "deepseek-v4-flash": {
     "name": "DeepSeek V4 Flash",
@@ -32,7 +34,9 @@
     "maxOutput": 384000,
     "image": false,
     "reasoning": true,
-    "xhigh": true
+    "xhigh": true,
+    "thinkingLevels": ["off", "low", "high", "max"],
+    "defaultThinkingLevel": "high"
   },
   "deepseek-v4-flash-vision-exp": {
     "name": "DeepSeek V4 Flash Vision (Exp)",
@@ -40,7 +44,9 @@
     "maxOutput": 384000,
     "image": true,
     "reasoning": true,
-    "xhigh": true
+    "xhigh": true,
+    "thinkingLevels": ["off", "low", "high", "max"],
+    "defaultThinkingLevel": "high"
   },
   "deepseek-coder": {
     "name": "Deepseek Coder",
