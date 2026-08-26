@@ -748,6 +748,27 @@
     "reasoning": true,
     "image": false
   },
+  "z-ai/glm-5.3": {
+    "name": "GLM-5.3",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": false,
+    "reasoning": true,
+    "xhigh": true,
+    "thinkingLevels": ["low", "high", "max"],
+    "defaultThinkingLevel": "max"
+  },
+  "z-ai/glm-5.3-flash": {
+    "name": "GLM-5.3 Flash",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "xhigh": true,
+    "thinkingLevels": ["low", "high", "max"],
+    "defaultThinkingLevel": "max"
+  },
   "minimax/minimax-m2.1": {
     "name": "Minimax/Minimax M2.1",
     "context": 204800,

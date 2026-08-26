@@ -5,7 +5,20 @@
     "maxOutput": 131072,
     "image": false,
     "reasoning": true,
-    "xhigh": true
+    "xhigh": true,
+    "thinkingLevels": ["low", "high", "max"],
+    "defaultThinkingLevel": "max"
+  },
+  "glm-5.3-flash": {
+    "name": "GLM-5.3 Flash",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "xhigh": true,
+    "thinkingLevels": ["low", "high", "max"],
+    "defaultThinkingLevel": "max"
   },
   "glm-5.2": {
     "name": "GLM-5.2",
