@@ -15,6 +15,8 @@ test('Astra Fast remains a service tier and API and subscription limits stay sep
     assert.equal(entry.thinkingLevelMap.xhigh, 'max');
     assert.equal('max' in entry.thinkingLevelMap, false, 'preserve the published v1 map key vocabulary');
   }
+  assert.equal('defaultThinkingLevel' in api, false, 'API default must not inherit a subscription default');
+  assert.equal(oauth.defaultThinkingLevel, 'medium');
   assert.equal(api.context, 1050000);
   assert.equal(oauth.context, 272000);
   assert.equal(oauth.maxContext, 872000);
@@ -39,5 +41,14 @@ test('new generic fallbacks cannot import official provider request settings', (
     for (const field of ['api', 'compat', 'serviceTiers', 'thinkingLevels', 'thinkingLevelMap', 'defaultThinkingLevel']) {
       assert.equal(field in fallback, false, `${id} must not inherit ${field}`);
     }
+  }
+});
+
+test('disabling thinking remains selectable only on Claude models that accept it', () => {
+  for (const id of ['claude-opus-5', 'claude-sonnet-5', 'claude-opus-4-8']) {
+    assert.deepEqual(catalog.providers.anthropic[id].thinkingLevels, ['off', 'low', 'medium', 'high', 'xhigh', 'max']);
+  }
+  for (const id of ['claude-fable-5', 'claude-mythos-5', 'claude-fable-5-1', 'claude-mythos-5-1']) {
+    assert.equal(catalog.providers.anthropic[id].thinkingLevels.includes('off'), false);
   }
 });

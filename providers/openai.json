@@ -16,7 +16,6 @@
     "thinkingLevelMap": {
       "xhigh": "max"
     },
-    "defaultThinkingLevel": "medium",
     "serviceTiers": [
       "standard",
       "fast"

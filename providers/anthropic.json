@@ -50,6 +50,7 @@
     "image": true,
     "reasoning": true,
     "thinkingLevels": [
+      "off",
       "low",
       "medium",
       "high",
@@ -86,6 +87,7 @@
       "groundingMode": "prompted"
     },
     "thinkingLevels": [
+      "off",
       "low",
       "medium",
       "high",
@@ -118,6 +120,7 @@
       "groundingMode": "prompted"
     },
     "thinkingLevels": [
+      "off",
       "low",
       "medium",
       "high",

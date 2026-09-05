@@ -17,7 +17,7 @@ from the compiled artifact.
 
 | Provider/model | Confirmed metadata and source |
 | --- | --- |
-| OpenAI GPT-6 Astra | 1,050,000 context, 128,000 output, image input, five efforts from low through xhigh and max. [Model reference](https://developers.openai.com/api/docs/models/gpt-6-astra). Tools use Responses. Fast is a service tier on the same model ID; EU residency excludes Fast. [Migration guide](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra). |
+| OpenAI GPT-6 Astra | 1,050,000 context, 128,000 output, image input, five efforts from low through xhigh and max. [Model reference](https://developers.openai.com/api/docs/models/gpt-6-astra). The API default effort is left unspecified; the Codex default is not copied to the API surface. Tools use Responses. Fast is a service tier on the same model ID; EU residency excludes Fast. [Migration guide](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra). |
 | Codex OAuth GPT-6 Astra | Separate subscription surface. Official Codex model discovery reports 272,000 default context and 872,000 maximum context, medium default effort, and Fast. [Models](https://learn.chatgpt.com/docs/models), [Speed](https://learn.chatgpt.com/docs/agent-configuration/speed). Availability is account-dependent. Ultra is a Codex orchestration mode and is not advertised here as an API effort. |
 | Claude Fable 5.1 / Mythos 5.1 | 1M context, 128k output, text/image input, always-on adaptive thinking, high default. Mythos requires invitation. [Release notes](https://platform.claude.com/docs/en/release-notes/overview), [Fable specifications](https://platform.claude.com/docs/en/models/fable-5-1/overview). |
 | Claude Opus 4.8 / current Claude 5 families | Opus 4.8 has 1M context and 128k output. [Context windows](https://platform.claude.com/docs/en/build-with-claude/context-windows). Fable/Mythos 5 and 5.1, Opus 5/4.8, and Sonnet 5 support distinct low, medium, high, xhigh, max efforts. [Effort reference](https://platform.claude.com/docs/en/build-with-claude/effort). |
@@ -26,6 +26,8 @@ from the compiled artifact.
 | MiniMax M3 | Corrected context from 500,000 to 1,000,000 and added video input, preserving existing output metadata. [Model invocation](https://platform.minimax.io/docs/guides/text-generation). |
 | DeepSeek V4 | Current Flash, Pro and Flash Vision Exp IDs and 1M/384k limits already exist in this catalog. [Model details](https://api-docs.deepseek.com/quick_start/pricing/). |
 | GLM 5.3 | Existing text-only 1M/128k metadata and low/high/max choices match the [official reference](https://docs.z.ai/guides/llm/glm-5.3). |
+
+Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
 
 ## Boundaries requiring runtime support
 
