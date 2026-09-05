@@ -90,10 +90,33 @@ does **not** publish anything — it is a gate, not a release pipeline.
 
 Publishing a release is a separate, manual, owner-controlled step:
 
-1. Run `node scripts/build-catalog.mjs` locally to produce
-   `dist/model-catalog.v1.json`.
-2. Create a GitHub Release and upload that single file as its asset,
-   unmodified.
+1. Update provider source files from the provider's current official model
+   documentation. Record the supporting links and any scope limits in
+   [MODEL-METADATA.md](MODEL-METADATA.md). Keep URLs out of runtime JSON.
+2. Run `npm run validate` and `npm test`, then commit the reviewed source.
+3. Choose a UTC `publishedAt` later than every previously distributed artifact,
+   including bundled application baselines. Build with
+   `node scripts/build-catalog.mjs --published-at <iso-8601-utc>`.
+4. Validate the exact bytes with
+   `node scripts/validate-catalog.mjs --artifact dist/model-catalog.v1.json`.
+   Record the source commit, timestamp, and artifact SHA-256 in the release notes.
+5. With explicit publication authorization, create a new tagged GitHub Release
+   and upload that single compiled file as its asset, unmodified. Make the
+   release the latest stable release so clients can discover it. Never replace
+   an older release asset in place.
+6. Download the published asset and verify its hash and timestamp match the
+   reviewed build. An application refresh should report the same active catalog.
+
+Editing source, pushing a commit, or passing CI does not update installed
+clients. Until step 5, clients still download the previous release. A client
+with a newer bundled or cached snapshot rejects an older downloaded timestamp
+with `published-at-regression`; publish a newer snapshot instead of disabling
+that protection.
+
+New runtime fields must be readable by supported clients before publication.
+The current artifact retains schema v1 and its existing field vocabulary;
+explicit `xhigh` and `max` choices use `thinkingLevels`, with the legacy
+`thinkingLevelMap.xhigh` mapping retained for older clients.
 
 The application consumes only this one immutable release asset over HTTPS.
 It never reads this repository's mutable default branch, never clones the

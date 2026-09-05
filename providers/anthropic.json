@@ -1,4 +1,70 @@
 {
+  "claude-fable-5-1": {
+    "name": "Claude Fable 5.1",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    }
+  },
+  "claude-mythos-5-1": {
+    "name": "Claude Mythos 5.1",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    }
+  },
+  "claude-opus-4-8": {
+    "name": "Claude Opus 4.8",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    }
+  },
   "claude-opus-5": {
     "name": "Claude Opus 5",
     "context": 1000000,
@@ -18,7 +84,18 @@
       "boxOrder": "xyxy",
       "outputFormat": "anchor",
       "groundingMode": "prompted"
-    }
+    },
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high"
   },
   "claude-sonnet-5": {
     "name": "Claude Sonnet 5",
@@ -39,7 +116,18 @@
       "boxOrder": "xyxy",
       "outputFormat": "anchor",
       "groundingMode": "prompted"
-    }
+    },
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high"
   },
   "claude-fable-5": {
     "name": "Claude Fable 5",
@@ -60,7 +148,18 @@
       "boxOrder": "xyxy",
       "outputFormat": "anchor",
       "groundingMode": "prompted"
-    }
+    },
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high"
   },
   "claude-mythos-5": {
     "name": "Claude Mythos 5",
@@ -81,7 +180,18 @@
       "boxOrder": "xyxy",
       "outputFormat": "anchor",
       "groundingMode": "prompted"
-    }
+    },
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high"
   },
   "claude-opus-4-7": {
     "name": "Claude Opus 4.7",

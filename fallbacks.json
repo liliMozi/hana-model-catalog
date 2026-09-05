@@ -808,10 +808,11 @@
   },
   "MiniMax-M3": {
     "name": "MiniMax M3",
-    "context": 500000,
+    "context": 1000000,
     "maxOutput": 128000,
     "image": true,
-    "reasoning": true
+    "reasoning": true,
+    "video": true
   },
   "MiniMax-M2": {
     "name": "MiniMax M2",
@@ -5232,6 +5233,75 @@
     "context": 262144,
     "maxOutput": 16384,
     "image": true,
+    "reasoning": true
+  },
+  "gpt-6-astra": {
+    "name": "GPT-6 Astra",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "claude-fable-5-1": {
+    "name": "Claude Fable 5.1",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "claude-mythos-5-1": {
+    "name": "Claude Mythos 5.1",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "claude-opus-4-8": {
+    "name": "Claude Opus 4.8",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "gemini-3.8-flash": {
+    "name": "Gemini 3.8 Flash",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "qwen3.8-max": {
+    "name": "Qwen 3.8 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "qwen3.8-max-0902": {
+    "name": "Qwen 3.8 Max 0902",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "qwen3.8-max-2026-09-02": {
+    "name": "Qwen 3.8 Max 2026-09-02",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "qwen3.8-flash": {
+    "name": "Qwen 3.8 Flash",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
     "reasoning": true
   }
 }

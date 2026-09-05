@@ -1,4 +1,28 @@
 {
+  "gpt-6-astra": {
+    "name": "GPT-6 Astra",
+    "context": 272000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ],
+    "maxContext": 872000
+  },
   "gpt-image-2": {
     "name": "GPT Image 2",
     "type": "image"
