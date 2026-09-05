@@ -52,3 +52,10 @@ test('disabling thinking remains selectable only on Claude models that accept it
     assert.equal(catalog.providers.anthropic[id].thinkingLevels.includes('off'), false);
   }
 });
+
+test('MiniMax M3 retains its curated practical context ceiling with verified video input', () => {
+  for (const entry of [catalog.providers.minimax['MiniMax-M3'], catalog.fallbacks['MiniMax-M3']]) {
+    assert.equal(entry.context, 500000);
+    assert.equal(entry.video, true);
+  }
+});

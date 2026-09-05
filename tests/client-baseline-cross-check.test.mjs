@@ -16,8 +16,7 @@
 // baseline entry must still build to the exact same value today. The first
 // test below walks every provider/model key present in the fixture and,
 // field by field, asserts the corresponding field in today's build output
-// is unchanged unless an exact source-backed correction is listed below;
-// a removed entry, a removed field, or an unreviewed changed value on an
+// is unchanged; a removed entry, a removed field, or a changed value on an
 // existing field still fails the test, but an additive field on an entry
 // the baseline already covers does not. Keys added after the migration
 // point (not present in the fixture) are outside its scope and are not
@@ -38,17 +37,6 @@ import { buildCatalog } from "../scripts/build-catalog.mjs";
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXTURE_PATH = join(REPO_ROOT, "tests", "fixtures", "client-baseline-catalog.v1.json");
 
-// MiniMax now documents a 1M context. Keep the frozen fixture unchanged and
-// allow only this exact 500000 -> 1000000 correction; all other fields remain pinned.
-// Source: https://platform.minimax.io/docs/guides/text-generation
-function expectedBaselineValue(path, oldValue) {
-  if (path === "providers.minimax.MiniMax-M3.context" || path === "fallbacks.MiniMax-M3.context") {
-    assert.strictEqual(oldValue, 500000, "context correction must match its original baseline");
-    return 1000000;
-  }
-  return oldValue;
-}
-
 test("build output preserves every entry of the frozen client baseline, ignoring publishedAt", () => {
   const baseline = JSON.parse(readFileSync(FIXTURE_PATH, "utf8"));
   const { catalog } = buildCatalog(REPO_ROOT);
@@ -67,7 +55,7 @@ test("build output preserves every entry of the frozen client baseline, ignoring
         );
         assert.deepStrictEqual(
           catalogEntry[field],
-          expectedBaselineValue(`providers.${group}.${model}.${field}`, baselineValue),
+          baselineValue,
           `providers.${group}.${model}.${field} no longer matches the frozen baseline`,
         );
       }
@@ -84,7 +72,7 @@ test("build output preserves every entry of the frozen client baseline, ignoring
       );
       assert.deepStrictEqual(
         catalogEntry[field],
-        expectedBaselineValue(`fallbacks.${model}.${field}`, baselineValue),
+        baselineValue,
         `fallbacks.${model}.${field} no longer matches the frozen baseline`,
       );
     }

@@ -1,7 +1,7 @@
 {
   "MiniMax-M3": {
     "name": "MiniMax M3",
-    "context": 1000000,
+    "context": 500000,
     "maxOutput": 128000,
     "image": true,
     "reasoning": true,

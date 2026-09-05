@@ -23,7 +23,7 @@ from the compiled artifact.
 | Claude Opus 4.8 / current Claude 5 families | Opus 4.8 has 1M context and 128k output. [Context windows](https://platform.claude.com/docs/en/build-with-claude/context-windows). Fable/Mythos 5 and 5.1, Opus 5/4.8, and Sonnet 5 support distinct low, medium, high, xhigh, max efforts. [Effort reference](https://platform.claude.com/docs/en/build-with-claude/effort). |
 | Gemini 3.8 Flash | 1,048,576 input, 65,536 output, text/image/video/audio input. [Model reference](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash). Only low, medium, high efforts are documented, with medium default. [Thinking](https://ai.google.dev/gemini-api/docs/thinking). |
 | Qwen 3.8 Max / Flash | 1M context, 131,072 output, text/image/video input. Max snapshot IDs 0902 and 2026-09-02 are both documented. [Max](https://help.aliyun.com/en/model-studio/qwen3-8-max), [Flash](https://help.aliyun.com/en/model-studio/qwen3-8-flash). Hybrid thinking uses enable_thinking. [Thinking guide](https://help.aliyun.com/en/model-studio/deep-thinking). Token-plan availability is a separate contract and is not inferred from these API entries. |
-| MiniMax M3 | Corrected context from 500,000 to 1,000,000 and added video input, preserving existing output metadata. [Model invocation](https://platform.minimax.io/docs/guides/text-generation). |
+| MiniMax M3 | Retains the curated 500,000 context usability ceiling despite the officially advertised 1,000,000 maximum; this intentional limit is protected by the upstream-sync exclusion. Added verified video input and preserved output metadata. [Model invocation](https://platform.minimax.io/docs/guides/text-generation). |
 | DeepSeek V4 | Current Flash, Pro and Flash Vision Exp IDs and 1M/384k limits already exist in this catalog. [Model details](https://api-docs.deepseek.com/quick_start/pricing/). |
 | GLM 5.3 | Existing text-only 1M/128k metadata and low/high/max choices match the [official reference](https://docs.z.ai/guides/llm/glm-5.3). |
 
@@ -33,7 +33,7 @@ Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled t
 
 Kimi K3 and K2.7 Code are listed by the [official model directory](https://platform.kimi.ai/docs/models). K3 replaces K2's thinking object with top-level reasoning_effort and requires preserved reasoning_content; [reasoning reference](https://platform.kimi.ai/docs/guide/use-reasoning-effort). Do not copy K2 compatibility settings onto K3. Model-directory availability alone is not proof of Hana request compatibility.
 
-Existing historical entries remain addressable for old configurations. A
-source-backed correction to a frozen baseline field must name the exact old
-and new values in the baseline cross-check; never regenerate the historical
-fixture or weaken checks for unrelated fields.
+Existing historical entries remain addressable for old configurations. Check
+the upstream-sync exclusions before changing existing metadata: some limits
+are deliberately conservative based on practical usability. The historical
+baseline fixture and its field-level checks must remain unchanged.
