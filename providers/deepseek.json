@@ -18,6 +18,16 @@
     "maxOutput": 65536,
     "image": false
   },
+  "deepseek-flash": {
+    "name": "DeepSeek Flash",
+    "context": 1000000,
+    "maxOutput": 384000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "thinkingLevels": ["off", "low", "high", "max"],
+    "defaultThinkingLevel": "high"
+  },
   "deepseek-v4-pro": {
     "name": "DeepSeek V4 Pro",
     "context": 1000000,

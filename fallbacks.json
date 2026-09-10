@@ -125,6 +125,14 @@
       "groundingMode": "prompted"
     }
   },
+  "deepseek-flash": {
+    "name": "DeepSeek Flash",
+    "context": 1000000,
+    "maxOutput": 384000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true
+  },
   "deepseek-v4-pro": {
     "name": "DeepSeek V4 Pro",
     "context": 1000000,

@@ -24,7 +24,7 @@ from the compiled artifact.
 | Gemini 3.8 Flash | 1,048,576 input, 65,536 output, text/image/video/audio input. [Model reference](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash). Only low, medium, high efforts are documented, with medium default. [Thinking](https://ai.google.dev/gemini-api/docs/thinking). |
 | Qwen 3.8 Max / Flash | 1M context, 131,072 output, text/image/video input. Max snapshot IDs 0902 and 2026-09-02 are both documented. [Max](https://help.aliyun.com/en/model-studio/qwen3-8-max), [Flash](https://help.aliyun.com/en/model-studio/qwen3-8-flash). Hybrid thinking uses enable_thinking. [Thinking guide](https://help.aliyun.com/en/model-studio/deep-thinking). Token-plan availability is a separate contract and is not inferred from these API entries. |
 | MiniMax M3 | Retains the curated 500,000 context usability ceiling despite the officially advertised 1,000,000 maximum; this intentional limit is protected by the upstream-sync exclusion. Added verified video input and preserved output metadata. [Model invocation](https://platform.minimax.io/docs/guides/text-generation). |
-| DeepSeek V4 | Current Flash, Pro and Flash Vision Exp IDs and 1M/384k limits already exist in this catalog. [Model details](https://api-docs.deepseek.com/quick_start/pricing/). |
+| DeepSeek Flash | Reviewed September 11, 2026. Official API ID `deepseek-flash`, displayed as DeepSeek Flash, currently serves DeepSeek V4.1 Flash (released September 10). 1M context, 384k maximum output, text/image input; thinking can be disabled or set to low/high/max, with high as default. [Release announcement](https://deepseek.com/news/deepseek-v4-1-flash/), [Model details](https://api-docs.deepseek.com/quick_start/pricing/), [Thinking guide](https://api-docs.deepseek.com/guides/thinking_mode/). |
 | GLM 5.3 | Existing text-only 1M/128k metadata and low/high/max choices match the [official reference](https://docs.z.ai/guides/llm/glm-5.3). |
 
 Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
@@ -37,3 +37,11 @@ Existing historical entries remain addressable for old configurations. Check
 the upstream-sync exclusions before changing existing metadata: some limits
 are deliberately conservative based on practical usability. The historical
 baseline fixture and its field-level checks must remain unchanged.
+
+The official DeepSeek API temporarily routes `deepseek-v4-flash` and
+`deepseek-v4-flash-vision-exp` to V4.1 Flash. Use `deepseek-flash` for its
+current capabilities; the historical V4 entries remain unchanged for baseline
+compatibility and do not describe the new alias targets. The announced V4 Pro
+redirect starts September 14, 2026 at 12:00 Beijing time and is not yet in
+effect at this review. This update does not change third-party provider IDs
+or infer native grounding support from image input.

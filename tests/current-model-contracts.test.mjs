@@ -35,7 +35,7 @@ test('recent models preserve their different reasoning contracts', () => {
 });
 
 test('new generic fallbacks cannot import official provider request settings', () => {
-  for (const id of ['gpt-6-astra', 'claude-fable-5-1', 'claude-mythos-5-1', 'gemini-3.8-flash', 'qwen3.8-max', 'qwen3.8-flash']) {
+  for (const id of ['deepseek-flash', 'gpt-6-astra', 'claude-fable-5-1', 'claude-mythos-5-1', 'gemini-3.8-flash', 'qwen3.8-max', 'qwen3.8-flash']) {
     const fallback = catalog.fallbacks[id];
     assert.ok(fallback);
     for (const field of ['api', 'compat', 'serviceTiers', 'thinkingLevels', 'thinkingLevelMap', 'defaultThinkingLevel']) {
@@ -58,4 +58,18 @@ test('MiniMax M3 retains its curated practical context ceiling with verified vid
     assert.equal(entry.context, 500000);
     assert.equal(entry.video, true);
   }
+});
+
+test('DeepSeek Flash exposes the official multimodal model and supported thinking choices', () => {
+  const flash = catalog.providers.deepseek['deepseek-flash'];
+  for (const entry of [flash, catalog.fallbacks['deepseek-flash']]) {
+    assert.equal(entry.name, 'DeepSeek Flash');
+    assert.equal(entry.context, 1000000);
+    assert.equal(entry.maxOutput, 384000);
+    assert.equal(entry.image, true);
+    assert.equal(entry.reasoning, true);
+    assert.equal('visionCapabilities' in entry, false);
+  }
+  assert.deepEqual(flash.thinkingLevels, ['off', 'low', 'high', 'max']);
+  assert.equal(flash.defaultThinkingLevel, 'high');
 });
