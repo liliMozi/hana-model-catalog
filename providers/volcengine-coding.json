@@ -14,6 +14,14 @@
     "image": true,
     "reasoning": true
   },
+  "doubao-seed-evolving": {
+    "name": "Doubao Seed Evolving",
+    "context": 1048576,
+    "maxOutput": 262144,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
   "doubao-seed-2-0-pro-260215": {
     "name": "Doubao Seed 2.0 Pro",
     "context": 262144,
