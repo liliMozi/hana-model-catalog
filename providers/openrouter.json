@@ -799,5 +799,52 @@
   "openrouter/bodybuilder": {
     "name": "Openrouter/Bodybuilder",
     "context": 128000
+  },
+  "xiaomi/mimo-v2.6-pro": {
+    "name": "MiMo V2.6 Pro",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "audio": true,
+    "video": true,
+    "reasoning": true
+  },
+  "xiaomi/mimo-v2.6-flash": {
+    "name": "MiMo V2.6 Flash",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "audio": true,
+    "video": true,
+    "reasoning": true
+  },
+  "xiaomi/mimo-v2.6-pro-ultraspeed": {
+    "name": "MiMo V2.6 Pro UltraSpeed",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "audio": true,
+    "video": true,
+    "reasoning": true
+  },
+  "x-ai/grok-4.7": {
+    "name": "Grok 4.7",
+    "context": 500000,
+    "maxOutput": 450000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": ["low", "medium", "high", "xhigh"],
+    "defaultThinkingLevel": "high"
+  },
+  "z-ai/glm-5.3-flashx": {
+    "name": "GLM-5.3 FlashX",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "xhigh": true,
+    "thinkingLevels": ["low", "high", "max"],
+    "defaultThinkingLevel": "max"
   }
 }

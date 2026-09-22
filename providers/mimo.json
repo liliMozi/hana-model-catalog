@@ -54,5 +54,32 @@
     "name": "MiMo V2 TTS",
     "context": 8192,
     "maxOutput": 8192
+  },
+  "mimo-v2.6-pro": {
+    "name": "MiMo V2.6 Pro",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "audio": true,
+    "video": true,
+    "reasoning": true
+  },
+  "mimo-v2.6-flash": {
+    "name": "MiMo V2.6 Flash",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "audio": true,
+    "video": true,
+    "reasoning": true
+  },
+  "mimo-v2.6-pro-ultraspeed": {
+    "name": "MiMo V2.6 Pro UltraSpeed",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "audio": true,
+    "video": true,
+    "reasoning": true
   }
 }

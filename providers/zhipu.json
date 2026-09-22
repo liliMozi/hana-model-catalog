@@ -74,5 +74,16 @@
     "context": 131072,
     "maxOutput": 4096,
     "image": true
+  },
+  "glm-5.3-flashx": {
+    "name": "GLM-5.3 FlashX",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "xhigh": true,
+    "thinkingLevels": ["low", "high", "max"],
+    "defaultThinkingLevel": "max"
   }
 }

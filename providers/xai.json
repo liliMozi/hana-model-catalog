@@ -306,5 +306,24 @@
     "context": 8192,
     "maxOutput": 8192,
     "image": true
+  },
+  "grok-4.7": {
+    "name": "Grok 4.7",
+    "context": 500000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh"
+    ],
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "supportsReasoningEffort": true
+    },
+    "thinkingLevelMap": {
+      "xhigh": "xhigh"
+    }
   }
 }

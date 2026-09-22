@@ -1,4 +1,72 @@
 {
+  "mimo-v2.6-pro": {
+    "name": "MiMo V2.6 Pro",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "mimo-v2.6-flash": {
+    "name": "MiMo V2.6 Flash",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "mimo-v2.6-pro-ultraspeed": {
+    "name": "MiMo V2.6 Pro UltraSpeed",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "grok-4.7": {
+    "name": "Grok 4.7",
+    "context": 500000,
+    "image": true,
+    "reasoning": true
+  },
+  "glm-5.3-flashx": {
+    "name": "GLM-5.3 FlashX",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "qwen3.8-omni-flash": {
+    "name": "Qwen 3.8 Omni Flash",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "doubao-seed-2-1-pro-260915": {
+    "name": "Doubao Seed 2.1 Pro (260915)",
+    "context": 1048576,
+    "maxOutput": 262144,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "gpt-image-2.5-sunburst": {
+    "name": "GPT Image 2.5 Sunburst",
+    "type": "image",
+    "image": true
+  },
+  "gpt-image-2.5-flare": {
+    "name": "GPT Image 2.5 Flare",
+    "type": "image",
+    "image": true
+  },
   "agnes-2.0-flash": {
     "name": "Agnes 2.0 Flash",
     "image": true,

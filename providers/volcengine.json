@@ -9,6 +9,14 @@
     "image": true,
     "reasoning": true
   },
+  "doubao-seed-2-1-pro-260915": {
+    "name": "Doubao Seed 2.1 Pro (260915)",
+    "context": 1048576,
+    "maxOutput": 262144,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
   "doubao-seed-2-1-pro-260628": {
     "name": "Doubao Seed 2.1 Pro (260628)",
     "image": true,

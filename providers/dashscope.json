@@ -1,4 +1,24 @@
 {
+  "qwen3.8-omni-flash": {
+    "name": "Qwen 3.8 Omni Flash",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "thinkingLevels": ["off", "low", "medium", "high"],
+    "thinkingLevelMap": {
+      "off": "none",
+      "low": "low",
+      "medium": "medium",
+      "high": "xhigh"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "supportsReasoningEffort": true
+    }
+  },
   "qwen3.8-max": {
     "name": "Qwen 3.8 Max",
     "context": 1000000,
