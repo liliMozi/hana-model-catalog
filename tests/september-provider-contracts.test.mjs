@@ -113,3 +113,61 @@ test('OpenRouter GLM-5.3 FlashX keeps the router wiring of GLM-5.3 Flash', () =>
   }
   assert.deepEqual(flashx.thinkingLevels, flash.thinkingLevels);
 });
+
+test('Claude Opus 5.5 keeps thinking always on with the documented medium default', () => {
+  const opus = catalog.providers.anthropic['claude-opus-5-5'];
+  assert.equal(opus.name, 'Claude Opus 5.5');
+  assert.equal(opus.context, 1000000);
+  assert.equal(opus.maxOutput, 128000);
+  assert.equal(opus.image, true);
+  assert.equal(opus.reasoning, true);
+  assert.deepEqual(opus.thinkingLevels, ['low', 'medium', 'high', 'xhigh', 'max']);
+  assert.equal(opus.thinkingLevels.includes('off'), false, 'adaptive thinking cannot be disabled on Opus 5.5');
+  assert.deepEqual(opus.thinkingLevelMap, { xhigh: 'max' });
+  assert.equal(opus.defaultThinkingLevel, 'medium', 'Opus 5.5 documents a medium default, unlike Fable 5.1');
+  assert.deepEqual(opus.compat, { thinkingFormat: 'anthropic', reasoningProfile: 'anthropic-adaptive-only' });
+  assert.equal('visionCapabilities' in opus, false, 'image input alone does not confirm grounding coordinates');
+  assert.equal('serviceTiers' in opus, false, 'Fast mode is a separately priced research preview, not a service tier');
+});
+
+test('GPT-6 Sol and Luna expose the six documented efforts with medium default and Fast tier', () => {
+  for (const [id, name] of [['gpt-6-sol', 'GPT-6 Sol'], ['gpt-6-luna', 'GPT-6 Luna']]) {
+    const entry = catalog.providers.openai[id];
+    assert.equal(entry.name, name);
+    assert.equal(entry.context, 1050000);
+    assert.equal(entry.maxOutput, 128000);
+    assert.equal(entry.image, true);
+    assert.equal(entry.reasoning, true);
+    assert.equal(entry.api, 'openai-responses');
+    assert.deepEqual(entry.thinkingLevels, ['off', 'low', 'medium', 'high', 'xhigh', 'max']);
+    assert.deepEqual(entry.thinkingLevelMap, { off: 'none', xhigh: 'max' });
+    assert.equal(entry.defaultThinkingLevel, 'medium');
+    assert.deepEqual(entry.serviceTiers, ['standard', 'fast']);
+    assert.equal(catalog.providers['openai-codex-oauth'][id], undefined,
+      `${id} API availability must not imply a Codex OAuth entitlement`);
+  }
+  const astra = catalog.providers.openai['gpt-6-astra'];
+  assert.equal(astra.thinkingLevels.includes('off'), false,
+    'Astra documents no none effort, so it must not inherit the Sol/Luna off choice');
+});
+
+test('OpenRouter mirrors keep the established router wiring for Opus 5.5 and GPT-6 Sol/Luna', () => {
+  const opusRouter = catalog.providers.openrouter['anthropic/claude-opus-5.5'];
+  const opus5Router = catalog.providers.openrouter['anthropic/claude-opus-5'];
+  assert.equal(opusRouter.context, 1000000);
+  assert.equal(opusRouter.maxOutput, 128000);
+  assert.deepEqual(opusRouter.compat, opus5Router.compat,
+    'Opus 5.5 retains the OpenRouter Anthropic adaptive wiring of Opus 5');
+  for (const id of ['openai/gpt-6-sol', 'openai/gpt-6-luna']) {
+    const router = catalog.providers.openrouter[id];
+    const sol56 = catalog.providers.openrouter['openai/gpt-5.6-sol'];
+    assert.equal(router.context, 1050000);
+    assert.equal(router.maxOutput, 128000);
+    assert.equal(router.api, 'openai-completions', `${id} uses the router completions wiring`);
+    assert.deepEqual(router.thinkingLevels, sol56.thinkingLevels);
+    assert.deepEqual(router.thinkingLevelMap, sol56.thinkingLevelMap);
+    assert.equal(router.defaultThinkingLevel, 'medium');
+    assert.equal('serviceTiers' in router, false, 'gateway entries do not declare provider service tiers');
+    assert.equal('compat' in router, false);
+  }
+});

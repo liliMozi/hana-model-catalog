@@ -1,4 +1,44 @@
 {
+  "openai/gpt-6-sol": {
+    "name": "OpenAI GPT-6 Sol",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "off",
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": "none",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  },
+  "openai/gpt-6-luna": {
+    "name": "OpenAI GPT-6 Luna",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "off",
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": "none",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  },
   "openai/gpt-5.6-sol": {
     "name": "OpenAI GPT-5.6 Sol",
     "context": 1050000,
@@ -179,6 +219,18 @@
     "maxOutput": 128000,
     "image": true,
     "reasoning": true
+  },
+  "anthropic/claude-opus-5.5": {
+    "name": "Anthropic/Claude Opus 5.5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "openrouter",
+      "reasoningProfile": "openrouter-anthropic-adaptive"
+    }
   },
   "anthropic/claude-opus-5": {
     "name": "Anthropic/Claude Opus 5",

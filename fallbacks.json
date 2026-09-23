@@ -1,4 +1,25 @@
 {
+  "claude-opus-5-5": {
+    "name": "Claude Opus 5.5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "gpt-6-sol": {
+    "name": "GPT-6 Sol",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "gpt-6-luna": {
+    "name": "GPT-6 Luna",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
   "mimo-v2.6-pro": {
     "name": "MiMo V2.6 Pro",
     "context": 1048576,

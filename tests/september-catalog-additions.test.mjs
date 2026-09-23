@@ -8,6 +8,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const { catalog } = buildCatalog(root, { publishedAt: '2026-09-22T00:00:00Z' });
 
 const additions = [
+  ['anthropic', 'claude-opus-5-5'],
+  ['openai', 'gpt-6-sol'],
+  ['openai', 'gpt-6-luna'],
   ['mimo', 'mimo-v2.6-pro'],
   ['mimo', 'mimo-v2.6-flash'],
   ['mimo', 'mimo-v2.6-pro-ultraspeed'],
