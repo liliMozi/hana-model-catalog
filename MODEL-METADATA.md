@@ -30,6 +30,17 @@ from the compiled artifact.
 
 Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
 
+## September 24, 2026 additions
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| Codex OAuth GPT-6 Sol / Luna | The September 23 batch added both IDs only to the OpenAI API surface; this batch adds them to `openai-codex-oauth` after verifying the live Codex model-discovery endpoint (`GET /backend-api/codex/models`, reviewed September 24). The endpoint filters by the caller's `client_version` against each model's own `minimal_client_version` (both models require 0.155.0), so stale clients silently see an older subset. Both models report `context_window` 272,000 and `max_context_window` 872,000, text/image input, five efforts low through max (Luna has no ultra), a medium default, and the Fast speed tier. Following the current convention for this partition's new entries, `context` records the declared maximum window (872,000) rather than the smaller product default, and `maxContext` is therefore omitted; the GPT-6 Astra entry retains its earlier default-window plus `maxContext` form. Ultra is a Codex orchestration mode and is not advertised as an effort. `maxOutput` is not reported by the endpoint; 128,000 follows the partition's existing entries and the API surface. `gpt-reserve` and `codex-auto-review` are `visibility: hide` internal models and are not added. [ChatGPT model guide](https://learn.chatgpt.com/docs/models). |
+
+OpenAI announces that GPT-5.5 retires from ChatGPT, ChatGPT Work, and Codex
+on October 14, 2026 (the API surface is unaffected). The Codex OAuth entries
+for `gpt-5.5` remain until then; removal from this partition will drive the
+corresponding client list cleanup. [Retirement notice](https://learn.chatgpt.com/docs/models).
+
 ## September 23, 2026 additions
 
 These additions preserve the existing schema and historical entries. Provider
@@ -38,7 +49,7 @@ availability and limits are reviewed separately from subscription entitlements.
 | Provider/model | Confirmed metadata and source |
 | --- | --- |
 | Claude Opus 5.5 | Official ID `claude-opus-5-5`, released September 22. 1M context, 128K output (300K under the Batch API extended-output beta), text/image input, text output. Adaptive thinking is always on with no off choice, and the documented default effort is `medium`, unlike Fable 5.1's `high`. The entry keeps the five documented efforts low through max with the legacy xhigh mapping. The Opus 5 grounding coordinates are not carried over because the Opus 5.5 documentation does not confirm them, and image input alone does not establish grounding. Opus 5.5 Fast mode is a separately priced research preview and is not recorded as a service tier. [Model overview](https://platform.claude.com/docs/en/models/opus-5-5/overview), [models comparison](https://platform.claude.com/docs/en/models/overview). |
-| OpenAI GPT-6 Sol / Luna | Official IDs `gpt-6-sol` and `gpt-6-luna`, released September 22. 1,050,000 context and 128,000 output, text/image input, text output. Both document `reasoning.effort` values none, low, medium (default), high, xhigh, and max on the Responses API, so the entries expose off/low/medium/high/xhigh/max with off mapped to none and medium as default. Fast mode is documented at 2x the applicable rate on the same model ID, recorded as the standard/fast service tiers. No Codex OAuth entitlement is inferred from API availability. [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol), [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna). |
+| OpenAI GPT-6 Sol / Luna | Official IDs `gpt-6-sol` and `gpt-6-luna`, released September 22. 1,050,000 context and 128,000 output, text/image input, text output. Both document `reasoning.effort` values none, low, medium (default), high, xhigh, and max on the Responses API, so the entries expose off/low/medium/high/xhigh/max with off mapped to none and medium as default. Fast mode is documented at 2x the applicable rate on the same model ID, recorded as the standard/fast service tiers. No Codex OAuth entitlement is inferred from API availability in this batch; the Codex surface is verified and added separately in the September 24 batch. [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol), [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna). |
 | OpenRouter mirrors | Verified `anthropic/claude-opus-5.5`, `openai/gpt-6-sol`, and `openai/gpt-6-luna` against the [public model API](https://openrouter.ai/api/v1/models) on September 23; all three report the native context and 128,000 completion caps with text/image input. The Opus 5.5 mirror retains the established OpenRouter Anthropic adaptive wiring used by Claude Opus 5, and the GPT-6 mirrors retain the GPT-5.6 router wiring with `openai-completions`; native Responses and Anthropic wire contracts are not copied onto gateway entries. |
 
 Grok 4.7 was already recorded in the September 22 batch and is unchanged here.

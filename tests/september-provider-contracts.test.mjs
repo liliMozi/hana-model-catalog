@@ -143,12 +143,35 @@ test('GPT-6 Sol and Luna expose the six documented efforts with medium default a
     assert.deepEqual(entry.thinkingLevelMap, { off: 'none', xhigh: 'max' });
     assert.equal(entry.defaultThinkingLevel, 'medium');
     assert.deepEqual(entry.serviceTiers, ['standard', 'fast']);
-    assert.equal(catalog.providers['openai-codex-oauth'][id], undefined,
-      `${id} API availability must not imply a Codex OAuth entitlement`);
   }
   const astra = catalog.providers.openai['gpt-6-astra'];
   assert.equal(astra.thinkingLevels.includes('off'), false,
     'Astra documents no none effort, so it must not inherit the Sol/Luna off choice');
+});
+
+test('Codex OAuth GPT-6 Sol/Luna mirror the live discovery contract with the max-window context convention', () => {
+  for (const [id, name] of [['gpt-6-sol', 'GPT-6 Sol'], ['gpt-6-luna', 'GPT-6 Luna']]) {
+    const entry = catalog.providers['openai-codex-oauth'][id];
+    assert.ok(entry, `${id} must exist on the Codex OAuth surface`);
+    assert.equal(entry.name, name);
+    assert.equal(entry.context, 872000,
+      'context records the discovery max_context_window, not the smaller product default window');
+    assert.equal('maxContext' in entry, false, 'the max window already lives in context');
+    assert.equal(entry.maxOutput, 128000);
+    assert.equal(entry.image, true);
+    assert.equal(entry.reasoning, true);
+    assert.equal(entry.api, 'openai-codex-responses');
+    assert.deepEqual(entry.thinkingLevels, ['low', 'medium', 'high', 'xhigh', 'max']);
+    assert.equal(entry.thinkingLevels.includes('ultra'), false,
+      'ultra is an orchestration mode, not a reasoning effort');
+    assert.deepEqual(entry.thinkingLevelMap, { xhigh: 'max' });
+    assert.equal(entry.defaultThinkingLevel, 'medium');
+    assert.deepEqual(entry.serviceTiers, ['standard', 'fast']);
+  }
+  for (const id of ['gpt-reserve', 'codex-auto-review']) {
+    assert.equal(catalog.providers['openai-codex-oauth'][id], undefined,
+      `${id} is visibility:hide on the discovery endpoint and stays out of the catalog`);
+  }
 });
 
 test('OpenRouter mirrors keep the established router wiring for Opus 5.5 and GPT-6 Sol/Luna', () => {

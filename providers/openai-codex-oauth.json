@@ -23,6 +23,52 @@
     ],
     "maxContext": 872000
   },
+  "gpt-6-sol": {
+    "name": "GPT-6 Sol",
+    "context": 872000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
+  "gpt-6-luna": {
+    "name": "GPT-6 Luna",
+    "context": 872000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
   "gpt-image-2": {
     "name": "GPT Image 2",
     "type": "image"
