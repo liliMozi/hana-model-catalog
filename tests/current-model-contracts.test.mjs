@@ -60,6 +60,35 @@ test('MiniMax M3 retains its curated practical context ceiling with verified vid
   }
 });
 
+test('Token Plan partitions inherit only descriptive metadata from their base partition', () => {
+  const descriptive = ['context', 'maxOutput', 'image', 'video', 'audio', 'reasoning'];
+  const protocol = [
+    'api', 'compat', 'quirks', 'thinkingLevels', 'thinkingLevelMap', 'defaultThinkingLevel',
+    'serviceTiers', 'xhigh', 'legacyCompatibility', 'maxContext', 'type', 'visionCapabilities', 'toolUse',
+  ];
+  for (const [plan, base] of [['minimax-token-plan', 'minimax'], ['mimo-token-plan', 'mimo']]) {
+    const entries = Object.entries(catalog.providers[plan]);
+    assert.ok(entries.length > 0, `${plan} must not be empty`);
+    for (const [id, entry] of entries) {
+      const source = catalog.providers[base][id];
+      assert.ok(source, `${plan}/${id} must have a ${base} entry to inherit from`);
+      // A provider partition shadows the generic fallback: a name-only entry
+      // would silently drop the descriptive metadata the fallback supplied.
+      for (const field of descriptive) {
+        if (field in source) {
+          assert.equal(entry[field], source[field], `${plan}/${id}.${field} must inherit ${base}/${id}`);
+        } else {
+          assert.equal(field in entry, false, `${plan}/${id} must not invent ${field}`);
+        }
+      }
+      for (const field of protocol) {
+        assert.equal(field in entry, false, `${plan}/${id} must not carry protocol field ${field}`);
+      }
+      assert.equal(entry.name, source.name, `${plan}/${id} keeps the base display name`);
+    }
+  }
+});
+
 test('DeepSeek Flash exposes the official multimodal model and supported thinking choices', () => {
   const flash = catalog.providers.deepseek['deepseek-flash'];
   for (const entry of [flash, catalog.fallbacks['deepseek-flash']]) {

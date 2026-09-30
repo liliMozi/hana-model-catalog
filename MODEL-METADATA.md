@@ -65,7 +65,19 @@ numbers; a pair without a published specification stays name-only.
 | StepFun `step-1-flash` | No current official specification for this ID; name-only. |
 | Volcengine `doubao-seed-code` | 256K context with visual understanding; no documented output cap. [Model list](https://www.volcengine.com/docs/82379/1553586). |
 | Zhipu `glm-4-air` | GLM-4-Air-250414: 128K context, 16K output. [GLM-4 guide](https://docs.bigmodel.cn/cn/guide/models/text/glm-4). |
-| MiniMax / MiMo Token Plan partitions | New `minimax-token-plan` (8 IDs) and `mimo-token-plan` (9 IDs) subscription surfaces. Per-model subscription limits are not published, so entries carry display names only. [MiniMax Token Plan](https://platform.minimax.io/subscribe/token-plan), [MiMo Token Plan](https://mimo.mi.com/docs/zh-CN/price/token-plan). |
+| MiniMax / MiMo Token Plan partitions | New `minimax-token-plan` (8 IDs) and `mimo-token-plan` (9 IDs) subscription surfaces. Each entry keeps its display name and inherits only the descriptive fields (context, max output, modality, reasoning) of the matching base-partition entry; no protocol field is added. [MiniMax Token Plan](https://platform.minimax.io/subscribe/token-plan), [MiMo Token Plan](https://mimo.mi.com/docs/zh-CN/price/token-plan). |
+
+Subscription partitions may carry metadata, not just a display name: the
+existing `dashscope-token-plan` `qwen3.8-max-preview` entry already ships a full
+entry with context, output, modality, reasoning and its thinking ladder. For the
+MiniMax and MiMo Token Plan partitions only descriptive fields are inherited,
+for a second reason: a provider partition shadows the generic fallback, so a
+name-only entry would silently drop the context, output, modality and reasoning
+metadata that the fallback supplied before the partition existed. Inheriting the
+descriptive subset restores that watermark and lets the curated 500,000 context
+ceiling of MiniMax M3 propagate to the subscription surface. Wire contracts stay
+with the provider plugin — no subscription-specific source justifies copying an
+API thinking ladder onto these entries.
 
 ## September 24, 2026 additions
 
