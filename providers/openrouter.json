@@ -1,4 +1,22 @@
 {
+  "openai/gpt-6.1-sol": {
+    "name": "OpenAI GPT-6.1 Sol",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  },
   "openai/gpt-6-sol": {
     "name": "OpenAI GPT-6 Sol",
     "context": 1050000,

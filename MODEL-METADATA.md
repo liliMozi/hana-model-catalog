@@ -30,6 +30,43 @@ from the compiled artifact.
 
 Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
 
+## September 30, 2026 additions
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| OpenAI GPT-6.1 Sol | Official ID `gpt-6.1-sol`, released September 30. 1,050,000 context, 128,000 maximum output, text/image input, text output. `reasoning.effort` accepts low, medium (default), high, xhigh, and max on the Responses API, and the reference explicitly states that `none` and `minimal` are not supported, so the entry exposes low/medium/high/xhigh/max with no off choice and medium as default. Tools use the Responses API; Chat Completions is documented without tool calling. Fast is a service tier on the same model ID, and EU data residency excludes Fast. [Model reference](https://developers.openai.com/api/docs/models/gpt-6.1-sol). |
+| OpenRouter GPT-6.1 Sol mirror | Verified `openai/gpt-6.1-sol` against the public model API on September 30: 1,050,000 context, 128,000 completion cap, image input. The mirror retains the GPT-6 Sol router wiring with `openai-completions`, but the off choice is dropped because the underlying model rejects `none`. Native Responses and Codex wiring are not copied onto the gateway entry. [Public model API](https://openrouter.ai/api/v1/models). |
+| Codex OAuth GPT-6.1 Sol | Not added. GPT-6.1 Sol is available in Codex in the desktop app and CLI ([model guide](https://learn.chatgpt.com/docs/models)), but no public source — the openai/codex repository or official documentation — states this partition's `context_window`, `max_context_window`, or `minimal_client_version`. The Codex catalog is delivered by the authenticated discovery endpoint, not a checked-in static list, so the entry waits on a verification call with an authenticated client before it is added. |
+
+An `openai/gpt-6.1-sol-pro` ID is observable on the OpenRouter public model API
+but has no official documentation. It is not added; the observation is recorded
+here so a later review can decide whether to promote it.
+
+## September 30, 2026 default-list gap backfill
+
+The application's built-in default lists referenced these provider/model pairs
+before the catalog carried them. Each entry records only officially documented
+numbers; a pair without a published specification stays name-only.
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| Anthropic `claude-haiku-3-5-20241022` | The same model as the existing `claude-3-5-haiku` alias: 200,000 context, 8,192 output, image input. [Models overview](https://platform.claude.com/docs/en/about-claude/models/overview). |
+| Baidu `ernie-4.5-turbo-vl-32k` | Visual-understanding ERNIE 4.5 Turbo VL: 32K context, 12,288 output, image input. [Model list](https://intl.cloud.baidu.com/en/doc/qianfan/s/7m95lyy43-intl-en). |
+| Baidu `ernie-4.0-turbo-128k` | 128K context, 4,096 output. [Large-model API](https://ai.baidu.com/ai-doc/AISTUDIO/rm344erns). |
+| DashScope coding `qwen3-coder-plus` / `qwen3-coder-flash` | 1,000,000 context, 65,536 output, text only. [Plus](https://help.aliyun.com/en/model-studio/qwen3-coder-plus), [Flash](https://help.aliyun.com/en/model-studio/qwen3-coder-flash). |
+| DashScope coding `qwen3-coder-next` | 262,144 context, 65,536 output. [Model page](https://help.aliyun.com/en/model-studio/qwen3-coder-next). |
+| Fireworks `accounts/fireworks/models/llama-v3p3-70b-instruct` | 131,072 context; function calling and image input are both documented as unsupported, so no output cap or modalities are recorded. [Model page](https://fireworks.ai/models/fireworks/llama-v3p3-70b-instruct). |
+| Fireworks `accounts/fireworks/models/deepseek-r1` | 163,840 context, 32,768 generation cap, reasoning, no image input. [Model page](https://fireworks.ai/models/fireworks/deepseek-r1). |
+| Groq `mixtral-8x7b-32768` | Retired March 20, 2025; only the ID's documented 32,768-token window is recorded, with no output cap. [Deprecations](https://console.groq.com/docs/deprecations). |
+| Hunyuan `hunyuan-large-latest` | The current official model list no longer specifies this API ID; name-only. [Hunyuan overview](https://cloud.tencent.com/document/product/1729/104753). |
+| Infini `deepseek-r1`, `deepseek-v3-0324` | The platform does not publish per-model serving limits; name-only. |
+| ModelScope `Qwen/Qwen3-235B-A22B` | Qwen3 hybrid model: 128K context (131,072), 32,768 output, text input, reasoning. [Qwen3 release](https://qwenlm.github.io/zh/blog/qwen3/). |
+| SiliconFlow `deepseek-ai/DeepSeek-V3-0324`, `Qwen/Qwen3-8B`, `THUDM/GLM-4-9B-0414`, `Pro/deepseek-ai/DeepSeek-R1` | Context windows 163,840 / 131,072 / 32,768 / 163,840 taken from the provider's model pages. Those pages report an output ceiling identical to the context window; as with the existing DeepSeek-V3.2 entry, that duplicate figure is not copied and output stays unspecified. [Model catalog](https://www.siliconflow.com/zh/models). |
+| StepFun `step-1-flash` | No current official specification for this ID; name-only. |
+| Volcengine `doubao-seed-code` | 256K context with visual understanding; no documented output cap. [Model list](https://www.volcengine.com/docs/82379/1553586). |
+| Zhipu `glm-4-air` | GLM-4-Air-250414: 128K context, 16K output. [GLM-4 guide](https://docs.bigmodel.cn/cn/guide/models/text/glm-4). |
+| MiniMax / MiMo Token Plan partitions | New `minimax-token-plan` (8 IDs) and `mimo-token-plan` (9 IDs) subscription surfaces. Per-model subscription limits are not published, so entries carry display names only. [MiniMax Token Plan](https://platform.minimax.io/subscribe/token-plan), [MiMo Token Plan](https://mimo.mi.com/docs/zh-CN/price/token-plan). |
+
 ## September 24, 2026 additions
 
 | Provider/model | Confirmed metadata and source |
