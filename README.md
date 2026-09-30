@@ -12,6 +12,8 @@ base URLs, no credential material.
 ```text
 providers/       per-provider authoring units (one JSON per provider)
 fallbacks.json   generic per-model fallbacks (no provider-level contracts)
+defaults.json    curated default model lists, keyed by provider (order is the
+                 display order)
 schemas/         JSON schema for the compiled runtime artifact
 scripts/         build & validate scripts (CI-side only; never shipped or
                  executed by the app)
@@ -20,6 +22,21 @@ scripts/         build & validate scripts (CI-side only; never shipped or
 Provider files are authoring units for review and mergeability. CI compiles
 them into one complete runtime snapshot — the artifact is never a partial or
 per-provider patch.
+
+`defaults.json` is the curated default model list: for each provider it names
+the models a client shows when the user has not configured their own list,
+and the array order is the display order. A provider key that is absent means
+this catalog carries no curated default for that provider, so the client falls
+back to whatever its own provider declares; an empty array is an explicit "no
+curated defaults for this provider" and stops that fallback. Defaults are
+advisory curation, never entitlements: a listed model still requires whatever
+account access its provider demands.
+
+Defaults must stay consistent with the rest of the catalog. Every provider key
+and every listed model id must exist in `providers/`, and a listed model must
+not be an image-generation entry (`type: "image"`), because this list drives
+the chat model picker. The JSON schema can only describe the shape; these
+cross-reference rules are enforced by `scripts/validate-catalog.mjs`.
 
 ## Release artifacts
 
@@ -44,6 +61,8 @@ CI must reject:
 - invalid numeric limits or capability values;
 - credential material, authorization headers, cookies, API keys or secrets;
 - provider base URLs, links, or any executable/network instructions;
+- a default list whose provider key or model id is not in `providers/`, that
+  repeats an entry, or that names an image-generation model;
 - an artifact that differs from the canonical build output.
 
 The "no URL/link fields" rule is load-bearing for the channel's trust model.
@@ -56,7 +75,7 @@ This repository has zero npm dependencies; everything below runs on a plain
 Node.js >= 18 install.
 
 ```sh
-node scripts/validate-catalog.mjs                       # validate providers/*.json + fallbacks.json
+node scripts/validate-catalog.mjs                       # validate providers/*.json + fallbacks.json + defaults.json
 node scripts/build-catalog.mjs                           # compile dist/model-catalog.v1.json
 node scripts/validate-catalog.mjs --artifact dist/model-catalog.v1.json
 npm test                                                  # node:test suite
@@ -117,6 +136,16 @@ New runtime fields must be readable by supported clients before publication.
 The current artifact retains schema v1 and its existing field vocabulary;
 explicit `xhigh` and `max` choices use `thinkingLevels`, with the legacy
 `thinkingLevelMap.xhigh` mapping retained for older clients.
+
+The top-level `defaults` block is a new runtime block, so it is published only
+once clients that read it are the supported baseline (**new runtime blocks
+need the client first**). Clients that predate it reject the whole artifact
+rather than reading it partially — the refresh channel reports the artifact as
+unavailable and the client silently keeps its current catalog, with no visible
+error. The `defaults` publication in this batch is the last one that is
+incompatible with an older client; the owner approved that single transition,
+and after it a client-side baseline catalog carries the same block so an older
+cached snapshot is never consulted alone again.
 
 The application consumes only this one immutable release asset over HTTPS.
 It never reads this repository's mutable default branch, never clones the

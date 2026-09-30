@@ -5,7 +5,7 @@
   "description": "Runtime shape of the compiled model-catalog.v1 artifact (model-catalog.v1.json). This schema mirrors the structural rules enforced by the application's built-in catalog validator. JSON Schema cannot express every rule that validator enforces; the cross-field and content-pattern rules noted below in field descriptions are NOT checked by this schema alone and are re-enforced by scripts/validate-catalog.mjs in this repository. A catalog that only satisfies this schema is necessary but not sufficient — it must also pass scripts/validate-catalog.mjs.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "publishedAt", "providers", "fallbacks"],
+  "required": ["schemaVersion", "publishedAt", "providers", "fallbacks", "defaults"],
   "properties": {
     "schemaVersion": {
       "const": 1,
@@ -35,6 +35,18 @@
         "$ref": "#/$defs/identifierKey"
       },
       "description": "Keyed by bare model id. Generic best-effort baseline used only when no provider-specific entry matches. Must NOT carry any protocol-level field (see $defs/fallbackModelEntry) — this prevents an unknown/custom provider from implicitly inheriting another provider's wire contract."
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/identifierKey" },
+        "uniqueItems": true
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Curated default model lists, keyed by provider id; each value is an ordered, duplicate-free array of model ids and the order is the display order. A provider key that is absent means this catalog carries no curated default for it; an empty array is an explicit 'no curated defaults', which is different from absence. This schema can only express the shape: the cross-reference rules that every provider key and model id must exist in providers/, and that a listed model must not be type 'image', are NOT checked here and are re-enforced by scripts/validate-catalog.mjs in this repository."
     }
   },
   "$defs": {

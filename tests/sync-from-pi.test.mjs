@@ -46,6 +46,10 @@ function makeRepoFixture() {
     "model-a": { name: "Test Model", context: 100000, maxOutput: 4096, image: false, reasoning: false },
     "claude-opus-4-6": { name: "Claude Opus 4.6", context: 200000, maxOutput: 128000, image: true, reasoning: true },
   });
+  writeJson(join(dir, "defaults.json"), {
+    testprovider: ["model-a"],
+    anthropic: ["claude-opus-4-6"],
+  });
   return dir;
 }
 
@@ -214,6 +218,7 @@ test("computeSyncPlan: an ambiguous fallback model id (disagreeing upstream prov
     writeJson(join(repo, "fallbacks.json"), {
       "shared-model": { name: "Shared Model", context: 50000, maxOutput: 4096, image: false, reasoning: false },
     });
+    writeJson(join(repo, "defaults.json"), {});
 
     writeFileSync(join(pi, "package.json"), JSON.stringify({ type: "module" }), "utf8");
     writeFileSync(

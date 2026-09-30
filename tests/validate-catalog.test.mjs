@@ -232,6 +232,67 @@ test("allows: a fallback entry with no protocol-level fields", () => {
 });
 
 // ---------------------------------------------------------------------------
+// 11. Curated default lists (defaults: provider id -> ordered model ids)
+// ---------------------------------------------------------------------------
+
+function providersWithImage() {
+  return {
+    testprovider: {
+      "test-model": goodProviderModel(),
+      "image-model": { name: "Test Image", type: "image" },
+    },
+  };
+}
+
+test("allows: a default list whose provider and model ids all exist in providers", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, { testprovider: ["test-model"] });
+  assert.deepStrictEqual(errors, []);
+});
+
+test("allows: an empty default list (an explicit no-curated-defaults marker)", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, { testprovider: [] });
+  assert.deepStrictEqual(errors, []);
+});
+
+test("rejects: a default list keyed by a provider that is not in providers", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, { ghostprovider: ["test-model"] });
+  assert.ok(errors.some((e) => /references a provider that is not in providers/.test(e)));
+});
+
+test("rejects: a default list referencing a model id absent from its provider partition", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, { testprovider: ["missing-model"] });
+  assert.ok(errors.some((e) => /is not in providers\.testprovider/.test(e)));
+});
+
+test("rejects: a default list referencing an image-generation model", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, { testprovider: ["image-model"] });
+  assert.ok(errors.some((e) => /an image model \(type "image"\)/.test(e)));
+});
+
+test("rejects: a duplicate element in a default list", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, { testprovider: ["test-model", "test-model"] });
+  assert.ok(errors.some((e) => /duplicates model id/.test(e)));
+});
+
+test("rejects: a malformed default value (not an array) and an empty-string element", () => {
+  const notArray = validateCatalogData(providersWithImage(), {}, { testprovider: "test-model" });
+  assert.ok(notArray.some((e) => /must be an array of model ids/.test(e)));
+
+  const emptyId = validateCatalogData(providersWithImage(), {}, { testprovider: [""] });
+  assert.ok(emptyId.some((e) => /must be a non-empty, non-URL model id string/.test(e)));
+});
+
+test("rejects: defaults that is not a plain object", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, null);
+  assert.ok(errors.some((e) => /^defaults must be a JSON object$/.test(e)));
+});
+
+test("rejects: a URL-shaped default entry through the forbidden-content scan", () => {
+  const errors = validateCatalogData(providersWithImage(), {}, { testprovider: ["https://evil.example/model"] });
+  assert.ok(errors.some((e) => /looks like a URL/.test(e)));
+});
+
+// ---------------------------------------------------------------------------
 // Full-artifact envelope (schemaVersion / publishedAt / top-level keys)
 // ---------------------------------------------------------------------------
 
@@ -241,6 +302,7 @@ test("rejects: an artifact with an unsupported schemaVersion, missing keys, a ca
     publishedAt: "2026-08-19T00:00:00.000Z",
     providers: {},
     fallbacks: {},
+    defaults: {},
   };
 
   assert.ok(validateArtifact({ ...base, schemaVersion: 2 }).some((e) => /unsupported model catalog schemaVersion/.test(e)));
@@ -251,6 +313,8 @@ test("rejects: an artifact with an unsupported schemaVersion, missing keys, a ca
   assert.ok(validateArtifact({ ...base, extraKey: 1 }).some((e) => /unknown top-level model catalog key: extraKey/.test(e)));
   const { fallbacks, ...missingFallbacks } = base;
   assert.ok(validateArtifact(missingFallbacks).some((e) => /missing required top-level key: fallbacks/.test(e)));
+  const { defaults, ...missingDefaults } = base;
+  assert.ok(validateArtifact(missingDefaults).some((e) => /missing required top-level key: defaults/.test(e)));
 });
 
 test("allows: a minimal well-formed artifact envelope, including a publishedAt with fractional seconds", () => {
@@ -259,6 +323,7 @@ test("allows: a minimal well-formed artifact envelope, including a publishedAt w
     publishedAt: "2026-08-19T00:00:00.000Z",
     providers: providersOf(goodProviderModel()),
     fallbacks: fallbacksOf(goodFallbackModel()),
+    defaults: {},
   });
   assert.deepStrictEqual(errors, []);
 
@@ -267,6 +332,7 @@ test("allows: a minimal well-formed artifact envelope, including a publishedAt w
     publishedAt: "2026-08-19T00:00:00Z",
     providers: providersOf(goodProviderModel()),
     fallbacks: fallbacksOf(goodFallbackModel()),
+    defaults: {},
   });
   assert.deepStrictEqual(errorsNoMillis, []);
 });
@@ -281,8 +347,25 @@ test("loadSourceCatalog: rejects a source tree with a malformed (duplicate-key) 
     mkdirSync(join(dir, "providers"));
     writeFileSync(join(dir, "providers", "testprovider.json"), '{"m": {"name":"a"}, "m": {"name":"b"}}', "utf8");
     writeFileSync(join(dir, "fallbacks.json"), "{}", "utf8");
+    writeFileSync(join(dir, "defaults.json"), "{}", "utf8");
     const { loadErrors } = loadSourceCatalog(dir);
     assert.ok(loadErrors.length >= 1);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("loadSourceCatalog: rejects a source tree that is missing defaults.json", () => {
+  const dir = mkdtempSync(join(tmpdir(), "hana-model-catalog-test-"));
+  try {
+    mkdirSync(join(dir, "providers"));
+    writeFileSync(join(dir, "providers", "testprovider.json"), JSON.stringify({ "test-model": goodProviderModel() }), "utf8");
+    writeFileSync(join(dir, "fallbacks.json"), "{}", "utf8");
+    const { loadErrors } = loadSourceCatalog(dir);
+    assert.ok(
+      loadErrors.some((e) => /defaults\.json/.test(e)),
+      "a missing defaults.json must be a hard load error, never a silent empty list",
+    );
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -298,9 +381,11 @@ test("loadSourceCatalog: allows a well-formed minimal source tree", () => {
       "utf8",
     );
     writeFileSync(join(dir, "fallbacks.json"), JSON.stringify(fallbacksOf(goodFallbackModel())), "utf8");
-    const { providers, fallbacks, loadErrors } = loadSourceCatalog(dir);
+    writeFileSync(join(dir, "defaults.json"), JSON.stringify({ testprovider: ["test-model"] }), "utf8");
+    const { providers, fallbacks, defaults, loadErrors } = loadSourceCatalog(dir);
     assert.deepStrictEqual(loadErrors, []);
-    assert.deepStrictEqual(validateCatalogData(providers, fallbacks), []);
+    assert.deepStrictEqual(defaults, { testprovider: ["test-model"] });
+    assert.deepStrictEqual(validateCatalogData(providers, fallbacks, defaults), []);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

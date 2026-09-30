@@ -21,13 +21,22 @@ import { buildCatalog } from "../scripts/build-catalog.mjs";
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 test("build output reconstructs the source tree losslessly", () => {
-  const { providers, fallbacks, loadErrors } = loadSourceCatalog(REPO_ROOT);
+  const { providers, fallbacks, defaults, loadErrors } = loadSourceCatalog(REPO_ROOT);
   assert.deepStrictEqual(loadErrors, [], "source tree must load without errors");
 
   const { catalog } = buildCatalog(REPO_ROOT, { now: () => new Date("2026-01-01T00:00:00.000Z") });
 
   assert.deepStrictEqual(catalog.providers, providers, "compiled providers must deep-equal the source providers/*.json files");
   assert.deepStrictEqual(catalog.fallbacks, fallbacks, "compiled fallbacks must deep-equal the source fallbacks.json file");
+  assert.deepStrictEqual(catalog.defaults, defaults, "compiled defaults must deep-equal the source defaults.json file");
+});
+
+test("the compiled artifact carries defaults in the canonical key order", () => {
+  const { catalog } = buildCatalog(REPO_ROOT, { now: () => new Date("2026-01-01T00:00:00.000Z") });
+  assert.deepStrictEqual(
+    Object.keys(catalog),
+    ["schemaVersion", "publishedAt", "providers", "fallbacks", "defaults"],
+  );
 });
 
 test("build output is deterministic given the same clock", () => {

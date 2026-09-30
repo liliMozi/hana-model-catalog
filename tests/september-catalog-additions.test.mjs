@@ -20,6 +20,7 @@ const additions = [
   ['volcengine', 'doubao-seed-2-1-pro-260915'],
   ['openai', 'gpt-image-2.5-sunburst'],
   ['openai', 'gpt-image-2.5-flare'],
+  ['openai', 'gpt-6.1-sol'],
 ];
 
 const descriptiveFields = new Set([
@@ -82,5 +83,49 @@ test('image generation quality is not exposed as chat reasoning or Codex entitle
   ]) {
     assert.deepEqual(catalog.providers.openai[id], { name, type: 'image', image: true });
     assert.equal(catalog.providers['openai-codex-oauth'][id], undefined);
+  }
+});
+
+test('GPT-6.1 Sol carries five efforts with no off choice on both the API and router surfaces', () => {
+  const api = catalog.providers.openai['gpt-6.1-sol'];
+  assert.equal(api.name, 'GPT-6.1 Sol');
+  assert.equal(api.context, 1050000);
+  assert.equal(api.maxOutput, 128000);
+  assert.equal(api.image, true);
+  assert.equal(api.reasoning, true);
+  assert.equal(api.api, 'openai-responses');
+  assert.deepEqual(api.thinkingLevels, ['low', 'medium', 'high', 'xhigh', 'max']);
+  assert.equal(api.thinkingLevels.includes('off'), false,
+    'the reference states none and minimal are unsupported, so there is no off choice');
+  assert.deepEqual(api.thinkingLevelMap, { xhigh: 'max' });
+  assert.equal(api.defaultThinkingLevel, 'medium');
+  assert.deepEqual(api.serviceTiers, ['standard', 'fast']);
+
+  const router = catalog.providers.openrouter['openai/gpt-6.1-sol'];
+  assert.equal(router.name, 'OpenAI GPT-6.1 Sol');
+  assert.equal(router.context, 1050000);
+  assert.equal(router.maxOutput, 128000);
+  assert.equal(router.image, true);
+  assert.equal(router.reasoning, true);
+  assert.equal(router.api, 'openai-completions', 'the mirror keeps the GPT-6 Sol router wiring');
+  assert.deepEqual(router.thinkingLevels, ['low', 'medium', 'high', 'max']);
+  assert.equal(router.thinkingLevels.includes('off'), false, 'the underlying model rejects none');
+  assert.deepEqual(router.thinkingLevelMap, { xhigh: 'max' });
+  assert.equal(router.defaultThinkingLevel, 'medium');
+  assert.equal('serviceTiers' in router, false);
+});
+
+test('GPT-6.1 Sol stays off the Codex OAuth surface until its numbers have a public source', () => {
+  assert.equal(
+    catalog.providers['openai-codex-oauth']['gpt-6.1-sol'],
+    undefined,
+    'context_window / max_context_window / minimal_client_version are not publicly documented yet',
+  );
+});
+
+test('the undocumented openrouter sol-pro alias is not promoted into the catalog', () => {
+  for (const id of ['openai/gpt-6.1-sol-pro', 'gpt-6.1-sol-pro']) {
+    assert.equal(catalog.providers.openrouter[id], undefined);
+    assert.equal(catalog.providers.openai[id], undefined);
   }
 });

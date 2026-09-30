@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // scripts/build-catalog.mjs
 //
-// Compiles providers/*.json + fallbacks.json into the single release asset:
+// Compiles providers/*.json + fallbacks.json + defaults.json into the single
+// release asset:
 //   dist/model-catalog.v1.json   the complete catalog snapshot
 //
 // The runtime artifact is always a complete snapshot, never a per-provider
@@ -46,7 +47,7 @@ export function buildCatalog(repoRoot, { now = () => new Date(), publishedAt: pu
     throw err;
   }
 
-  const { providers, fallbacks } = loadSourceCatalog(repoRoot);
+  const { providers, fallbacks, defaults } = loadSourceCatalog(repoRoot);
 
   let publishedAt;
   if (publishedAtOverride !== undefined) {
@@ -66,6 +67,7 @@ export function buildCatalog(repoRoot, { now = () => new Date(), publishedAt: pu
     publishedAt,
     providers,
     fallbacks,
+    defaults,
   };
 
   const postErrors = validateArtifact(catalog);

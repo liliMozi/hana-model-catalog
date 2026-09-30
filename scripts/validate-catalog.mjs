@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // scripts/validate-catalog.mjs
 //
-// Validator for the hana-model-catalog source tree (providers/*.json +
-// fallbacks.json) and for a compiled model-catalog.v1.json artifact.
+// Validator for the hana-model-catalog source tree (providers/*.json,
+// fallbacks.json, defaults.json) and for a compiled model-catalog.v1.json
+// artifact.
 //
 // This is the CI tripwire for the repository contract described in this
 // repo's README and in the application's model-information update
@@ -437,12 +438,74 @@ function validateModelEntry(model, { allowProtocolFields }, path, errors) {
   if (allowProtocolFields) checkXhighThinkingLevelAgreement(model, path, errors);
 }
 
+// ---------------------------------------------------------------------------
+// Curated default model lists (defaults.json).
+//
+// These cross-reference rules cannot be expressed in the JSON schema, so CI
+// enforces them here: every default-list provider key must exist in
+// providers/, every listed model id must exist in that provider's partition,
+// and a listed model must not be an image-generation entry (type "image"),
+// because the default list drives the chat model picker. An empty array is
+// allowed and meaningful: it is an explicit "no curated defaults for this
+// provider", distinct from the provider key being absent entirely.
+// ---------------------------------------------------------------------------
+
+export function validateDefaults(defaults, providers, errors) {
+  if (!isPlainObject(defaults)) {
+    errors.push("defaults must be a JSON object");
+    return;
+  }
+  const providersKnown = isPlainObject(providers);
+  for (const [provider, list] of Object.entries(defaults)) {
+    if (!isValidIdentifierKey(provider)) {
+      errors.push(`defaults has an invalid provider key: ${JSON.stringify(provider)}`);
+    }
+    if (!Array.isArray(list)) {
+      errors.push(`defaults.${provider} must be an array of model ids`);
+      continue;
+    }
+    const partition = providersKnown ? providers[provider] : undefined;
+    if (providersKnown && !isPlainObject(partition)) {
+      errors.push(`defaults.${provider} references a provider that is not in providers/`);
+    }
+    const seen = new Set();
+    list.forEach((modelId, idx) => {
+      const path = `defaults.${provider}[${idx}]`;
+      if (typeof modelId !== "string" || modelId.length === 0 || !isSafeString(modelId)) {
+        errors.push(`${path} must be a non-empty, non-URL model id string`);
+        return;
+      }
+      if (seen.has(modelId)) {
+        errors.push(`${path} duplicates model id ${JSON.stringify(modelId)}`);
+        return;
+      }
+      seen.add(modelId);
+      if (!isPlainObject(partition)) return; // missing provider already reported
+      const entry = partition[modelId];
+      if (!isPlainObject(entry)) {
+        errors.push(`${path} references ${JSON.stringify(modelId)}, which is not in providers.${provider}`);
+        return;
+      }
+      if (entry.type === "image") {
+        errors.push(
+          `${path} references ${JSON.stringify(modelId)}, an image model (type "image"), `
+            + "which cannot be a default chat model",
+        );
+      }
+    });
+  }
+}
+
 /**
- * Validate the providers/fallbacks payload shared by both source-tree and
- * compiled-artifact validation. Returns a (possibly empty) array of error
- * strings; never throws.
+ * Validate the providers/fallbacks/defaults payload shared by both
+ * source-tree and compiled-artifact validation. Returns a (possibly empty)
+ * array of error strings; never throws.
+ *
+ * `defaults` defaults to an empty object so callers that only exercise the
+ * providers/fallbacks rules do not have to synthesize a curated list; the
+ * source-tree loader always passes the value parsed from defaults.json.
  */
-export function validateCatalogData(providers, fallbacks) {
+export function validateCatalogData(providers, fallbacks, defaults = {}) {
   const errors = [];
 
   if (!isPlainObject(providers)) {
@@ -478,6 +541,9 @@ export function validateCatalogData(providers, fallbacks) {
 
   if (isPlainObject(providers)) scanTreeForForbiddenContent(providers, "providers", errors);
   if (isPlainObject(fallbacks)) scanTreeForForbiddenContent(fallbacks, "fallbacks", errors);
+  if (isPlainObject(defaults)) scanTreeForForbiddenContent(defaults, "defaults", errors);
+
+  validateDefaults(defaults, providers, errors);
 
   return errors;
 }
@@ -577,21 +643,23 @@ export function detectCaseInsensitiveCollisions(filenames) {
 }
 
 /**
- * Load and structurally admit the source tree (providers/*.json +
- * fallbacks.json) under rootDir. Detects duplicate provider identities
- * (including a case-insensitive filename collision — see
+ * Load and structurally admit the source tree (providers/*.json,
+ * fallbacks.json, defaults.json) under rootDir. Detects duplicate provider
+ * identities (including a case-insensitive filename collision — see
  * detectCaseInsensitiveCollisions) and duplicate keys at every JSON nesting
  * level.
  *
- * Returns { providers, fallbacks, loadErrors }. providers/fallbacks are best
- * effort — a file that failed to parse is simply omitted from them — so
- * callers should treat a non-empty loadErrors as fatal before trusting the
- * returned data.
+ * Returns { providers, fallbacks, defaults, loadErrors }. providers/
+ * fallbacks/defaults are best effort — a file that failed to parse is simply
+ * omitted from them (a missing or malformed defaults.json is a hard
+ * loadError, never a silent empty default list) — so callers should treat a
+ * non-empty loadErrors as fatal before trusting the returned data.
  */
 export function loadSourceCatalog(rootDir) {
   const loadErrors = [];
   const providersDir = join(rootDir, "providers");
   const fallbacksPath = join(rootDir, "fallbacks.json");
+  const defaultsPath = join(rootDir, "defaults.json");
   const providers = {};
 
   let files = [];
@@ -643,21 +711,34 @@ export function loadSourceCatalog(rootDir) {
     loadErrors.push(err instanceof CatalogValidationError ? err.message : `fallbacks.json: cannot read/parse (${err.message})`);
   }
 
-  return { providers, fallbacks, loadErrors };
+  let defaults = {};
+  try {
+    const text = readFileSync(defaultsPath, "utf8");
+    const parsed = parseJsonStrict(text, "defaults.json");
+    if (!isPlainObject(parsed)) {
+      loadErrors.push("defaults.json: top-level value must be a JSON object");
+    } else {
+      defaults = parsed;
+    }
+  } catch (err) {
+    loadErrors.push(err instanceof CatalogValidationError ? err.message : `defaults.json: cannot read/parse (${err.message})`);
+  }
+
+  return { providers, fallbacks, defaults, loadErrors };
 }
 
 /** Validate the source tree end to end. Returns an array of error strings. */
 export function validateSource(rootDir) {
-  const { providers, fallbacks, loadErrors } = loadSourceCatalog(rootDir);
+  const { providers, fallbacks, defaults, loadErrors } = loadSourceCatalog(rootDir);
   if (loadErrors.length > 0) return loadErrors;
-  return validateCatalogData(providers, fallbacks);
+  return validateCatalogData(providers, fallbacks, defaults);
 }
 
 // ---------------------------------------------------------------------------
 // Compiled-artifact validation: full model-catalog.v1.json envelope.
 // ---------------------------------------------------------------------------
 
-const ALLOWED_TOP_LEVEL_KEYS = Object.freeze(["schemaVersion", "publishedAt", "providers", "fallbacks"]);
+const ALLOWED_TOP_LEVEL_KEYS = Object.freeze(["schemaVersion", "publishedAt", "providers", "fallbacks", "defaults"]);
 const SUPPORTED_SCHEMA_VERSION = 1;
 
 // Strict ISO 8601 UTC timestamp: date, "T", time, optional fractional
@@ -705,7 +786,7 @@ export function validateArtifactShape(raw) {
 export function validateArtifact(raw) {
   const errors = validateArtifactShape(raw);
   if (isPlainObject(raw) && isPlainObject(raw.providers) && isPlainObject(raw.fallbacks)) {
-    errors.push(...validateCatalogData(raw.providers, raw.fallbacks));
+    errors.push(...validateCatalogData(raw.providers, raw.fallbacks, raw.defaults));
   }
   return errors;
 }
@@ -734,7 +815,7 @@ function runCli(argv) {
     } else if (a === "--help" || a === "-h") {
       console.log(
         "Usage: node scripts/validate-catalog.mjs [--source <dir>] [--artifact <file>]\n"
-          + "  --source <dir>     validate providers/*.json + fallbacks.json under <dir> (default: repo root)\n"
+          + "  --source <dir>     validate providers/*.json + fallbacks.json + defaults.json under <dir> (default: repo root)\n"
           + "  --artifact <file>  validate a compiled model-catalog.v1.json artifact",
       );
       return 0;
