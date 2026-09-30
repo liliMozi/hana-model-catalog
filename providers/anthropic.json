@@ -565,5 +565,11 @@
       "outputFormat": "anchor",
       "groundingMode": "prompted"
     }
+  },
+  "claude-haiku-3-5-20241022": {
+    "name": "Claude Haiku 3.5 20241022",
+    "context": 200000,
+    "maxOutput": 8192,
+    "image": true
   }
 }

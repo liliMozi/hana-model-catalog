@@ -39,5 +39,8 @@
     "context": 8192,
     "maxOutput": 4096,
     "image": true
+  },
+  "hunyuan-large-latest": {
+    "name": "Hunyuan Large"
   }
 }

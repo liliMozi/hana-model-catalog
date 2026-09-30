@@ -1,0 +1,26 @@
+{
+  "MiniMax-M3": {
+    "name": "MiniMax M3"
+  },
+  "MiniMax-M2.7": {
+    "name": "MiniMax M2.7"
+  },
+  "MiniMax-M2.7-highspeed": {
+    "name": "MiniMax M2.7 Highspeed"
+  },
+  "MiniMax-M2.5": {
+    "name": "MiniMax M2.5"
+  },
+  "MiniMax-M2.5-highspeed": {
+    "name": "MiniMax M2.5 Highspeed"
+  },
+  "MiniMax-M2.1": {
+    "name": "MiniMax M2.1"
+  },
+  "MiniMax-M2.1-highspeed": {
+    "name": "MiniMax M2.1 Highspeed"
+  },
+  "MiniMax-M2": {
+    "name": "MiniMax M2"
+  }
+}

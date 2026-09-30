@@ -1264,5 +1264,16 @@
     "name": "Zephyr 7b Beta",
     "context": 32768,
     "maxOutput": 32768
+  },
+  "accounts/fireworks/models/llama-v3p3-70b-instruct": {
+    "name": "Llama 3.3 70B Instruct",
+    "context": 131072
+  },
+  "accounts/fireworks/models/deepseek-r1": {
+    "name": "DeepSeek R1",
+    "context": 163840,
+    "maxOutput": 32768,
+    "image": false,
+    "reasoning": true
   }
 }

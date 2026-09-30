@@ -85,5 +85,10 @@
     "xhigh": true,
     "thinkingLevels": ["low", "high", "max"],
     "defaultThinkingLevel": "max"
+  },
+  "glm-4-air": {
+    "name": "GLM-4-Air",
+    "context": 131072,
+    "maxOutput": 16384
   }
 }

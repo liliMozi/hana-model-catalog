@@ -59,5 +59,9 @@
     "context": 131072,
     "maxOutput": 40960,
     "reasoning": true
+  },
+  "mixtral-8x7b-32768": {
+    "name": "Mixtral 8x7b 32768",
+    "context": 32768
   }
 }

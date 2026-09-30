@@ -123,5 +123,25 @@
     "maxOutput": 8192,
     "reasoning": true,
     "image": false
+  },
+  "deepseek-ai/DeepSeek-V3-0324": {
+    "name": "DeepSeek V3 0324",
+    "context": 163840,
+    "image": false
+  },
+  "Qwen/Qwen3-8B": {
+    "name": "Qwen3 8B",
+    "context": 131072,
+    "reasoning": true
+  },
+  "THUDM/GLM-4-9B-0414": {
+    "name": "GLM-4-9B-0414",
+    "context": 32768
+  },
+  "Pro/deepseek-ai/DeepSeek-R1": {
+    "name": "DeepSeek R1 Pro",
+    "context": 163840,
+    "image": false,
+    "reasoning": true
   }
 }

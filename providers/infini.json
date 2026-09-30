@@ -37,5 +37,11 @@
     "quirks": [
       "enable_thinking"
     ]
+  },
+  "deepseek-r1": {
+    "name": "DeepSeek R1"
+  },
+  "deepseek-v3-0324": {
+    "name": "DeepSeek V3 0324"
   }
 }

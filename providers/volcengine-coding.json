@@ -122,5 +122,10 @@
     "maxOutput": 128000,
     "image": true,
     "reasoning": true
+  },
+  "doubao-seed-code": {
+    "name": "Doubao Seed Code",
+    "context": 262144,
+    "image": true
   }
 }

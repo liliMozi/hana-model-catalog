@@ -89,5 +89,12 @@
     "maxOutput": 64000,
     "reasoning": true,
     "image": false
+  },
+  "Qwen/Qwen3-235B-A22B": {
+    "name": "Qwen3 235B A22B",
+    "context": 131072,
+    "maxOutput": 32768,
+    "image": false,
+    "reasoning": true
   }
 }

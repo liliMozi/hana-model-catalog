@@ -42,5 +42,16 @@
     "name": "ERNIE Tiny 8K",
     "context": 8192,
     "maxOutput": 4096
+  },
+  "ernie-4.5-turbo-vl-32k": {
+    "name": "ERNIE 4.5 Turbo VL 32K",
+    "context": 32768,
+    "maxOutput": 12288,
+    "image": true
+  },
+  "ernie-4.0-turbo-128k": {
+    "name": "ERNIE 4.0 Turbo 128K",
+    "context": 131072,
+    "maxOutput": 4096
   }
 }

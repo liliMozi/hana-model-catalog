@@ -45,5 +45,8 @@
     "context": 32768,
     "maxOutput": 4096,
     "image": true
+  },
+  "step-1-flash": {
+    "name": "Step 1 Flash"
   }
 }
