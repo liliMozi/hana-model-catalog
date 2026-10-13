@@ -43,7 +43,7 @@ const EXPECTED_DEFAULTS = {
   volcengine: ['doubao-seed-evolving', 'doubao-seed-2-1-pro-260915'],
   'volcengine-coding': ['doubao-seed-code'],
   xai: ['grok-4.7', 'grok-4.6', 'grok-4.5'],
-  zhipu: ['glm-5.3', 'glm-5.3-flash', 'glm-5.2'],
+  zhipu: ['glm-5.3-flashx', 'glm-5.3', 'glm-5.3-flash'],
   'zhipu-coding': ['glm-5.3', 'glm-5.3-flash', 'glm-5.2'],
   ollama: [],
 };

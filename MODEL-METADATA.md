@@ -65,7 +65,7 @@ claim that each listed model is the account-wide latest):
 - Alibaba DashScope — [models](https://help.aliyun.com/en/model-studio/models): Qwen3.8 Max, Qwen3.8 Flash and Qwen3.8 Omni Flash.
 - Xiaomi MiMo — [model releases](https://mimo.mi.com/docs/zh-CN/updates/model): the V2.6 series (September 22); [deprecations](https://mimo.mi.com/docs/zh-CN/updates/deprecate): `mimo-v2.5-pro` and `mimo-v2.5` stop accepting requests on October 21, 2026.
 - Moonshot / Kimi — [model list](https://platform.kimi.ai/docs/models): current models are Kimi K3, Kimi K2.7 Code and Kimi K2.6; Kimi K2.5, the Moonshot V1 series and the Kimi K2 series are discontinued.
-- Zhipu — [GLM-5.3](https://docs.z.ai/guides/llm/glm-5.3) and [Coding Plan model switching](https://docs.z.ai/devpack/latest-model): GLM-5.3 and GLM-5.3-Flash are available on the Coding Plan for all tiers.
+- Zhipu — [GLM-5.3](https://docs.z.ai/guides/llm/glm-5.3) and [Coding Plan model switching](https://docs.z.ai/devpack/latest-model): GLM-5.3 and GLM-5.3-Flash are available on the Coding Plan for all tiers. The API shortlist also includes `glm-5.3-flashx`, already verified in the September 22 entry below; that entry's explicit Coding Plan exclusion is preserved, so FlashX is not copied to the subscription shortlist.
 - MiniMax — [model invocation](https://platform.minimax.io/docs/guides/text-generation): MiniMax-M3 and M2.7 are current; MiniMax-M3.1-Flash-Preview is subscription-only and is not added.
 - Groq — [supported models](https://console.groq.com/docs/models): production models include OpenAI GPT-OSS 120B/20B, Llama 3.3 70B and Llama 3.1 8B.
 
