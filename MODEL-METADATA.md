@@ -48,6 +48,20 @@ verification.
 | Native Google `gemini-4-argon` | Official ID `gemini-4-argon`, stable. Input text/image/video/audio/PDF, output text. One unified window of 1,048,576 tokens shared by input, thinking and output, so `context` records the unified limit. The default synchronous output cap is 65,536 tokens; a single response can exceed it only through long decode (background execution with `max_output_tokens` above 65,536), a continuation mode that is not recorded as `maxOutput`. Thinking uses `thinking_level` with documented `low`, `medium` (default) and `high`, and no off choice. Recorded as `compat.thinkingFormat: "google-thinking-level"` — an authoring string the existing schema already permits; older clients parse the entry but do not act on the new format, so the new behavior depends on the matching client build. No grounding coordinates are recorded because the model page does not confirm them. [Model page](https://ai.google.dev/gemini-api/docs/models/gemini-4-argon), [latest model](https://ai.google.dev/gemini-api/docs/latest-model?hl=en), [thinking](https://ai.google.dev/gemini-api/docs/thinking), [long decode](https://ai.google.dev/gemini-api/docs/long-decode). |
 | OpenRouter `google/gemini-4-argon` | The public model API lists `google/gemini-4-argon` with `context_length` 1,048,576 and `max_completion_tokens` 65,536, text/image/audio/video/file input and text output. The gateway entry mirrors only the descriptive subset and the three thinking levels; its `compat.thinkingFormat` is `openrouter` and its `api` is `openai-completions`. The native `google-thinking-level` format is not copied onto the gateway and the native request parameters are not sent through it. No price fields and no paid invocation were used. [Public model API](https://openrouter.ai/api/v1/models). |
 
+### Catalog-only release compatibility
+
+Native `gemini-4-argon` metadata is retained, but the model is deliberately not
+included in `defaults.gemini` until clients with the corresponding native
+thinking-level support are released. The native Gemini recommendation is
+`gemini-3.8-flash`. The separately verified OpenRouter mirror retains its
+existing gateway protocol and remains in the OpenRouter shortlist.
+
+This release distributes data only. It does not ship client changes to
+connection-time model selection, OAuth discovery, or saved model lists. A
+short `defaults` array does not by itself cap models added through a client's
+separate endpoint-discovery path. Account access and protocol support still
+need to be checked for the actual client and provider surface.
+
 ### Curated initial default lists
 
 The `defaults` block is now a curated recommendation of at most three models
@@ -85,7 +99,8 @@ Empty recommendations and their reasons:
 - ollama — availability is determined by the user's local pulls; the connection keeps the on-device discovery directory and adds no curated cloud list.
 
 `xai-oauth` has no verified partition or recommendation; no OAuth partition is
-created from the xAI API models, so the client auto-adds nothing for it.
+created from the xAI API models. This catalog does not choose models for that
+surface; each client retains its own OAuth selection policy.
 
 ## September 30, 2026 additions
 

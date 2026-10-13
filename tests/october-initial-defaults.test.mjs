@@ -20,7 +20,7 @@ const EXPECTED_DEFAULTS = {
   'dashscope-token-plan': ['qwen3.8-max-preview'],
   deepseek: ['deepseek-flash', 'deepseek-v4-pro'],
   fireworks: [],
-  gemini: ['gemini-4-argon', 'gemini-3.8-flash'],
+  gemini: ['gemini-3.8-flash'],
   groq: ['openai/gpt-oss-120b', 'llama-3.3-70b-versatile', 'llama-3.1-8b-instant'],
   hunyuan: ['hunyuan-t1-latest', 'hunyuan-turbos-latest'],
   infini: [],
@@ -92,8 +92,12 @@ test('provider identity set is intact after the additions', () => {
   }
 });
 
-test('Gemini recommends Argon and the current Flash, in that order', () => {
-  assert.deepEqual(catalog.defaults.gemini, ['gemini-4-argon', 'gemini-3.8-flash']);
+test('native Argon remains described but is not recommended before compatible clients ship', () => {
+  assert.deepEqual(catalog.defaults.gemini, ['gemini-3.8-flash']);
+  assert.ok(catalog.providers.gemini['gemini-4-argon']);
+  assert.equal(catalog.defaults.gemini.includes('gemini-4-argon'), false);
+  assert.equal(catalog.defaults.openrouter.includes('google/gemini-4-argon'), true,
+    'the separately verified gateway uses its existing protocol');
 });
 
 test('native Gemini 4 Argon uses the google thinking-level format with the documented window', () => {
