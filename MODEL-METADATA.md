@@ -30,6 +30,63 @@ from the compiled artifact.
 
 Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
 
+## October 14, 2026 additions: Gemini 4 Argon and curated initial default lists
+
+Reviewed October 14, 2026. This batch adds two provider entries for Gemini 4
+Argon and replaces every curated `defaults` list with a recommendation of at
+most three models. It does not re-assert that any provider is globally
+current. Provenance is split below: only what is marked "public source
+reviewed this batch" was checked against official public documentation in this
+pass; everything else reuses the verified records already collected in this
+file or the provider partitions, or is an explicit empty list awaiting
+verification.
+
+### Gemini 4 Argon (public source reviewed this batch)
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| Native Google `gemini-4-argon` | Official ID `gemini-4-argon`, stable. Input text/image/video/audio/PDF, output text. One unified window of 1,048,576 tokens shared by input, thinking and output, so `context` records the unified limit. The default synchronous output cap is 65,536 tokens; a single response can exceed it only through long decode (background execution with `max_output_tokens` above 65,536), a continuation mode that is not recorded as `maxOutput`. Thinking uses `thinking_level` with documented `low`, `medium` (default) and `high`, and no off choice. Recorded as `compat.thinkingFormat: "google-thinking-level"` — an authoring string the existing schema already permits; older clients parse the entry but do not act on the new format, so the new behavior depends on the matching client build. No grounding coordinates are recorded because the model page does not confirm them. [Model page](https://ai.google.dev/gemini-api/docs/models/gemini-4-argon), [latest model](https://ai.google.dev/gemini-api/docs/latest-model?hl=en), [thinking](https://ai.google.dev/gemini-api/docs/thinking), [long decode](https://ai.google.dev/gemini-api/docs/long-decode). |
+| OpenRouter `google/gemini-4-argon` | The public model API lists `google/gemini-4-argon` with `context_length` 1,048,576 and `max_completion_tokens` 65,536, text/image/audio/video/file input and text output. The gateway entry mirrors only the descriptive subset and the three thinking levels; its `compat.thinkingFormat` is `openrouter` and its `api` is `openai-completions`. The native `google-thinking-level` format is not copied onto the gateway and the native request parameters are not sent through it. No price fields and no paid invocation were used. [Public model API](https://openrouter.ai/api/v1/models). |
+
+### Curated initial default lists
+
+The `defaults` block is now a curated recommendation of at most three models
+per provider, not a provider directory. Full candidate discovery is preserved
+by the complete `providers/` tree and the discoverable providers; no provider
+or model entry was removed in this batch.
+
+Public sources reviewed this batch for the recommendations (this is not a
+claim that each listed model is the account-wide latest):
+
+- OpenAI — [models](https://developers.openai.com/api/docs/models): GPT-6 Astra is the current flagship, then GPT-6.1 Sol and GPT-6 Luna. Codex OAuth surface — [models](https://learn.chatgpt.com/docs/models): GPT-6.1 Sol, GPT-6 Sol and GPT-6 Luna, with GPT-5.5 retiring from Codex on October 14, 2026. GPT-6.1 Sol is not added to the Codex OAuth partition because its `context_window` / `max_context_window` / `minimal_client_version` have no public source yet.
+- Anthropic — [models overview](https://platform.claude.com/docs/en/about-claude/models/overview): the current line is Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5. The recommendation stays within models whose protocols the current clients already carry; Sonnet 5.5 (released September 28, 2026) and Haiku 5.5 are not added and wait on a separate protocol review.
+- DeepSeek — [models and pricing](https://api-docs.deepseek.com/quick_start/pricing/): `deepseek-flash` serves DeepSeek-V4.1-Flash and `deepseek-v4-pro` serves V4-Pro-0813; the legacy `deepseek-v4-flash` and `deepseek-v4-flash-vision-exp` names are retired.
+- xAI — [release notes](https://docs.x.ai/developers/release-notes): Grok 4.7 (September 21), Grok 4.6 (August 12), Grok 4.5 (July 8).
+- Alibaba DashScope — [models](https://help.aliyun.com/en/model-studio/models): Qwen3.8 Max, Qwen3.8 Flash and Qwen3.8 Omni Flash.
+- Xiaomi MiMo — [model releases](https://mimo.mi.com/docs/zh-CN/updates/model): the V2.6 series (September 22); [deprecations](https://mimo.mi.com/docs/zh-CN/updates/deprecate): `mimo-v2.5-pro` and `mimo-v2.5` stop accepting requests on October 21, 2026.
+- Moonshot / Kimi — [model list](https://platform.kimi.ai/docs/models): current models are Kimi K3, Kimi K2.7 Code and Kimi K2.6; Kimi K2.5, the Moonshot V1 series and the Kimi K2 series are discontinued.
+- Zhipu — [GLM-5.3](https://docs.z.ai/guides/llm/glm-5.3) and [Coding Plan model switching](https://docs.z.ai/devpack/latest-model): GLM-5.3 and GLM-5.3-Flash are available on the Coding Plan for all tiers.
+- MiniMax — [model invocation](https://platform.minimax.io/docs/guides/text-generation): MiniMax-M3 and M2.7 are current; MiniMax-M3.1-Flash-Preview is subscription-only and is not added.
+- Groq — [supported models](https://console.groq.com/docs/models): production models include OpenAI GPT-OSS 120B/20B, Llama 3.3 70B and Llama 3.1 8B.
+
+Lists not re-checked against official pages in this batch reuse the records
+above or the provider partitions and must not be read as a fresh
+verification: agnes, baichuan, baidu-cloud, dashscope-coding,
+dashscope-token-plan, hunyuan, kimi-coding, mistral, modelscope, opencode-go,
+perplexity, stepfun, volcengine, volcengine-coding.
+
+Empty recommendations and their reasons:
+
+- fireworks — the current official chat leaders (GLM 5.3, Kimi K3, Qwen 3.8 Max, Ember-1) have no adopted full serving ID or protocol evidence in this batch; older entries are not padded in.
+- infini — no sufficient official model-list check this batch.
+- siliconflow — the current official leaders (Kimi K3, GLM-5.3, DeepSeek-V4.1-Flash, Hy4-preview) are not present with adopted serving IDs; older entries are not padded in.
+- together — the current official leaders (Kimi K3, GLM-5.3, Qwen3.8-2.4T-A95B) are not present with adopted serving IDs; older entries are not padded in.
+- mimo-token-plan — the Token Plan partition carries only the V2.5 series, which stops serving October 21, 2026, and no V2.6 plan membership is verified yet.
+- ollama — availability is determined by the user's local pulls; the connection keeps the on-device discovery directory and adds no curated cloud list.
+
+`xai-oauth` has no verified partition or recommendation; no OAuth partition is
+created from the xAI API models, so the client auto-adds nothing for it.
+
 ## September 30, 2026 additions
 
 | Provider/model | Confirmed metadata and source |

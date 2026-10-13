@@ -456,6 +456,25 @@
       "groundingMode": "native"
     }
   },
+  "google/gemini-4-argon": {
+    "name": "Google/Gemini 4 Argon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "medium",
+    "compat": {
+      "thinkingFormat": "openrouter"
+    }
+  },
   "gryphe/mythomax-l2-13b": {
     "name": "Gryphe/Mythomax L2.13b",
     "context": 8192

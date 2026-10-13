@@ -1,4 +1,22 @@
 {
+  "gemini-4-argon": {
+    "name": "Gemini 4 Argon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "medium",
+    "compat": {
+      "thinkingFormat": "google-thinking-level"
+    }
+  },
   "gemini-3.8-flash": {
     "name": "Gemini 3.8 Flash",
     "context": 1048576,
