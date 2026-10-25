@@ -13,6 +13,45 @@
     "image": true,
     "reasoning": true
   },
+  "claude-sonnet-5-5": {
+    "name": "Claude Sonnet 5.5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "claude-haiku-5-5": {
+    "name": "Claude Haiku 5.5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "requiresCapabilities": [
+      "anthropic-adaptive"
+    ]
+  },
+  "kimi-k3.1-pro": {
+    "name": "Kimi K3.1 Pro",
+    "context": 1048576,
+    "maxOutput": 1048576,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "requiresCapabilities": [
+      "kimi-k31-native-openai"
+    ]
+  },
+  "kimi-k3.1-pro-highspeed": {
+    "name": "Kimi K3.1 Pro Highspeed",
+    "context": 1048576,
+    "maxOutput": 1048576,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "requiresCapabilities": [
+      "kimi-k31-native-openai"
+    ]
+  },
   "gpt-6-sol": {
     "name": "GPT-6 Sol",
     "context": 1050000,
@@ -5369,6 +5408,15 @@
   },
   "gemini-3.8-flash": {
     "name": "Gemini 3.8 Flash",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "gemini-4-argon": {
+    "name": "Gemini 4 Argon",
     "context": 1048576,
     "maxOutput": 65536,
     "image": true,

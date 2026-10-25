@@ -1,22 +1,61 @@
 {
+  "k3.1-pro": {
+    "name": "Kimi K3.1 Pro",
+    "context": 1048576,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "requiresCapabilities": [
+      "kimi-k31-coding-openai"
+    ]
+  },
+  "k3.1-pro-highspeed": {
+    "name": "Kimi K3.1 Pro Highspeed",
+    "context": 1048576,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "requiresCapabilities": [
+      "kimi-k31-coding-openai"
+    ]
+  },
   "k3": {
     "name": "Kimi K3",
     "context": 1048576,
     "image": true,
+    "video": true,
     "reasoning": true,
     "thinkingLevels": [
-      "medium",
+      "low",
       "high",
       "max"
     ],
     "thinkingLevelMap": {
       "off": null,
       "low": "low",
-      "medium": "low",
+      "medium": "high",
       "high": "high",
       "xhigh": "max"
     },
-    "defaultThinkingLevel": "max"
+    "defaultThinkingLevel": "high"
   },
   "k3-256k": {
     "name": "Kimi K3 256K",
@@ -24,14 +63,14 @@
     "image": true,
     "reasoning": true,
     "thinkingLevels": [
-      "medium",
+      "low",
       "high",
       "max"
     ],
     "thinkingLevelMap": {
       "off": null,
       "low": "low",
-      "medium": "low",
+      "medium": "high",
       "high": "high",
       "xhigh": "max"
     },

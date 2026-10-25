@@ -35,7 +35,7 @@ test('recent models preserve their different reasoning contracts', () => {
 });
 
 test('new generic fallbacks cannot import official provider request settings', () => {
-  for (const id of ['deepseek-flash', 'gpt-6-astra', 'claude-fable-5-1', 'claude-mythos-5-1', 'gemini-3.8-flash', 'qwen3.8-max', 'qwen3.8-flash']) {
+  for (const id of ['deepseek-flash', 'gpt-6-astra', 'claude-fable-5-1', 'claude-mythos-5-1', 'claude-sonnet-5-5', 'gemini-3.8-flash', 'qwen3.8-max', 'qwen3.8-flash']) {
     const fallback = catalog.fallbacks[id];
     assert.ok(fallback);
     for (const field of ['api', 'compat', 'serviceTiers', 'thinkingLevels', 'thinkingLevelMap', 'defaultThinkingLevel']) {
@@ -48,7 +48,7 @@ test('disabling thinking remains selectable only on Claude models that accept it
   for (const id of ['claude-opus-5', 'claude-sonnet-5', 'claude-opus-4-8']) {
     assert.deepEqual(catalog.providers.anthropic[id].thinkingLevels, ['off', 'low', 'medium', 'high', 'xhigh', 'max']);
   }
-  for (const id of ['claude-fable-5', 'claude-mythos-5', 'claude-fable-5-1', 'claude-mythos-5-1']) {
+  for (const id of ['claude-fable-5', 'claude-mythos-5', 'claude-fable-5-1', 'claude-mythos-5-1', 'claude-sonnet-5-5']) {
     assert.equal(catalog.providers.anthropic[id].thinkingLevels.includes('off'), false);
   }
 });

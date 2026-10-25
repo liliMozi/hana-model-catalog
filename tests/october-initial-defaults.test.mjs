@@ -12,7 +12,8 @@ const { catalog } = buildCatalog(root, { publishedAt: '2026-10-13T19:45:00Z' });
 // list is the curated recommendation, not a full provider directory.
 const EXPECTED_DEFAULTS = {
   agnes: ['agnes-2.0-flash'],
-  anthropic: ['claude-opus-5-5', 'claude-fable-5-1', 'claude-sonnet-5'],
+  // Sonnet 5.5 replaced Sonnet 5 here in the October 25 batch; the rest of this list is unchanged.
+  anthropic: ['claude-opus-5-5', 'claude-fable-5-1', 'claude-sonnet-5-5'],
   baichuan: ['Baichuan4-Turbo', 'Baichuan4-Air'],
   'baidu-cloud': ['ernie-4.5-turbo-vl-32k', 'ernie-4.5-128k'],
   dashscope: ['qwen3.8-omni-flash', 'qwen3.8-max', 'qwen3.8-flash'],
@@ -20,7 +21,8 @@ const EXPECTED_DEFAULTS = {
   'dashscope-token-plan': ['qwen3.8-max-preview'],
   deepseek: ['deepseek-flash', 'deepseek-v4-pro'],
   fireworks: [],
-  gemini: ['gemini-3.8-flash'],
+  // Argon restored ahead of 3.8 Flash on October 25 to match the client baseline order.
+  gemini: ['gemini-4-argon', 'gemini-3.8-flash'],
   groq: ['openai/gpt-oss-120b', 'llama-3.3-70b-versatile', 'llama-3.1-8b-instant'],
   hunyuan: ['hunyuan-t1-latest', 'hunyuan-turbos-latest'],
   infini: [],
@@ -92,12 +94,25 @@ test('provider identity set is intact after the additions', () => {
   }
 });
 
-test('native Argon remains described but is not recommended before compatible clients ship', () => {
-  assert.deepEqual(catalog.defaults.gemini, ['gemini-3.8-flash']);
+test('native Argon leads the Gemini recommendation in the client baseline order', () => {
+  assert.deepEqual(catalog.defaults.gemini, ['gemini-4-argon', 'gemini-3.8-flash']);
   assert.ok(catalog.providers.gemini['gemini-4-argon']);
-  assert.equal(catalog.defaults.gemini.includes('gemini-4-argon'), false);
   assert.equal(catalog.defaults.openrouter.includes('google/gemini-4-argon'), true,
     'the separately verified gateway uses its existing protocol');
+});
+
+test('the generic Argon fallback mirrors the native description without provider protocol', () => {
+  const native = catalog.providers.gemini['gemini-4-argon'];
+  const fallback = catalog.fallbacks['gemini-4-argon'];
+  for (const field of ['name', 'context', 'maxOutput', 'image', 'video', 'audio', 'reasoning']) {
+    assert.equal(fallback[field], native[field], `fallbacks.gemini-4-argon.${field} must mirror the native entry`);
+  }
+  assert.deepEqual(Object.keys(fallback).sort(),
+    ['audio', 'context', 'image', 'maxOutput', 'name', 'reasoning', 'video']);
+  assert.equal(fallback.maxOutput, 65536);
+  assert.equal(native.maxOutput, 65536, 'the native synchronous cap is unchanged');
+  assert.equal(catalog.providers.openrouter['google/gemini-4-argon'].maxOutput, 65536,
+    'a gateway-reported 943718 figure must not raise the existing cap');
 });
 
 test('native Gemini 4 Argon uses the google thinking-level format with the documented window', () => {

@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/liliMozi/hana-model-catalog/main/schemas/model-catalog.v2.schema.json",
+  "title": "Hana model-catalog.v2",
+  "description": "Runtime shape of the compiled model-catalog.v2 artifact (model-catalog.v2.json). This is v1 plus exactly one field, requiresCapabilities (a 21-field whitelist). JSON Schema cannot express every rule that validator enforces; the cross-field, capability-gate and content-pattern rules noted below in field descriptions are NOT checked by this schema alone and are re-enforced by scripts/validate-catalog.mjs in this repository. A catalog that only satisfies this schema is necessary but not sufficient — it must also pass scripts/validate-catalog.mjs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "publishedAt", "providers", "fallbacks", "defaults"],
+  "properties": {
+    "schemaVersion": {
+      "const": 2,
+      "description": "Fixed at 2 for this schema generation. A reader that does not recognize schemaVersion must keep its current catalog rather than treat the file as corrupt (spec: Schema evolution is explicit). Clients that predate v2 reject the whole artifact and continue with their cached or bundled catalog; they are served by the separate v1 artifact instead."
+    },
+    "publishedAt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The UTC build timestamp, in strict ISO 8601 UTC form (e.g. 2026-08-20T12:34:56Z). The v1 and v2 artifacts of one release carry the SAME value: they are two views of one reviewed source tree, and a client must never observe them at different ages. scripts/validate-catalog.mjs enforces the strict ISO 8601 UTC format and calendar validity."
+    },
+    "providers": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/providerModels"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Keyed by provider id. Every provider key must satisfy identifierKey (non-empty, non-whitespace-only, must not start with '_')."
+    },
+    "fallbacks": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/fallbackModelEntry"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Keyed by bare model id. Generic best-effort baseline used only when no provider-specific entry matches. Must NOT carry any protocol-level field (see $defs/fallbackModelEntry) — this prevents an unknown/custom provider from implicitly inheriting another provider's wire contract. It MAY carry requiresCapabilities: that field states a client compatibility requirement, not a wire contract, and a fallback that omitted the requirement of its provider-scoped twin would be a bypass route around the gate (validator-enforced)."
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/identifierKey" },
+        "uniqueItems": true
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Curated default model lists, keyed by provider id; each value is an ordered, duplicate-free array of model ids and the order is the display order. A provider key that is absent means this catalog carries no curated default for it; an empty array is an explicit 'no curated defaults', which is different from absence. This schema can only express the shape: the cross-reference rules that every provider key and model id must exist in providers/, and that a listed model must not be type 'image', are NOT checked here and are re-enforced by scripts/validate-catalog.mjs."
+    }
+  },
+  "$defs": {
+    "identifierKey": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "^_" },
+      "description": "A provider key or model id must be a non-empty string, non-empty after trim, and must not start with '_' (the '_comment' convention used in the pre-split source dictionaries is stripped before this schema applies and must never appear as a real key here)."
+    },
+    "providerModels": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/providerModelEntry"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/identifierKey"
+      },
+      "description": "Keyed by bare model id within one provider partition. A partition emptied by capability gating keeps its key rather than being dropped, so provider discovery does not fall through to a different client branch."
+    },
+    "safeString": {
+      "type": "string",
+      "not": { "pattern": "^https?://" },
+      "description": "A string value that is not itself a URL (case-insensitive http(s):// prefix rejected). The 'no URL/link fields' rule is load-bearing for this data channel's decision to publish without artifact signing: a URL field would let a compromised catalog redirect a client's next download, so any URL-shaped string anywhere in a catalog value must be rejected. If this schema is ever widened to add any URL-like field, that no-signing decision must be re-evaluated first."
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "capabilityIds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "not": { "pattern": "^https?://" },
+        "description": "An opaque capability id owned by the client. The VALUE SET IS OPEN: a reader must never reject an artifact because it names a capability the reader has not implemented — it must skip the entries that require it. Shape rules (non-empty, trimmed, no control characters, no URL, at most 64 characters, unique within the array, at most 64 per entry) are re-enforced by scripts/validate-catalog.mjs."
+      }
+    },
+    "modelFieldsBase": {
+      "description": "The shared field whitelist. Provider entries allow 21 fields (20 from v1 plus requiresCapabilities); fallback entries exclude the protocol-level subset. An object with any key outside its set must be rejected — unknown runtime fields under the current schema are a hard rejection at publish-validation time.",
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "#/$defs/safeString" },
+        "context": { "$ref": "#/$defs/positiveInteger" },
+        "maxContext": {
+          "allOf": [{ "$ref": "#/$defs/positiveInteger" }],
+          "description": "Protocol-level field. Forbidden on fallback entries."
+        },
+        "maxOutput": {
+          "description": "Positive integer, or null. null is the one numeric field observed to be nullable in the source dictionaries.",
+          "oneOf": [
+            { "$ref": "#/$defs/positiveInteger" },
+            { "type": "null" }
+          ]
+        },
+        "image": { "type": "boolean" },
+        "video": { "type": "boolean" },
+        "audio": { "type": "boolean" },
+        "reasoning": { "type": "boolean" },
+        "requiresCapabilities": {
+          "$ref": "#/$defs/capabilityIds",
+          "description": "NOT a protocol-level field: it is a compatibility requirement, so it is allowed on both provider and fallback entries. A client that does not implement every listed capability must treat the whole entry as absent rather than reading its other fields. Absent means the entry imposes no requirement. The v1 artifact never carries this field: gated entries are removed from it whole, and the fallbacks that alias them are removed too."
+        },
+        "toolUse": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "supportsTools": { "type": "boolean" },
+            "dialect": { "$ref": "#/$defs/safeString" },
+            "toolResultFormat": { "$ref": "#/$defs/safeString" }
+          }
+        },
+        "type": {
+          "enum": ["image"],
+          "description": "Closed enum observed in the source data; the only recognized value is 'image'."
+        },
+        "api": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Closed enum of wire-protocol selectors observed in the source data.",
+          "enum": ["openai-codex-responses", "openai-completions", "openai-responses"]
+        },
+        "compat": {
+          "description": "Protocol-level field. Forbidden on fallback entries. NOT checked here: the rule that a compat value outside the frozen v1 vocabulary must carry requiresCapabilities (a v1 reader drops unknown compat values silently) — enforced by scripts/validate-catalog.mjs.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thinkingFormat": { "$ref": "#/$defs/safeString" },
+            "reasoningProfile": { "$ref": "#/$defs/safeString" },
+            "supportsReasoningEffort": { "type": "boolean" }
+          }
+        },
+        "quirks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/safeString" }
+        },
+        "thinkingLevels": {
+          "description": "Protocol-level field. Forbidden on fallback entries. NOT checked here: the cross-field rule that when this array is present and does not contain \"max\", the sibling xhigh field must not be true (see xhigh description below) — enforced by scripts/validate-catalog.mjs in this repository.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/safeString" }
+        },
+        "thinkingLevelMap": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Key set is the union of three key-sets observed in the source data: {high,low,medium,off,xhigh}, {off,xhigh}, {minimal,off,xhigh}. Only 'off' and 'minimal' are allowed to be null; low/medium/high/xhigh must be a non-URL string when present.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "off": { "oneOf": [{ "$ref": "#/$defs/safeString" }, { "type": "null" }] },
+            "minimal": { "oneOf": [{ "$ref": "#/$defs/safeString" }, { "type": "null" }] },
+            "low": { "$ref": "#/$defs/safeString" },
+            "medium": { "$ref": "#/$defs/safeString" },
+            "high": { "$ref": "#/$defs/safeString" },
+            "xhigh": { "$ref": "#/$defs/safeString" }
+          }
+        },
+        "defaultThinkingLevel": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Closed enum observed in the source data.",
+          "enum": ["high", "low", "medium", "max"]
+        },
+        "visionCapabilities": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "grounding": { "type": "boolean" },
+            "boxes": { "type": "boolean" },
+            "points": { "type": "boolean" },
+            "coordinateSpace": { "$ref": "#/$defs/safeString" },
+            "boxOrder": { "$ref": "#/$defs/safeString" },
+            "outputFormat": { "$ref": "#/$defs/safeString" },
+            "groundingMode": { "$ref": "#/$defs/safeString" }
+          }
+        },
+        "xhigh": {
+          "type": "boolean",
+          "description": "Whether the model supports an extra top-of-ladder thinking level beyond the standard three. NOT checked here: when a sibling thinkingLevels array is present and omits \"max\", xhigh:true is a contradiction (the array wins at read time and the xhigh promise is silently dropped) — this cross-field rule is enforced only by scripts/validate-catalog.mjs in this repository. A redundant-but-consistent combination (array contains \"max\" AND xhigh:true) is allowed."
+        },
+        "legacyCompatibility": {
+          "type": "boolean",
+          "description": "Protocol-level field. Forbidden on fallback entries."
+        },
+        "serviceTiers": {
+          "description": "Protocol-level field. Forbidden on fallback entries. Non-empty array drawn from the closed v1 enum {standard, fast}, no duplicates.",
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["standard", "fast"] },
+          "uniqueItems": true
+        }
+      }
+    },
+    "providerModelEntry": {
+      "description": "A model entry inside a provider partition. All 21 whitelisted fields are permitted, including the protocol-level subset.",
+      "allOf": [{ "$ref": "#/$defs/modelFieldsBase" }],
+      "additionalProperties": false,
+      "properties": {
+        "name": true, "context": true, "maxContext": true, "maxOutput": true,
+        "image": true, "video": true, "audio": true, "reasoning": true,
+        "requiresCapabilities": true,
+        "toolUse": true, "type": true, "api": true, "compat": true, "quirks": true,
+        "thinkingLevels": true, "thinkingLevelMap": true, "defaultThinkingLevel": true,
+        "visionCapabilities": true, "xhigh": true, "legacyCompatibility": true,
+        "serviceTiers": true
+      }
+    },
+    "fallbackModelEntry": {
+      "description": "A model entry inside fallbacks. Protocol-level fields (api, compat, thinkingLevels, thinkingLevelMap, defaultThinkingLevel, legacyCompatibility, maxContext, serviceTiers) are forbidden here — an unknown/custom provider must never implicitly inherit another provider's wire contract from the generic fallback baseline. requiresCapabilities IS permitted: it is a compatibility requirement, not a wire contract, and omitting it on a fallback that aliases a gated provider entry would open a bypass.",
+      "allOf": [{ "$ref": "#/$defs/modelFieldsBase" }],
+      "additionalProperties": false,
+      "properties": {
+        "name": true, "context": true, "maxOutput": true, "image": true, "video": true,
+        "audio": true, "reasoning": true, "requiresCapabilities": true,
+        "toolUse": true, "type": true, "quirks": true,
+        "visionCapabilities": true, "xhigh": true
+      }
+    }
+  }
+}

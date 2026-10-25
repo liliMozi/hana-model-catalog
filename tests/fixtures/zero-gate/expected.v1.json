@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "publishedAt": "2026-10-25T00:00:00Z",
+  "providers": {
+    "alpha": {
+      "plain-model": {
+        "name": "Plain Model",
+        "context": 128000,
+        "maxOutput": 32768,
+        "image": true,
+        "reasoning": true,
+        "thinkingLevels": [
+          "low",
+          "medium",
+          "high",
+          "max"
+        ],
+        "thinkingLevelMap": {
+          "xhigh": "max"
+        },
+        "defaultThinkingLevel": "medium",
+        "compat": {
+          "thinkingFormat": "anthropic",
+          "reasoningProfile": "anthropic-adaptive-only"
+        }
+      },
+      "image-model": {
+        "name": "Image Model",
+        "type": "image",
+        "image": true
+      }
+    },
+    "beta": {
+      "beta-model": {
+        "name": "Beta Model",
+        "context": 262144,
+        "maxOutput": 65536,
+        "image": false,
+        "reasoning": true,
+        "api": "openai-completions",
+        "thinkingLevels": [
+          "off",
+          "low",
+          "high",
+          "max"
+        ],
+        "thinkingLevelMap": {
+          "xhigh": "max"
+        },
+        "defaultThinkingLevel": "high",
+        "compat": {
+          "thinkingFormat": "kimi",
+          "reasoningProfile": "kimi-openai"
+        },
+        "serviceTiers": [
+          "standard"
+        ]
+      }
+    }
+  },
+  "fallbacks": {
+    "plain-model": {
+      "name": "Plain Model",
+      "context": 128000,
+      "maxOutput": 32768,
+      "image": true,
+      "reasoning": true
+    },
+    "unrelated-model": {
+      "name": "Unrelated Model",
+      "context": 8192,
+      "reasoning": false
+    }
+  },
+  "defaults": {
+    "alpha": [
+      "plain-model"
+    ],
+    "beta": [
+      "beta-model"
+    ]
+  }
+}

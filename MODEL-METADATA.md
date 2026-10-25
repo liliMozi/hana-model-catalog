@@ -8,7 +8,46 @@ or advertise a new model ID merely because a related model exists.
 Use exact documented IDs and token counts. Add only confirmed modalities and
 protocol fields. Image input alone does not establish grounding coordinates.
 Reasoning support does not imply every effort value is accepted; leave missing
-information unspecified. Generic fallbacks contain descriptive metadata only.
+information unspecified. Generic fallbacks contain descriptive metadata only,
+plus — since schema v2 — the capability requirement of the model they mirror.
+
+## Capability requirements and the v1 downgrade
+
+Every release publishes two artifacts from one source tree: the complete v2
+snapshot and a v1 projection with every gated entry removed. The rules an author
+needs:
+
+- `requiresCapabilities` is an optional array of 1–64 capability ids on a
+  provider entry **or** a fallback. Ids are 1–64 characters, trimmed, free of
+  control characters, not URL-shaped, unique within the array.
+- The value set is open on purpose: never reject a catalog because a capability
+  id is unrecognised. The vocabulary belongs to the client.
+- Any `compat.thinkingFormat`, `compat.reasoningProfile`, `toolUse.dialect` or
+  `toolUse.toolResultFormat` value outside the frozen v1 vocabulary **must** be
+  gated. A v1 reader may drop an unknown value and send a different request
+  shape, so an ungated unknown value is a protocol error, not a cosmetic issue.
+  The compatibility vocabulary is fixed in `scripts/validate-catalog.mjs` and
+  covered by tests. It describes the supported v1 reader baseline, not every
+  historical client version.
+- A fallback that aliases a gated provider entry must declare at least the same
+  requirement — otherwise the fallback is a bypass route around the gate and the
+  source tree is rejected. Aliases are matched the way the client resolves them:
+  `-free` and `:route` suffixes, a vendor namespace, a dotted Claude version.
+- Do not gate a model the current client already implements. Gating removes the
+  entry from v1 for no benefit.
+
+### Currently gated
+
+| Entry | Requirement | Why |
+| --- | --- | --- |
+| `anthropic` / `claude-haiku-5-5` (+ fallback) | `anthropic-adaptive` | The `anthropic-adaptive` reasoning profile was added to the client after the frozen v1 vocabulary. A v1 reader would drop the profile and fall back to the always-on shape, which contradicts Haiku 5.5's documented ability to run with thinking off at `high` effort or below. [Haiku 5.5](https://platform.claude.com/docs/en/models/haiku-5-5/overview), [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking). |
+| `moonshot` / `kimi-k3.1-pro`, `kimi-k3.1-pro-highspeed` (+ fallbacks) | `kimi-k31-native-openai` | K3.1 removed K2's `thinking` object and uses top-level `reasoning_effort` on the platform API. A v1 reader carrying the K2 profile would send the retired shape. [Model IDs](https://platform.kimi.ai/docs/models), [reasoning effort](https://platform.kimi.ai/docs/guide/use-reasoning-effort). |
+| `kimi-coding` / `k3.1-pro`, `k3.1-pro-highspeed` | `kimi-k31-coding-openai` | Same wire change on the subscription surface, which has different defaults (subscription defaults to `high`, the platform API to `max`) and rejects thinking-off with a 400 rather than switching models. [Model configuration](https://www.kimi.com/code/docs/kimi-code/models.html). |
+
+`claude-sonnet-5-5`, `claude-opus-5-5`, `claude-fable-5-1`, `gemini-4-argon` and
+the other current entries keep their existing adapters and stay ungated in both
+artifacts. The `kimi-coding` `k3` / `k3-256k` field corrections (default `high`,
+`medium` mapping to `high`) stay expressed in v1, so those models are not gated.
 
 ## Current reference entries
 
@@ -20,7 +59,7 @@ from the compiled artifact.
 | OpenAI GPT-6 Astra | 1,050,000 context, 128,000 output, image input, five efforts from low through xhigh and max. [Model reference](https://developers.openai.com/api/docs/models/gpt-6-astra). The API default effort is left unspecified; the Codex default is not copied to the API surface. Tools use Responses. Fast is a service tier on the same model ID; EU residency excludes Fast. [Migration guide](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra). |
 | Codex OAuth GPT-6 Astra | Separate subscription surface. Official Codex model discovery reports 272,000 default context and 872,000 maximum context, medium default effort, and Fast. [Models](https://learn.chatgpt.com/docs/models), [Speed](https://learn.chatgpt.com/docs/agent-configuration/speed). Availability is account-dependent. Ultra is a Codex orchestration mode and is not advertised here as an API effort. |
 | Claude Fable 5.1 / Mythos 5.1 | 1M context, 128k output, text/image input, always-on adaptive thinking, high default. Mythos requires invitation. [Release notes](https://platform.claude.com/docs/en/release-notes/overview), [Fable specifications](https://platform.claude.com/docs/en/models/fable-5-1/overview). |
-| Claude Opus 4.8 / current Claude 5 families | Opus 4.8 has 1M context and 128k output. [Context windows](https://platform.claude.com/docs/en/build-with-claude/context-windows). Fable/Mythos 5 and 5.1, Opus 5/4.8, and Sonnet 5 support distinct low, medium, high, xhigh, max efforts. [Effort reference](https://platform.claude.com/docs/en/build-with-claude/effort). |
+| Claude Opus 4.8 / current Claude 5 families | Opus 4.8 has 1M context and 128k output. [Context windows](https://platform.claude.com/docs/en/build-with-claude/context-windows). Fable/Mythos 5 and 5.1, Opus 5.5/5/4.8, Sonnet 5.5/5, and Haiku 5.5 support distinct low, medium, high, xhigh, max efforts. [Effort reference](https://platform.claude.com/docs/en/build-with-claude/effort). |
 | Gemini 3.8 Flash | 1,048,576 input, 65,536 output, text/image/video/audio input. [Model reference](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash). Only low, medium, high efforts are documented, with medium default. [Thinking](https://ai.google.dev/gemini-api/docs/thinking). |
 | Qwen 3.8 Max / Flash | 1M context, 131,072 output, text/image/video input. Max snapshot IDs 0902 and 2026-09-02 are both documented. [Max](https://help.aliyun.com/en/model-studio/qwen3-8-max), [Flash](https://help.aliyun.com/en/model-studio/qwen3-8-flash). Hybrid thinking uses enable_thinking. [Thinking guide](https://help.aliyun.com/en/model-studio/deep-thinking). Token-plan availability is a separate contract and is not inferred from these API entries. |
 | MiniMax M3 | Retains the curated 500,000 context usability ceiling despite the officially advertised 1,000,000 maximum; this intentional limit is protected by the upstream-sync exclusion. Added verified video input and preserved output metadata. [Model invocation](https://platform.minimax.io/docs/guides/text-generation). |
@@ -28,7 +67,7 @@ from the compiled artifact.
 | Doubao Seed Evolving | Reviewed September 17, 2026. Unified rolling ID `doubao-seed-evolving` that always serves the latest Doubao version, focused on Agent and Coding scenarios. 1,048,576 context, 262,144 output, text/image/video input; a deep-thinking model. Available on the pay-as-you-go API and the Coding Plan subscription since August 21, 2026. [Model overview](https://www.volcengine.com/docs/82379/2549861), [Announcement feed](https://www.volcengine.com/docs/82379/1159178). |
 | GLM 5.3 | Existing text-only 1M/128k metadata and low/high/max choices match the [official reference](https://docs.z.ai/guides/llm/glm-5.3). |
 
-Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
+Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. Sonnet 5.5 also rejects disabled thinking; its lowest setting is `between_tools` at high effort or below, which is not an effort level and is not advertised as one. Haiku 5.5 accepts disabled thinking at high effort or below. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
 
 ## October 14, 2026 additions: Gemini 4 Argon and curated initial default lists
 
@@ -45,16 +84,31 @@ verification.
 
 | Provider/model | Confirmed metadata and source |
 | --- | --- |
-| Native Google `gemini-4-argon` | Official ID `gemini-4-argon`, stable. Input text/image/video/audio/PDF, output text. One unified window of 1,048,576 tokens shared by input, thinking and output, so `context` records the unified limit. The default synchronous output cap is 65,536 tokens; a single response can exceed it only through long decode (background execution with `max_output_tokens` above 65,536), a continuation mode that is not recorded as `maxOutput`. Thinking uses `thinking_level` with documented `low`, `medium` (default) and `high`, and no off choice. Recorded as `compat.thinkingFormat: "google-thinking-level"` — an authoring string the existing schema already permits; older clients parse the entry but do not act on the new format, so the new behavior depends on the matching client build. No grounding coordinates are recorded because the model page does not confirm them. [Model page](https://ai.google.dev/gemini-api/docs/models/gemini-4-argon), [latest model](https://ai.google.dev/gemini-api/docs/latest-model?hl=en), [thinking](https://ai.google.dev/gemini-api/docs/thinking), [long decode](https://ai.google.dev/gemini-api/docs/long-decode). |
+| Native Google `gemini-4-argon` | Official ID `gemini-4-argon`, stable. Input text/image/video/audio/PDF, output text. One unified window of 1,048,576 tokens shared by input, thinking and output, so `context` records the unified limit. The default synchronous output cap is 65,536 tokens; a single response can exceed it only through long decode (background execution with `max_output_tokens` above 65,536), a continuation mode that is not recorded as `maxOutput`. Thinking uses `thinking_level` with documented `low`, `medium` (default) and `high`, and no off choice. Recorded as `compat.thinkingFormat: "google-thinking-level"` — an authoring string the existing schema already permits. The current client carries the matching native low/medium/high conversion, so the earlier client-build dependency for this entry is satisfied; older clients still do not act on the new format. No grounding coordinates are recorded because the model page does not confirm them. [Model page](https://ai.google.dev/gemini-api/docs/models/gemini-4-argon), [latest model](https://ai.google.dev/gemini-api/docs/latest-model?hl=en), [thinking](https://ai.google.dev/gemini-api/docs/thinking), [long decode](https://ai.google.dev/gemini-api/docs/long-decode). |
 | OpenRouter `google/gemini-4-argon` | The public model API lists `google/gemini-4-argon` with `context_length` 1,048,576 and `max_completion_tokens` 65,536, text/image/audio/video/file input and text output. The gateway entry mirrors only the descriptive subset and the three thinking levels; its `compat.thinkingFormat` is `openrouter` and its `api` is `openai-completions`. The native `google-thinking-level` format is not copied onto the gateway and the native request parameters are not sent through it. No price fields and no paid invocation were used. [Public model API](https://openrouter.ai/api/v1/models). |
 
-### Catalog-only release compatibility
+The generic `fallbacks` entry for native `gemini-4-argon` was added on October
+25. It copies only the descriptive subset — name, 1,048,576 context, 65,536
+output, text/image/video/audio input and reasoning — and carries no thinking
+protocol. The native entry, the OpenRouter mirror's 65,536 completion cap, and
+`defaults.gemini` are unchanged. A gateway-reported 943,718 completion figure is
+not adopted: it differs from the existing synchronous output cap, and an
+aggregate cap alone is not sufficient evidence for raising the documented
+synchronous output limit.
 
-Native `gemini-4-argon` metadata is retained, but the model is deliberately not
-included in `defaults.gemini` until clients with the corresponding native
-thinking-level support are released. The native Gemini recommendation is
-`gemini-3.8-flash`. The separately verified OpenRouter mirror retains its
-existing gateway protocol and remains in the OpenRouter shortlist.
+### Release compatibility
+
+Native `gemini-4-argon` is back in `defaults.gemini` ahead of
+`gemini-3.8-flash`, matching the client's bundled baseline order. The current
+client already carries the native low/medium/high thinking-level conversion, so
+the earlier client-support gate is satisfied; the recommendation stays within
+the three-model cap. The separately verified OpenRouter mirror retains its
+existing gateway protocol and shortlist.
+
+The `anthropic-adaptive` Haiku 5.5 entry is now carried by the v2 artifact with
+an explicit `requiresCapabilities: ["anthropic-adaptive"]` gate, and is absent
+from the v1 projection; that supersedes the earlier "wait for a client build"
+note. See the capability-gating section above.
 
 This release distributes data only. It does not ship client changes to
 connection-time model selection, OAuth discovery, or saved model lists. A
@@ -73,7 +127,7 @@ Public sources reviewed this batch for the recommendations (this is not a
 claim that each listed model is the account-wide latest):
 
 - OpenAI — [models](https://developers.openai.com/api/docs/models): GPT-6 Astra is the current flagship, then GPT-6.1 Sol and GPT-6 Luna. Codex OAuth surface — [models](https://learn.chatgpt.com/docs/models): GPT-6.1 Sol, GPT-6 Sol and GPT-6 Luna, with GPT-5.5 retiring from Codex on October 14, 2026. GPT-6.1 Sol is not added to the Codex OAuth partition because its `context_window` / `max_context_window` / `minimal_client_version` have no public source yet.
-- Anthropic — [models overview](https://platform.claude.com/docs/en/about-claude/models/overview): the current line is Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5. The recommendation stays within models whose protocols the current clients already carry; Sonnet 5.5 (released September 28, 2026) and Haiku 5.5 are not added and wait on a separate protocol review.
+- Anthropic — [models overview](https://platform.claude.com/docs/en/about-claude/models/overview): the current line is Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5. The recommendation now includes Sonnet 5.5 (added October 25, 2026) because it reuses the native Anthropic adaptive contract already carried for Sonnet 5. Haiku 5.5 is published only in v2 with the `anthropic-adaptive` capability requirement; it remains absent from curated defaults and from v1.
 - DeepSeek — [models and pricing](https://api-docs.deepseek.com/quick_start/pricing/): `deepseek-flash` serves DeepSeek-V4.1-Flash and `deepseek-v4-pro` serves V4-Pro-0813; the legacy `deepseek-v4-flash` and `deepseek-v4-flash-vision-exp` names are retired.
 - xAI — [release notes](https://docs.x.ai/developers/release-notes): Grok 4.7 (September 21), Grok 4.6 (August 12), Grok 4.5 (July 8).
 - Alibaba DashScope — [models](https://help.aliyun.com/en/model-studio/models): Qwen3.8 Max, Qwen3.8 Flash and Qwen3.8 Omni Flash.
@@ -101,6 +155,77 @@ Empty recommendations and their reasons:
 `xai-oauth` has no verified partition or recommendation; no OAuth partition is
 created from the xAI API models. This catalog does not choose models for that
 surface; each client retains its own OAuth selection policy.
+
+## October 25, 2026 addition: Claude Sonnet 5.5 and Haiku 5.5
+
+Reviewed October 25, 2026. This batch adds provider entries and generic
+descriptive fallbacks for Claude Sonnet 5.5 and Claude Haiku 5.5. The Anthropic
+curated default replaces Sonnet 5 with Sonnet 5.5; Haiku 5.5 is not added to any
+curated list. It does not change any other model entry.
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| Claude Sonnet 5.5 | Official ID `claude-sonnet-5-5`, released September 28, 2026. 1M context, 128K output, text/image input, adaptive thinking on by default, five efforts low/medium/high/xhigh/max, and `high` as the API default. Requests that set `thinking: {"type": "disabled"}` return a 400 error; `between_tools` is the lowest up-front-thinking setting at high effort or below and is not an effort level, so the catalog keeps no off choice and does not add a between_tools level. The entry retains the legacy xhigh→max map alongside the full effort ladder so older clients keep their previous mapping while new clients can distinguish xhigh from max. No grounding coordinates are recorded because image input alone does not confirm them. [Model overview](https://platform.claude.com/docs/en/models/sonnet-5-5/overview), [Effort](https://platform.claude.com/docs/en/build-with-claude/effort), [Thinking](https://platform.claude.com/docs/en/build-with-claude/thinking). |
+| Claude Haiku 5.5 | Official ID `claude-haiku-5-5`, released October 7, 2026. 1M context, 128K output, text/image input, adaptive thinking with effort, five efforts low/medium/high/xhigh/max, `medium` as the API default, and an `off` choice at high effort or below. The entry keeps the full ladder including off and the legacy xhigh→max map, and declares the new `anthropic-adaptive` reasoning profile so a matching client can send adaptive thinking with effort while still honoring the off choice. No grounding coordinates are recorded because image input alone does not confirm them. [Model overview](https://platform.claude.com/docs/en/models/haiku-5-5/overview), [Effort](https://platform.claude.com/docs/en/build-with-claude/effort), [Thinking](https://platform.claude.com/docs/en/build-with-claude/thinking). |
+
+### The anthropic-adaptive profile requires a matching client
+
+A client must implement `anthropic-adaptive` to send Haiku 5.5's adaptive
+thinking requests while allowing thinking to be disabled. An older budget-based
+adapter is not sufficient. The v2 entry therefore declares that capability;
+a v2 reader lacking it must mark the model unavailable. The entry and its
+fallback are excluded from v1 and from curated defaults. This allows the
+catalog release to ship independently of a client release.
+`anthropic-adaptive` must not replace or weaken `anthropic-adaptive-only`:
+Fable, Mythos, Opus 5.5 and Sonnet 5.5 keep their always-on contract.
+
+## October 25, 2026 additions: Kimi K3.1 Pro
+
+Reviewed October 25, 2026. This batch adds native Moonshot API entries and
+generic descriptive fallbacks for Kimi K3.1 Pro and Kimi K3.1 Pro Highspeed. It
+does not change `defaults.moonshot` or create an OpenRouter mirror. The
+separately verified Kimi Coding subscription surface is recorded in the next
+section.
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| Kimi K3.1 Pro | Official ID `kimi-k3.1-pro`. 1,048,576 context; `max_completion_tokens` defaults to 131,072 and can be set up to 1,048,576, so `maxOutput` records the maximum settable value, not the default. Text/image/video input, text output. Thinking is always on and uses the top-level `reasoning_effort` field with `low`, `high`, `max`, and `max` as the default; there is no off choice. The entry keeps those three native efforts and the legacy xhigh→max map. No `compat` profile is added: K3.1 replaces K2's thinking object, and the K2 configuration must not be copied. The Argon long-decode exception is not applied here; 1,048,576 is the documented per-request settable ceiling. [Quickstart](https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart), [Reasoning effort](https://platform.kimi.ai/docs/guide/use-reasoning-effort), [Model list](https://platform.kimi.ai/docs/models). |
+| Kimi K3.1 Pro Highspeed | Official ID `kimi-k3.1-pro-highspeed`, documented as the high-speed variant with the same intelligence and about 2-3× speed. The catalog applies the same 1,048,576 / 1,048,576 limits and `low`/`high`/`max` ladder; no separate limits are inferred. [Quickstart](https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart), [Model list](https://platform.kimi.ai/docs/models). |
+
+### Client prerequisites before Kimi K3.1 recommendation
+
+`defaults.moonshot` remains `kimi-k2.6`. K3.1 Pro uses top-level
+`reasoning_effort`, not K2's `thinking` object, and fixes `temperature` at 1.0;
+clients omit that sampling parameter. Complete assistant messages, including
+`reasoning_content` and `tool_calls`, must be preserved on replay. These native
+entries and their fallbacks declare `kimi-k31-native-openai` in v2 and are
+excluded from v1. They can be published independently of a client release,
+but a v2 reader must not enable them unless it implements the required contract.
+
+No OpenRouter mirror is included in this native-API change. The OpenRouter Pro
+ID has been observed, but its gateway effort contract differs from the native
+API and is not adopted here. The separately verified Kimi Coding subscription
+metadata is recorded in the next section.
+
+## October 25, 2026 additions: Kimi Coding subscription models
+
+Reviewed October 25, 2026 against the official [Kimi Code model configuration](https://www.kimi.com/code/docs/kimi-code/models.html).
+This batch adds `k3.1-pro` and `k3.1-pro-highspeed` to the `kimi-coding`
+partition and corrects the effort metadata for the existing `k3` and `k3-256k`
+entries. It does not change `defaults.kimi-coding` or add other provider
+partitions.
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| `k3.1-pro` | Subscription ID `k3.1-pro`. Maximum context 1,048,576, plan-dependent: available on Plus and above on new plans (Moderato and above on legacy plans), with 1M context at Pro / Allegretto and above. Text/image/video input, text output. Thinking is always on with `reasoning_effort` low/high/max and a `high` default; this differs from the Moonshot API default `max`. `off` is not exposed because Kimi Code rejects a thinking-off request for K3.1 Pro with HTTP 400. The page documents no separate maximum output, so `maxOutput` is omitted. No `compat` profile is added. [Model configuration](https://www.kimi.com/code/docs/kimi-code/models.html). |
+| `k3.1-pro-highspeed` | Subscription ID `k3.1-pro-highspeed`, the same intelligence as K3.1 Pro at about 2-3× speed. Same 1M plan-dependent context, text/image/video input, and low/high/max ladder with a `high` default. Available on Pro and above on new plans (Allegretto and above on legacy plans). No separate output limit is documented, so `maxOutput` is omitted. No `compat` profile is added. [Model configuration](https://www.kimi.com/code/docs/kimi-code/models.html). |
+| `k3` / `k3-256k` correction | Both entries now expose the native `low`/`high`/`max` ladder instead of `medium`/`high`/`max`, and `thinkingLevelMap.medium` now maps to `high` instead of `low`. `k3` now defaults to `high` instead of `max`, and gains video input; `k3-256k` remains image-only. Their contexts stay 1,048,576 and 262,144, both plan-dependent in the same way as the subscription. `off` stays unavailable: Kimi Code routes a thinking-off request for K3 to K2.8 Preview without thinking, a different model rather than a native off state. Other legacy mappings and the historical `kimi-for-coding` entry are unchanged. [Model configuration](https://www.kimi.com/code/docs/kimi-code/models.html). |
+
+Subscription availability is an account entitlement, not a catalog guarantee.
+The Kimi Code default effort for K3.1 Pro and K3 is `high`, unlike the Moonshot
+API default `max`; this partition records the subscription default. No separate
+output limit is documented for the K3.1 Pro entries, so `maxOutput` is not
+invented.
 
 ## September 30, 2026 additions
 
@@ -211,7 +336,8 @@ Kimi K3 and K2.7 Code are listed by the [official model directory](https://platf
 Existing historical entries remain addressable for old configurations. Check
 the upstream-sync exclusions before changing existing metadata: some limits
 are deliberately conservative based on practical usability. The historical
-baseline fixture and its field-level checks must remain unchanged.
+baseline fixture stays frozen; its field-level check allows only the exact,
+source-backed Kimi K3 corrections listed in the test, not silent drift.
 
 The official DeepSeek API temporarily routes `deepseek-v4-flash` and
 `deepseek-v4-flash-vision-exp` to V4.1 Flash. Use `deepseek-flash` for its

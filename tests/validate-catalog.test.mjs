@@ -305,7 +305,10 @@ test("rejects: an artifact with an unsupported schemaVersion, missing keys, a ca
     defaults: {},
   };
 
-  assert.ok(validateArtifact({ ...base, schemaVersion: 2 }).some((e) => /unsupported model catalog schemaVersion/.test(e)));
+  // 1 and 2 are the two supported generations; anything else is unknown.
+  assert.ok(validateArtifact({ ...base, schemaVersion: 3 }).some((e) => /unsupported model catalog schemaVersion/.test(e)));
+  assert.ok(validateArtifact({ ...base, schemaVersion: 0 }).some((e) => /unsupported model catalog schemaVersion/.test(e)));
+  assert.deepStrictEqual(validateArtifact({ ...base, schemaVersion: 2 }), []);
   assert.ok(validateArtifact({ ...base, catalogVersion: 1 }).some((e) => /unknown top-level model catalog key: catalogVersion/.test(e)));
   assert.ok(validateArtifact({ ...base, publishedAt: "not-a-date" }).some((e) => /publishedAt must be a valid ISO 8601 UTC timestamp/.test(e)));
   assert.ok(validateArtifact({ ...base, publishedAt: "2026-08-19T00:00:00+08:00" }).some((e) => /publishedAt must be a valid ISO 8601 UTC timestamp/.test(e)));

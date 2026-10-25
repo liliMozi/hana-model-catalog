@@ -1,0 +1,23 @@
+{
+  "plain-model": {
+    "name": "Plain Model",
+    "context": 128000,
+    "maxOutput": 32768,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": ["low", "medium", "high", "max"],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    }
+  },
+  "image-model": {
+    "name": "Image Model",
+    "type": "image",
+    "image": true
+  }
+}

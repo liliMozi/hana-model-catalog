@@ -1,0 +1,20 @@
+{
+  "beta-model": {
+    "name": "Beta Model",
+    "context": 262144,
+    "maxOutput": 65536,
+    "image": false,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": ["off", "low", "high", "max"],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "kimi",
+      "reasoningProfile": "kimi-openai"
+    },
+    "serviceTiers": ["standard"]
+  }
+}

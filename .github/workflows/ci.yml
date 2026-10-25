@@ -16,3 +16,15 @@ jobs:
         run: node scripts/validate-catalog.mjs
       - name: Run tests
         run: npm test
+      - name: Build both artifacts
+        run: node scripts/build-catalog.mjs --published-at 2026-01-01T00:00:00Z
+      - name: Validate the v2 artifact
+        run: node scripts/validate-catalog.mjs --artifact dist/model-catalog.v2.json --expect-version 2
+      - name: Validate the v1 projection
+        run: node scripts/validate-catalog.mjs --artifact dist/model-catalog.v1.json --expect-version 1
+      - name: The v1 artifact must carry no capability requirement
+        run: |
+          if grep -q requiresCapabilities dist/model-catalog.v1.json; then
+            echo "dist/model-catalog.v1.json leaks a gated entry into the v1 channel" >&2
+            exit 1
+          fi

@@ -5,7 +5,7 @@
   "anthropic": [
     "claude-opus-5-5",
     "claude-fable-5-1",
-    "claude-sonnet-5"
+    "claude-sonnet-5-5"
   ],
   "baichuan": [
     "Baichuan4-Turbo",
@@ -34,6 +34,7 @@
   ],
   "fireworks": [],
   "gemini": [
+    "gemini-4-argon",
     "gemini-3.8-flash"
   ],
   "groq": [

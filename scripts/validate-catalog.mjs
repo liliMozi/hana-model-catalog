@@ -2,8 +2,16 @@
 // scripts/validate-catalog.mjs
 //
 // Validator for the hana-model-catalog source tree (providers/*.json,
-// fallbacks.json, defaults.json) and for a compiled model-catalog.v1.json
-// artifact.
+// fallbacks.json, defaults.json) and for both compiled artifacts
+// (model-catalog.v1.json, model-catalog.v2.json).
+//
+// Two schema generations are validated here. The v1 rules are frozen exactly as
+// they shipped: 20 model fields, closed compat enums, no capability gating. The
+// v2 rules reuse every common rule and add exactly one field,
+// `requiresCapabilities`, for a 21-field entry (see the capability-gating block
+// below). v1 artifacts are still produced, as a deterministic projection of the
+// v2 data with every gated entry removed, so a client that predates v2 keeps
+// receiving a catalog it can parse instead of rejecting the whole file.
 //
 // This is the CI tripwire for the repository contract described in this
 // repo's README and in the application's model-information update
@@ -246,6 +254,10 @@ function isPlainObject(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+function lower(value) {
+  return typeof value === "string" ? value.toLowerCase() : "";
+}
+
 function isValidIdentifierKey(key) {
   return typeof key === "string" && key.length > 0 && key.trim().length > 0 && !key.startsWith("_");
 }
@@ -258,20 +270,101 @@ function isPositiveInteger(value) {
   return Number.isInteger(value) && value > 0;
 }
 
-// 20-field whitelist. One more field than this and the entry is rejected.
-const MODEL_FIELDS = new Set([
+// v1's frozen 20-field whitelist. One more field than this and the entry is
+// rejected. This set must never grow: an added field is exactly what makes a
+// pre-v2 client reject the whole artifact.
+const MODEL_FIELDS_V1 = new Set([
   "name", "context", "maxContext", "maxOutput", "image", "video", "audio",
   "reasoning", "toolUse", "type", "api", "compat", "quirks", "thinkingLevels",
   "thinkingLevelMap", "defaultThinkingLevel", "visionCapabilities", "xhigh",
   "legacyCompatibility", "serviceTiers",
 ]);
 
+// v2 adds exactly one field. `requiresCapabilities` is a *compatibility
+// requirement*, not a wire parameter: it names client capabilities the entry
+// depends on, so a client that lacks them can skip the entry instead of
+// mis-sending it. It is therefore allowed on provider entries AND on fallbacks
+// (see PROTOCOL_ONLY_FIELDS below for the fields that stay provider-only).
+const REQUIRES_CAPABILITIES_FIELD = "requiresCapabilities";
+const MODEL_FIELDS_V2 = new Set([...MODEL_FIELDS_V1, REQUIRES_CAPABILITIES_FIELD]);
+
 // Protocol-level fields are forbidden on fallback entries: an unknown/custom
 // provider must never implicitly inherit another provider's wire contract
-// from the generic fallback baseline.
+// from the generic fallback baseline. `requiresCapabilities` is deliberately
+// NOT in this set — it carries no wire contract, and a fallback that omitted
+// the requirement of its provider-scoped twin would be a bypass channel (see
+// validateGateAliasCoverage).
 const PROTOCOL_ONLY_FIELDS = new Set([
   "api", "compat", "thinkingLevels", "thinkingLevelMap", "defaultThinkingLevel",
   "legacyCompatibility", "maxContext", "serviceTiers",
+]);
+
+// ---------------------------------------------------------------------------
+// Capability gating (v2 only)
+//
+// A capability id is an opaque, open-ended string owned by the client. This
+// repository validates its *shape* only: it must never fail because a future
+// client introduced a capability id this repo has never heard of. The two
+// closed sets below exist for a different purpose — deciding which wire values
+// are safe to hand to a pre-v2 client — and are not a capability vocabulary.
+// ---------------------------------------------------------------------------
+
+const MAX_CAPABILITY_ID_LENGTH = 64;
+const MAX_CAPABILITIES_PER_ENTRY = 64;
+
+// Reverse-order Claude id shape used by some provider gateways:
+// `claude-<major>.<minor>-<family>`. Used only to build comparison keys.
+const CLAUDE_REVERSE_ORDER = /^claude-(\d+)\.(\d+)-(opus|sonnet|haiku)$/;
+
+// Frozen request-side compatibility vocabulary for the supported v1 reader
+// baseline. This is not a claim that every historical reader knows these values.
+// `anthropic-adaptive` is outside this baseline. Any wire value outside these
+// sets must be gated so the v1 artifact does not introduce a value that a reader
+// would silently drop before sending a different request shape.
+const LEGACY_V1_THINKING_FORMATS = new Set([
+  "anthropic",
+  "qwen",
+  "qwen-chat-template",
+  "google-thinking-level",
+  "zhipu",
+  "deepseek",
+  "openrouter",
+  "kimi",
+  "volcengine",
+  "longcat",
+]);
+
+const LEGACY_V1_REASONING_PROFILES = new Set([
+  "anthropic-adaptive-only",
+  "deepseek-v4-anthropic",
+  "deepseek-v4-openai",
+  "deepseek-v4-responses",
+  "mimo-openai",
+  "openrouter-anthropic-adaptive",
+  "zhipu-openai",
+  "kimi-openai",
+]);
+
+// The same frozen snapshot's tool-call vocabulary:
+//   TOOL_USE_DIALECTS and TOOL_RESULT_FORMATS.
+//
+// `toolUse` is not a protocol-only field here (fallbacks may carry it), and the
+// legacy client's tool-contract normalizer returns null — dropping the whole
+// contract — when either value is unrecognized. An unknown dialect therefore
+// leaks into v1 as an entry whose tool contract silently disappears, which is
+// the same failure class as an unknown compat profile and needs the same gate.
+const LEGACY_V1_TOOL_DIALECTS = new Set([
+  "openai",
+  "anthropic",
+  "gemini",
+  "mistral",
+  "none",
+]);
+
+const LEGACY_V1_TOOL_RESULT_FORMATS = new Set([
+  "message",
+  "content_block",
+  "part",
 ]);
 
 const BOOLEAN_FIELDS = new Set(["image", "video", "audio", "reasoning", "xhigh", "legacyCompatibility"]);
@@ -384,14 +477,253 @@ function checkXhighThinkingLevelAgreement(model, path, errors) {
   );
 }
 
-function validateModelEntry(model, { allowProtocolFields }, path, errors) {
+/**
+ * Shape of a capability requirement list (v2 only).
+ *
+ * Deliberately open-ended: no element is ever checked against a known
+ * capability vocabulary, because the vocabulary belongs to the client and this
+ * repository must accept a requirement it has never seen. Only the shape is
+ * pinned, so a malformed or empty declaration is caught at authoring time
+ * instead of silently parsing as "no requirement" on the client.
+ */
+function validateRequiresCapabilities(value, path, errors) {
+  const field = `${path}.${REQUIRES_CAPABILITIES_FIELD}`;
+  if (!Array.isArray(value)) {
+    errors.push(`${field} must be an array of capability ids`);
+    return;
+  }
+  if (value.length === 0) {
+    errors.push(`${field} must not be empty: an empty declaration is indistinguishable from no declaration`);
+    return;
+  }
+  if (value.length > MAX_CAPABILITIES_PER_ENTRY) {
+    errors.push(`${field} must have at most ${MAX_CAPABILITIES_PER_ENTRY} elements`);
+  }
+  const seen = new Set();
+  value.forEach((capabilityId, idx) => {
+    const elementPath = `${field}[${idx}]`;
+    if (typeof capabilityId !== "string") {
+      errors.push(`${elementPath} must be a string`);
+      return;
+    }
+    if (!isSafeString(capabilityId)) {
+      errors.push(`${elementPath} must be a non-URL string`);
+      return;
+    }
+    if (capabilityId.trim().length === 0) {
+      errors.push(`${elementPath} must not be empty or whitespace-only`);
+      return;
+    }
+    if (capabilityId !== capabilityId.trim()) {
+      errors.push(`${elementPath} must not have leading or trailing whitespace`);
+      return;
+    }
+    if (capabilityId.length > MAX_CAPABILITY_ID_LENGTH) {
+      errors.push(`${elementPath} must be at most ${MAX_CAPABILITY_ID_LENGTH} characters`);
+      return;
+    }
+    // eslint-disable-next-line no-control-regex
+    if (/[\u0000-\u001f\u007f]/.test(capabilityId)) {
+      errors.push(`${elementPath} must not contain control characters`);
+      return;
+    }
+    if (seen.has(capabilityId)) {
+      errors.push(`${elementPath} duplicates capability id ${JSON.stringify(capabilityId)}`);
+      return;
+    }
+    seen.add(capabilityId);
+  });
+}
+
+/** The capability ids an entry declares, as a de-duplicated array (empty when absent). */
+function declaredCapabilities(model) {
+  const raw = model?.[REQUIRES_CAPABILITIES_FIELD];
+  if (!Array.isArray(raw)) return [];
+  return [...new Set(raw.filter((id) => typeof id === "string" && id.trim().length > 0))];
+}
+
+/**
+ * A wire value this repository has no v1 precedent for needs an explicit
+ * capability requirement.
+ *
+ * Rationale: legacy protocol and tool-contract normalizers drop unrecognized
+ * values instead of failing, so a
+ * new `compat` value or tool dialect reaching a v1 reader does not error — it
+ * silently changes which request shape that reader sends (or drops the tool
+ * contract entirely). Requiring the gate at authoring time converts a silent
+ * mis-send into an entry that the v1 projection removes.
+ *
+ * Each wire family is checked independently: an entry with no `compat` at all
+ * still gets its `toolUse` inspected, and vice versa. Skipping either family
+ * because the other is absent would reopen exactly the leak this guard exists
+ * to close.
+ *
+ * Scoped to provider entries: fallbacks cannot carry `compat`
+ * (PROTOCOL_ONLY_FIELDS), though they can carry `toolUse`, so a fallback's tool
+ * dialect is checked on its own path by validateFallbackToolUse.
+ */
+function checkUnknownWireNeedsCapability(model, path, errors) {
+  if (declaredCapabilities(model).length > 0) return;
+
+  const compat = model.compat;
+  if (isPlainObject(compat)) {
+    const thinkingFormat = lower(compat.thinkingFormat);
+    if (thinkingFormat && !LEGACY_V1_THINKING_FORMATS.has(thinkingFormat)) {
+      errors.push(
+        `${path}.compat.thinkingFormat ${JSON.stringify(compat.thinkingFormat)} is not a v1-safe value `
+          + `and a v1 reader would silently drop it; declare ${REQUIRES_CAPABILITIES_FIELD}`,
+      );
+    }
+
+    const reasoningProfile = lower(compat.reasoningProfile || compat.thinkingProfile);
+    if (reasoningProfile && !LEGACY_V1_REASONING_PROFILES.has(reasoningProfile)) {
+      errors.push(
+        `${path}.compat.reasoningProfile ${JSON.stringify(compat.reasoningProfile)} is not a v1-safe value `
+          + `and a v1 reader would silently drop it; declare ${REQUIRES_CAPABILITIES_FIELD}`,
+      );
+    }
+  }
+
+  checkUnknownToolUse(model.toolUse, path, errors);
+}
+
+/**
+ * Unknown tool-call vocabulary check, shared by provider entries and fallbacks.
+ *
+ * `toolUse` is not a protocol-only field, so this must run on both surfaces: a
+ * fallback carrying an unknown dialect leaks the same way a provider entry does.
+ */
+function checkUnknownToolUse(toolUse, path, errors) {
+  if (!isPlainObject(toolUse)) return;
+
+  const dialect = lower(toolUse.dialect);
+  if (dialect && !LEGACY_V1_TOOL_DIALECTS.has(dialect)) {
+    errors.push(
+      `${path}.toolUse.dialect ${JSON.stringify(toolUse.dialect)} is not a v1-safe value `
+        + `and a v1 reader would drop the whole tool contract; declare ${REQUIRES_CAPABILITIES_FIELD}`,
+    );
+  }
+
+  const toolResultFormat = lower(toolUse.toolResultFormat);
+  if (toolResultFormat && !LEGACY_V1_TOOL_RESULT_FORMATS.has(toolResultFormat)) {
+    errors.push(
+      `${path}.toolUse.toolResultFormat ${JSON.stringify(toolUse.toolResultFormat)} is not a v1-safe value `
+        + `and a v1 reader would drop the whole tool contract; declare ${REQUIRES_CAPABILITIES_FIELD}`,
+    );
+  }
+}
+
+/**
+ * A gated provider entry and its generic fallback must not disagree.
+ *
+ * Normalization covers the supported model-id aliases: an id may be reached
+ * through a `-free` suffix, a `:route` suffix, a dotted Claude version, a
+ * reverse-order Claude form (`claude-5.5-haiku`), a vendor namespaced
+ * `anthropic/` prefix, or **any case spelling** (the lookup falls back to a
+ * case-insensitive index). A fallback keyed by any of those forms resolves for
+ * the same model, so deleting only the literal gated key from the v1 projection
+ * would leave a reachable copy behind.
+ *
+ * The comparison is symmetric and case-folded: both ids are expanded to their
+ * forms, lowercased, and matched on intersection, because either side can be
+ * the decorated one (`anthropic/x` + `x`, `x` + `x-free`, `x` + `X`).
+ *
+ * The rule is a *requirement* comparison, not a deletion: the fallback may stay
+ * in both artifacts, but it must declare at least the same capabilities as the
+ * provider entry. A fallback that requires the same capability is projected out
+ * of v1 alongside it; one that does not is a bypass and is rejected here.
+ *
+ * Only comparison keys are normalized — a request's model id is never rewritten.
+ */
+function canonicalAliasForms(modelId) {
+  const forms = new Set();
+  const add = (value) => {
+    if (typeof value !== "string" || value.length === 0) return;
+    forms.add(value.toLowerCase());
+  };
+
+  add(modelId);
+  const bare = modelId.includes("/") ? modelId.slice(modelId.lastIndexOf("/") + 1) : null;
+  add(bare);
+
+  for (const base of [modelId, bare]) {
+    if (!base) continue;
+    const colonIndex = base.indexOf(":");
+    const noRoute = colonIndex >= 0 ? base.slice(0, colonIndex) : null;
+    const noFree = base.endsWith("-free") ? base.slice(0, -"-free".length) : null;
+    add(noRoute);
+    add(noFree);
+    if (noRoute) add(noRoute.endsWith("-free") ? noRoute.slice(0, -"-free".length) : null);
+  }
+
+  // Claude forms, as the client normalizes them: dotted versions folded to
+  // hyphens, and the reverse-order `claude-<major>.<minor>-<family>` shape
+  // rewritten to the official `<family>-<major>-<minor>` form.
+  for (const form of [...forms]) {
+    if (!/^claude-/.test(form)) continue;
+    add(form.replace(/(\d)\.(\d)/g, "$1-$2"));
+    const reverse = CLAUDE_REVERSE_ORDER.exec(form);
+    if (reverse) add(`claude-${reverse[3]}-${reverse[1]}-${reverse[2]}`);
+  }
+  return forms;
+}
+
+function validateGateAliasCoverage(providers, fallbacks, errors) {
+  if (!isPlainObject(providers) || !isPlainObject(fallbacks)) return;
+
+  // Canonical alias form -> the gated entry (and its requirements) reachable at
+  // that form. One gated model may be reachable under several forms; the
+  // requirements are unioned so a fallback must satisfy all of them.
+  const gatedByForm = new Map();
+  for (const [provider, models] of Object.entries(providers)) {
+    if (!isPlainObject(models)) continue;
+    for (const [modelId, model] of Object.entries(models)) {
+      const capabilities = declaredCapabilities(model);
+      if (capabilities.length === 0) continue;
+      for (const form of canonicalAliasForms(modelId)) {
+        const existing = gatedByForm.get(form) || { provider, modelId, capabilities: new Set() };
+        capabilities.forEach((id) => existing.capabilities.add(id));
+        gatedByForm.set(form, existing);
+      }
+    }
+  }
+  if (gatedByForm.size === 0) return;
+
+  for (const [fallbackId, fallback] of Object.entries(fallbacks)) {
+    const hits = [];
+    for (const form of canonicalAliasForms(fallbackId)) {
+      const gate = gatedByForm.get(form);
+      if (gate && !hits.includes(gate)) hits.push(gate);
+    }
+    if (hits.length === 0) continue;
+
+    const fallbackCapabilities = new Set(declaredCapabilities(fallback));
+    const missing = new Set();
+    for (const gate of hits) {
+      for (const id of gate.capabilities) {
+        if (!fallbackCapabilities.has(id)) missing.add(id);
+      }
+    }
+    if (missing.size === 0) continue;
+
+    const targets = hits.map((g) => `providers.${g.provider}.${g.modelId}`).join(", ");
+    errors.push(
+      `fallbacks.${fallbackId} aliases the gated entry ${targets} `
+        + `but does not declare ${JSON.stringify([...missing])}; a v1 reader resolving this fallback `
+        + `would bypass the capability gate. Declare the same capabilities on the fallback.`,
+    );
+  }
+}
+
+function validateModelEntry(model, { allowProtocolFields, version }, path, errors) {
   if (!isPlainObject(model)) {
     errors.push(`${path} model entry must be a JSON object`);
     return;
   }
 
+  const fields = version === 2 ? MODEL_FIELDS_V2 : MODEL_FIELDS_V1;
   for (const field of Object.keys(model)) {
-    if (!MODEL_FIELDS.has(field)) {
+    if (!fields.has(field)) {
       errors.push(`${path}.${field} is not a whitelisted model field`);
       continue;
     }
@@ -436,6 +768,19 @@ function validateModelEntry(model, { allowProtocolFields }, path, errors) {
     errors.push(`${path}.api has an unrecognized value: ${JSON.stringify(model.api)}`);
   }
   if (allowProtocolFields) checkXhighThinkingLevelAgreement(model, path, errors);
+
+  if (version === 2) {
+    if (model[REQUIRES_CAPABILITIES_FIELD] !== undefined) {
+      validateRequiresCapabilities(model[REQUIRES_CAPABILITIES_FIELD], path, errors);
+    }
+    if (allowProtocolFields) {
+      checkUnknownWireNeedsCapability(model, path, errors);
+    } else if (declaredCapabilities(model).length === 0) {
+      // fallbacks cannot carry compat (see PROTOCOL_ONLY_FIELDS), but toolUse is
+      // allowed there, so an unknown dialect on a fallback must be gated too.
+      checkUnknownToolUse(model.toolUse, path, errors);
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -505,7 +850,7 @@ export function validateDefaults(defaults, providers, errors) {
  * providers/fallbacks rules do not have to synthesize a curated list; the
  * source-tree loader always passes the value parsed from defaults.json.
  */
-export function validateCatalogData(providers, fallbacks, defaults = {}) {
+export function validateCatalogData(providers, fallbacks, defaults = {}, { version = 1 } = {}) {
   const errors = [];
 
   if (!isPlainObject(providers)) {
@@ -523,7 +868,12 @@ export function validateCatalogData(providers, fallbacks, defaults = {}) {
         if (!isValidIdentifierKey(modelId)) {
           errors.push(`providers.${provider} has an invalid model id: ${JSON.stringify(modelId)}`);
         }
-        validateModelEntry(model, { allowProtocolFields: true }, `providers.${provider}.${modelId}`, errors);
+        validateModelEntry(
+          model,
+          { allowProtocolFields: true, version },
+          `providers.${provider}.${modelId}`,
+          errors,
+        );
       }
     }
   }
@@ -535,7 +885,7 @@ export function validateCatalogData(providers, fallbacks, defaults = {}) {
       if (!isValidIdentifierKey(modelId)) {
         errors.push(`fallbacks has an invalid model id: ${JSON.stringify(modelId)}`);
       }
-      validateModelEntry(model, { allowProtocolFields: false }, `fallbacks.${modelId}`, errors);
+      validateModelEntry(model, { allowProtocolFields: false, version }, `fallbacks.${modelId}`, errors);
     }
   }
 
@@ -544,8 +894,68 @@ export function validateCatalogData(providers, fallbacks, defaults = {}) {
   if (isPlainObject(defaults)) scanTreeForForbiddenContent(defaults, "defaults", errors);
 
   validateDefaults(defaults, providers, errors);
+  if (version === 2) validateGateAliasCoverage(providers, fallbacks, errors);
 
   return errors;
+}
+
+// ---------------------------------------------------------------------------
+// v1 projection: deterministic, gate-aware downgrade of the v2 data.
+//
+// The v1 artifact is a *degraded view* for readers that predate capability
+// gating, not a second curation. It is derived from the same source tree by
+// pure removal:
+//
+//   1. every provider entry that declares capabilities is dropped;
+//   2. every provider partition is kept even if that empties it (deleting the
+//      key would hand discovery to a different client branch);
+//   3. every gated id is filtered out of `defaults`, with the provider key kept
+//      (an empty array is the explicit "no curated defaults" marker; dropping
+//      the key instead would restore the client's own default list);
+//   4. every fallback that declares capabilities is dropped, which — together
+//      with validateGateAliasCoverage — removes the reachable copies an alias
+//      lookup could otherwise resolve to;
+//   5. no other entry is touched: fields are never rewritten, downgraded or
+//      compensated.
+//
+// A gated entry therefore does not exist in v1 at all, rather than existing
+// with its requirement stripped.
+// ---------------------------------------------------------------------------
+
+export function projectV1FromV2(providers, fallbacks, defaults = {}) {
+  const v1Providers = {};
+  for (const [provider, models] of Object.entries(providers || {})) {
+    if (!isPlainObject(models)) {
+      v1Providers[provider] = models;
+      continue;
+    }
+    const kept = {};
+    for (const [modelId, model] of Object.entries(models)) {
+      if (declaredCapabilities(model).length > 0) continue;
+      kept[modelId] = model;
+    }
+    v1Providers[provider] = kept;
+  }
+
+  const v1Fallbacks = {};
+  for (const [modelId, model] of Object.entries(fallbacks || {})) {
+    if (declaredCapabilities(model).length > 0) continue;
+    v1Fallbacks[modelId] = model;
+  }
+
+  const v1Defaults = {};
+  for (const [provider, list] of Object.entries(defaults || {})) {
+    if (!Array.isArray(list)) {
+      v1Defaults[provider] = list;
+      continue;
+    }
+    v1Defaults[provider] = list.filter((modelId) => {
+      const partition = v1Providers[provider];
+      return isPlainObject(partition) && isPlainObject(partition[modelId]);
+    });
+  }
+
+  return { providers: v1Providers, fallbacks: v1Fallbacks, defaults: v1Defaults };
 }
 
 // ---------------------------------------------------------------------------
@@ -731,7 +1141,9 @@ export function loadSourceCatalog(rootDir) {
 export function validateSource(rootDir) {
   const { providers, fallbacks, defaults, loadErrors } = loadSourceCatalog(rootDir);
   if (loadErrors.length > 0) return loadErrors;
-  return validateCatalogData(providers, fallbacks, defaults);
+  // The source tree is always authored as the v2 superset; the v1 artifact is a
+  // projection of it (see projectV1FromV2), never authored directly.
+  return validateCatalogData(providers, fallbacks, defaults, { version: 2 });
 }
 
 // ---------------------------------------------------------------------------
@@ -739,7 +1151,7 @@ export function validateSource(rootDir) {
 // ---------------------------------------------------------------------------
 
 const ALLOWED_TOP_LEVEL_KEYS = Object.freeze(["schemaVersion", "publishedAt", "providers", "fallbacks", "defaults"]);
-const SUPPORTED_SCHEMA_VERSION = 1;
+const SUPPORTED_SCHEMA_VERSIONS = Object.freeze([1, 2]);
 
 // Strict ISO 8601 UTC timestamp: date, "T", time, optional fractional
 // seconds, "Z". This is deliberately narrower than "anything Date.parse
@@ -772,7 +1184,7 @@ export function validateArtifactShape(raw) {
     }
   }
 
-  if (raw.schemaVersion !== SUPPORTED_SCHEMA_VERSION) {
+  if (!SUPPORTED_SCHEMA_VERSIONS.includes(raw.schemaVersion)) {
     errors.push(`unsupported model catalog schemaVersion: ${JSON.stringify(raw.schemaVersion)}`);
   }
   if (!isValidIso8601Utc(raw.publishedAt)) {
@@ -783,10 +1195,28 @@ export function validateArtifactShape(raw) {
 }
 
 /** Validate a full compiled artifact document (envelope + data). */
-export function validateArtifact(raw) {
+export function validateArtifact(raw, { version } = {}) {
   const errors = validateArtifactShape(raw);
+
+  // The data rules follow the document's own schemaVersion, so a v1 artifact is
+  // held to the frozen v1 rules and a v2 artifact to the v2 rules.
+  const declared = isPlainObject(raw) ? raw.schemaVersion : undefined;
+
+  // An explicit expectation is a cross-check, not an override: a caller that
+  // says "this is the v1 file" must not have a v2 document waved through under
+  // v1 field rules (or the reverse). Both a labelled-wrong file and a file whose
+  // envelope lies about its generation are rejected here.
+  if (version !== undefined) {
+    if (declared !== version) {
+      errors.push(
+        `artifact declares schemaVersion ${JSON.stringify(declared)}, but ${version} was required`,
+      );
+      return errors;
+    }
+  }
+
   if (isPlainObject(raw) && isPlainObject(raw.providers) && isPlainObject(raw.fallbacks)) {
-    errors.push(...validateCatalogData(raw.providers, raw.fallbacks, raw.defaults));
+    errors.push(...validateCatalogData(raw.providers, raw.fallbacks, raw.defaults, { version: declared }));
   }
   return errors;
 }
@@ -802,7 +1232,8 @@ function repoRoot() {
 function runCli(argv) {
   let mode = "source";
   let sourceDir = repoRoot();
-  let artifactPath = null;
+  const artifactPaths = [];
+  let expectedVersion;
 
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -811,12 +1242,15 @@ function runCli(argv) {
       sourceDir = argv[++i];
     } else if (a === "--artifact") {
       mode = "artifact";
-      artifactPath = argv[++i];
+      artifactPaths.push(argv[++i]);
+    } else if (a === "--expect-version") {
+      expectedVersion = Number(argv[++i]);
     } else if (a === "--help" || a === "-h") {
       console.log(
-        "Usage: node scripts/validate-catalog.mjs [--source <dir>] [--artifact <file>]\n"
-          + "  --source <dir>     validate providers/*.json + fallbacks.json + defaults.json under <dir> (default: repo root)\n"
-          + "  --artifact <file>  validate a compiled model-catalog.v1.json artifact",
+        "Usage: node scripts/validate-catalog.mjs [--source <dir>] [--artifact <file> ...] [--expect-version <n>]\n"
+          + "  --source <dir>        validate providers/*.json + fallbacks.json + defaults.json under <dir> (default: repo root)\n"
+          + "  --artifact <file>     validate a compiled artifact; may be repeated to check several in one run\n"
+          + "  --expect-version <n>  require each --artifact to declare this schemaVersion",
       );
       return 0;
     } else {
@@ -828,15 +1262,28 @@ function runCli(argv) {
   let errors;
   let label;
   if (mode === "artifact") {
-    label = `artifact ${artifactPath}`;
-    let doc;
-    try {
-      doc = parseJsonStrict(readFileSync(artifactPath, "utf8"), artifactPath);
-    } catch (err) {
-      console.error(`validate-catalog: ${err.message}`);
-      return 1;
+    errors = [];
+    const labels = [];
+    for (const artifactPath of artifactPaths) {
+      const artifactLabel = `artifact ${artifactPath}`;
+      labels.push(artifactLabel);
+      let doc;
+      try {
+        doc = parseJsonStrict(readFileSync(artifactPath, "utf8"), artifactPath);
+      } catch (err) {
+        errors.push(`${artifactLabel}: ${err.message}`);
+        continue;
+      }
+      if (expectedVersion !== undefined && isPlainObject(doc) && doc.schemaVersion !== expectedVersion) {
+        errors.push(
+          `${artifactLabel} declares schemaVersion ${JSON.stringify(doc.schemaVersion)}, `
+            + `but ${expectedVersion} was required`,
+        );
+        continue;
+      }
+      errors.push(...validateArtifact(doc).map((e) => `${artifactLabel}: ${e}`));
     }
-    errors = validateArtifact(doc);
+    label = labels.join(" + ") || "artifact (none given)";
   } else {
     label = `source tree ${sourceDir}`;
     errors = validateSource(sourceDir);

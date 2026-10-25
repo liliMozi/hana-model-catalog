@@ -1,4 +1,44 @@
 {
+  "kimi-k3.1-pro": {
+    "name": "Kimi K3.1 Pro",
+    "context": 1048576,
+    "maxOutput": 1048576,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "max",
+    "requiresCapabilities": [
+      "kimi-k31-native-openai"
+    ]
+  },
+  "kimi-k3.1-pro-highspeed": {
+    "name": "Kimi K3.1 Pro Highspeed",
+    "context": 1048576,
+    "maxOutput": 1048576,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "max",
+    "requiresCapabilities": [
+      "kimi-k31-native-openai"
+    ]
+  },
   "kimi-k2.6": {
     "name": "Kimi K2.6",
     "context": 262144,

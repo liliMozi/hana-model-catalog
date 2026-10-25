@@ -13,6 +13,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadSourceCatalog } from "../scripts/validate-catalog.mjs";
@@ -31,12 +32,65 @@ test("build output reconstructs the source tree losslessly", () => {
   assert.deepStrictEqual(catalog.defaults, defaults, "compiled defaults must deep-equal the source defaults.json file");
 });
 
-test("the compiled artifact carries defaults in the canonical key order", () => {
+test("the compiled v2 artifact carries defaults in the canonical key order", () => {
   const { catalog } = buildCatalog(REPO_ROOT, { now: () => new Date("2026-01-01T00:00:00.000Z") });
   assert.deepStrictEqual(
     Object.keys(catalog),
     ["schemaVersion", "publishedAt", "providers", "fallbacks", "defaults"],
   );
+  assert.strictEqual(catalog.schemaVersion, 2);
+});
+
+test("the v2 artifact is a lossless superset and the v1 artifact its pure projection", () => {
+  const { providers, fallbacks, defaults } = loadSourceCatalog(REPO_ROOT);
+  const { catalog, v1Catalog } = buildCatalog(REPO_ROOT, { now: () => new Date("2026-01-01T00:00:00.000Z") });
+
+  // v2 keeps the source tree whole.
+  assert.deepStrictEqual(catalog.providers, providers);
+  assert.deepStrictEqual(catalog.fallbacks, fallbacks);
+  assert.deepStrictEqual(catalog.defaults, defaults);
+
+  // v1 is the projection, not a re-curation: every kept entry is byte-identical
+  // to its v2 twin, and the only difference is whole-entry removal.
+  assert.strictEqual(v1Catalog.schemaVersion, 1);
+  assert.strictEqual(v1Catalog.publishedAt, catalog.publishedAt);
+  for (const [provider, models] of Object.entries(v1Catalog.providers)) {
+    assert.ok(catalog.providers[provider], `v1 provider ${provider} must exist in v2`);
+    for (const [modelId, entry] of Object.entries(models)) {
+      assert.deepStrictEqual(entry, catalog.providers[provider][modelId],
+        `v1 providers.${provider}.${modelId} must equal its v2 entry`);
+    }
+  }
+  for (const [modelId, entry] of Object.entries(v1Catalog.fallbacks)) {
+    assert.deepStrictEqual(entry, catalog.fallbacks[modelId],
+      `v1 fallbacks.${modelId} must equal its v2 entry`);
+  }
+  for (const [provider, list] of Object.entries(v1Catalog.defaults)) {
+    assert.deepStrictEqual(list, catalog.defaults[provider].filter((id) => id in (v1Catalog.providers[provider] || {})),
+      `v1 defaults.${provider} must be the v2 list minus gated ids, in order`);
+  }
+});
+
+test("a fixture with no gated and no unknown-wire entries projects to a v1 identical to the pre-gating build", () => {
+  // The gate must be a no-op when nothing is gated. tests/fixtures/zero-gate/ is a
+  // small source tree with no requiresCapabilities and no wire value outside the
+  // frozen v1 vocabulary; expected.v1.json was produced by the pre-v2 build
+  // script from that same tree. If the
+  // projection ever rewrites a field instead of removing whole entries, or if the
+  // envelope changes, these bytes diverge.
+  const fixtureDir = join(REPO_ROOT, "tests", "fixtures", "zero-gate");
+  const { catalog, v1Catalog, v1CatalogText } = buildCatalog(fixtureDir, {
+    publishedAt: "2026-10-25T00:00:00Z",
+  });
+
+  // Nothing was gated, so the projection removed nothing and rewrote nothing.
+  assert.deepStrictEqual(v1Catalog.providers, catalog.providers);
+  assert.deepStrictEqual(v1Catalog.fallbacks, catalog.fallbacks);
+  assert.deepStrictEqual(v1Catalog.defaults, catalog.defaults);
+
+  // Byte-for-byte equal to the pre-v2 build of the same tree.
+  assert.strictEqual(v1CatalogText, readFileSync(join(fixtureDir, "expected.v1.json"), "utf8"),
+    "with no gated entries the v1 artifact must be the byte-identical pre-v2 artifact");
 });
 
 test("build output is deterministic given the same clock", () => {

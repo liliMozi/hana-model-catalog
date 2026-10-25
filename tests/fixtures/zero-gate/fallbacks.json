@@ -1,0 +1,14 @@
+{
+  "plain-model": {
+    "name": "Plain Model",
+    "context": 128000,
+    "maxOutput": 32768,
+    "image": true,
+    "reasoning": true
+  },
+  "unrelated-model": {
+    "name": "Unrelated Model",
+    "context": 8192,
+    "reasoning": false
+  }
+}
