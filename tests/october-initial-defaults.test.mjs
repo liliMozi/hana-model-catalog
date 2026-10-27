@@ -36,7 +36,8 @@ const EXPECTED_DEFAULTS = {
   'opencode-go': ['glm-5.2'],
   moonshot: ['kimi-k2.6'],
   openai: ['gpt-6.1-sol', 'gpt-6-sol', 'gpt-6-luna'],
-  'openai-codex-oauth': ['gpt-6-sol', 'gpt-6-luna', 'gpt-6-astra'],
+  // GPT-6.1 Terra replaced GPT-6 Astra here in the October 26 batch; the rest of this list is unchanged.
+  'openai-codex-oauth': ['gpt-6.1-terra', 'gpt-6-sol', 'gpt-6-luna'],
   openrouter: ['google/gemini-4-argon', 'openai/gpt-6.1-sol', 'anthropic/claude-opus-5.5'],
   perplexity: ['sonar-pro', 'sonar'],
   siliconflow: [],
@@ -151,7 +152,7 @@ test('OpenRouter Gemini 4 Argon mirrors descriptive metadata but keeps the gatew
 
 test('OpenAI API and Codex OAuth partitions keep their own curated lists', () => {
   assert.deepEqual(catalog.defaults.openai, ['gpt-6.1-sol', 'gpt-6-sol', 'gpt-6-luna']);
-  assert.deepEqual(catalog.defaults['openai-codex-oauth'], ['gpt-6-sol', 'gpt-6-luna', 'gpt-6-astra']);
+  assert.deepEqual(catalog.defaults['openai-codex-oauth'], ['gpt-6.1-terra', 'gpt-6-sol', 'gpt-6-luna']);
   for (const id of catalog.defaults.openai) {
     assert.ok(catalog.providers.openai[id], `openai/${id} exists`);
   }

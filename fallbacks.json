@@ -1,4 +1,11 @@
 {
+  "gpt-6.1-terra": {
+    "name": "GPT-6.1 Terra",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
   "gpt-6.1-sol": {
     "name": "GPT-6.1 Sol",
     "context": 1050000,

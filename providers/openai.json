@@ -1,4 +1,29 @@
 {
+  "gpt-6.1-terra": {
+    "name": "GPT-6.1 Terra",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-responses",
+    "thinkingLevels": [
+      "off",
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "off": "none",
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium",
+    "serviceTiers": [
+      "standard",
+      "fast"
+    ]
+  },
   "gpt-6.1-sol": {
     "name": "GPT-6.1 Sol",
     "context": 1050000,

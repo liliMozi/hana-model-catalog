@@ -69,6 +69,47 @@ from the compiled artifact.
 
 Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. Sonnet 5.5 also rejects disabled thinking; its lowest setting is `between_tools` at high effort or below, which is not an effort level and is not advertised as one. Haiku 5.5 accepts disabled thinking at high effort or below. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
 
+## October 26, 2026 addition: GPT-6.1 Terra
+
+Reviewed October 27, 2026. This batch adds GPT-6.1 Terra to the OpenAI API,
+the OpenRouter gateway and the Codex OAuth partition, adds the generic
+fallback, and makes it the first entry of the Codex OAuth curated list. No
+other model entry, and no other curated list, changes.
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| OpenAI `gpt-6.1-terra` | Official ID `gpt-6.1-terra`, released October 26, 2026. 1,050,000 context, 128,000 maximum output, text/image input, text output. `reasoning.effort` accepts none (off), low, medium (default), high, xhigh and max; unlike GPT-6.1 Sol, the reference states that `none` is supported, so this entry keeps an off choice mapped to `none` alongside the legacy xhigh→max map. Tools use the Responses API, and Fast is a service tier on the same model ID. [Model reference](https://developers.openai.com/api/docs/models/gpt-6.1-terra). |
+| OpenRouter `openai/gpt-6.1-terra` | Verified against the public endpoints API on October 27: 1,050,000 context, 128,000 `max_completion_tokens`, text/image input and accepted reasoning effort. The mirror keeps the GPT-6 Sol router wiring (`openai-completions`) and the off/low/medium/high/max ladder with off→none and the legacy xhigh→max map. No native service tiers, Responses wiring or Codex metadata are copied onto the gateway, and no paid invocation was made. [Endpoints API](https://openrouter.ai/api/v1/models/openai/gpt-6.1-terra/endpoints). |
+| Codex OAuth `gpt-6.1-terra` | Separate subscription surface. Terra is announced for Codex in the desktop app and CLI ([models](https://learn.chatgpt.com/docs/models), [ChatGPT release notes](https://help.openai.com/en/articles/6825453-chatgpt-release-notes)). The entry records the name, 800,000 context, image and reasoning input, and `api: openai-codex-responses` only. The 800,000 context is a curated owner decision for this partition, not an official maximum. |
+| Generic `gpt-6.1-terra` fallback | Descriptive subset only: name, 1,050,000 context, 128,000 output, image and reasoning. No `api`, thinking, service-tier or window fields. |
+
+### Why the OAuth entry carries no output, effort or speed fields
+
+This batch did not run an authenticated discovery call, so the Codex OAuth
+surface of Terra is not described by any public `context_window`,
+`max_context_window`, `minimal_client_version`, effort or speed document. Rather
+than copy the API numbers to the subscription surface, the entry leaves
+`maxOutput`, `maxContext`, `thinkingLevels`, `thinkingLevelMap`,
+`defaultThinkingLevel` and `serviceTiers` unset. Those fields stay unset until a
+source-backed discovery read exists for this partition — the same standard that
+keeps `gpt-6.1-sol` off the surface. Account access remains an entitlement the
+catalog cannot state.
+
+### Release compatibility
+
+The entry declares no `requiresCapabilities`: every field it uses (`api` values
+`openai-responses`, `openai-completions`, `openai-codex-responses`, the off and
+xhigh thinking levels, and the xhigh→max map) is already carried by the GPT-6
+Sol entries, so no new client capability is introduced and the entry appears in
+both the v2 artifact and the v1 projection.
+
+`defaults.openai` is unchanged. `defaults.openai-codex-oauth` is now
+`gpt-6.1-terra`, `gpt-6-sol`, `gpt-6-luna`: Terra leads the three-model
+recommendation and GPT-6 Astra leaves it, while the Astra provider entry on that
+partition is preserved and remains reachable through discovery. The list stays
+within the three-model cap, and every listed id exists in `providers/`.
+
+
 ## October 14, 2026 additions: Gemini 4 Argon and curated initial default lists
 
 Reviewed October 14, 2026. This batch adds two provider entries for Gemini 4
