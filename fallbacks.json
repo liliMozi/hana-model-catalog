@@ -5530,6 +5530,24 @@
     "audio": true,
     "reasoning": true
   },
+  "gemini-3.6-flash": {
+    "name": "Gemini 3.6 Flash",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "gemini-3.5-flash-lite": {
+    "name": "Gemini 3.5 Flash Lite",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
   "qwen4-max": {
     "name": "Qwen 4 Max",
     "context": 1000000,

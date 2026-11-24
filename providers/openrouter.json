@@ -354,6 +354,30 @@
       "reasoningProfile": "openrouter-anthropic-adaptive"
     }
   },
+  "anthropic/claude-sonnet-5.5": {
+    "name": "Anthropic/Claude Sonnet 5.5",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "openrouter",
+      "reasoningProfile": "openrouter-anthropic-adaptive"
+    }
+  },
+  "anthropic/claude-fable-5.1": {
+    "name": "Anthropic/Claude Fable 5.1",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "openrouter",
+      "reasoningProfile": "openrouter-anthropic-adaptive"
+    }
+  },
   "anthropic/claude-sonnet-4.5": {
     "name": "Anthropic/Claude Sonnet 4.5",
     "context": 1000000,
@@ -403,6 +427,12 @@
   },
   "deepseek/deepseek-v4.1-flash-1017": {
     "name": "Deepseek/Deepseek V4.1 Flash 1017",
+    "context": 1048576,
+    "image": true,
+    "reasoning": true
+  },
+  "deepseek/deepseek-v4.1-flash": {
+    "name": "Deepseek/Deepseek V4.1 Flash",
     "context": 1048576,
     "image": true,
     "reasoning": true
@@ -606,6 +636,44 @@
       "thinkingFormat": "openrouter"
     }
   },
+  "google/gemini-3.6-flash": {
+    "name": "Google/Gemini 3.6 Flash",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "medium",
+    "compat": {
+      "thinkingFormat": "openrouter"
+    }
+  },
+  "google/gemini-3.5-flash-lite": {
+    "name": "Google/Gemini 3.5 Flash Lite",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "medium",
+    "compat": {
+      "thinkingFormat": "openrouter"
+    }
+  },
   "gryphe/mythomax-l2-13b": {
     "name": "Gryphe/Mythomax L2.13b",
     "context": 8192
@@ -706,6 +774,13 @@
   },
   "moonshotai/kimi-k3.1-pro": {
     "name": "Moonshotai/Kimi K3.1 Pro",
+    "context": 1048576,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "moonshotai/kimi-k3": {
+    "name": "Moonshotai/Kimi K3",
     "context": 1048576,
     "image": true,
     "video": true,
@@ -1033,6 +1108,12 @@
     "xhigh": true,
     "thinkingLevels": ["low", "high", "max"],
     "defaultThinkingLevel": "max"
+  },
+  "z-ai/glm-5.3-prime": {
+    "name": "Z Ai/Glm 5.3 Prime",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "reasoning": true
   },
   "z-ai/glm-5.3-flash": {
     "name": "GLM-5.3 Flash",

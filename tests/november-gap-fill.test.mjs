@@ -224,3 +224,101 @@ test('Step 5 Preview leads the stepfun recommendation and the fallbacks are desc
   assert.equal(catalog.providers['stepfun-plan'], undefined,
     'no Step Plan subscription partition is created in this batch');
 });
+
+// Section 5: OpenRouter backfill mirrors plus the two native Gemini additions.
+test('the Claude Sonnet 5.5 and Fable 5.1 mirrors keep the Anthropic adaptive gateway wiring', () => {
+  for (const [id, name] of [
+    ['anthropic/claude-sonnet-5.5', 'Anthropic/Claude Sonnet 5.5'],
+    ['anthropic/claude-fable-5.1', 'Anthropic/Claude Fable 5.1'],
+  ]) {
+    const mirror = catalog.providers.openrouter[id];
+    assert.ok(mirror, `openrouter/${id} must exist`);
+    assert.equal(mirror.name, name);
+    assert.equal(mirror.context, 1000000);
+    assert.equal(mirror.maxOutput, 128000);
+    assert.equal(mirror.image, true);
+    assert.equal(mirror.reasoning, true);
+    assert.equal(mirror.xhigh, true);
+    assert.deepEqual(mirror.compat, {
+      thinkingFormat: 'openrouter',
+      reasoningProfile: 'openrouter-anthropic-adaptive',
+    });
+  }
+});
+
+test('the descriptive backfill mirrors record endpoint-verified values only', () => {
+  const expected = {
+    'moonshotai/kimi-k3': { context: 1048576, image: true, video: true },
+    'deepseek/deepseek-v4.1-flash': { context: 1048576, image: true },
+    'z-ai/glm-5.3-prime': { context: 1000000, maxOutput: 131072 },
+  };
+  for (const [id, fields] of Object.entries(expected)) {
+    const mirror = catalog.providers.openrouter[id];
+    assert.ok(mirror, `openrouter/${id} must exist`);
+    for (const [field, value] of Object.entries(fields)) {
+      assert.equal(mirror[field], value, `openrouter/${id}.${field}`);
+    }
+    assert.equal(mirror.reasoning, true);
+    for (const field of ['api', 'compat', 'thinkingLevels', 'quirks']) {
+      assert.equal(field in mirror, false);
+    }
+  }
+  for (const id of ['moonshotai/kimi-k3', 'deepseek/deepseek-v4.1-flash']) {
+    assert.equal('maxOutput' in catalog.providers.openrouter[id], false,
+      `${id}: per-endpoint completion caps differ, so none is recorded`);
+  }
+});
+
+test('Gemini 3.6 Flash and 3.5 Flash Lite join native gemini and OpenRouter', () => {
+  for (const [nativeId, mirrorId, name] of [
+    ['gemini-3.6-flash', 'google/gemini-3.6-flash', 'Gemini 3.6 Flash'],
+    ['gemini-3.5-flash-lite', 'google/gemini-3.5-flash-lite', 'Gemini 3.5 Flash Lite'],
+  ]) {
+    const native = catalog.providers.gemini[nativeId];
+    assert.ok(native, `gemini/${nativeId} must exist`);
+    assert.equal(native.name, name);
+    assert.equal(native.context, 1048576);
+    assert.equal(native.maxOutput, 65536);
+    for (const field of ['image', 'video', 'audio', 'reasoning']) {
+      assert.equal(native[field], true, field);
+    }
+    assert.deepEqual(native.thinkingLevels, ['low', 'medium', 'high']);
+    assert.equal(native.defaultThinkingLevel, 'medium');
+    assert.equal('compat' in native, false, 'same no-compat shape as gemini-3.8-flash');
+
+    const mirror = catalog.providers.openrouter[mirrorId];
+    assert.ok(mirror, `openrouter/${mirrorId} must exist`);
+    assert.equal(mirror.api, 'openai-completions');
+    assert.deepEqual(mirror.compat, { thinkingFormat: 'openrouter' });
+    for (const field of ['context', 'maxOutput', 'image', 'video', 'audio',
+      'reasoning', 'thinkingLevels', 'defaultThinkingLevel']) {
+      assert.deepEqual(mirror[field], native[field], `${mirrorId}.${field} mirrors the native description`);
+    }
+  }
+});
+
+test('the backfilled fallbacks are descriptive and every section-5 entry survives v1', () => {
+  for (const doc of [catalog, v1Catalog]) {
+    for (const [id, name] of [
+      ['gemini-3.6-flash', 'Gemini 3.6 Flash'],
+      ['gemini-3.5-flash-lite', 'Gemini 3.5 Flash Lite'],
+    ]) {
+      assert.deepEqual(doc.fallbacks[id], {
+        name, context: 1048576, maxOutput: 65536,
+        image: true, video: true, audio: true, reasoning: true,
+      }, `schemaVersion ${doc.schemaVersion}: fallbacks.${id}`);
+    }
+    for (const id of [
+      'anthropic/claude-sonnet-5.5', 'anthropic/claude-fable-5.1',
+      'moonshotai/kimi-k3', 'deepseek/deepseek-v4.1-flash', 'z-ai/glm-5.3-prime',
+      'google/gemini-3.6-flash', 'google/gemini-3.5-flash-lite',
+    ]) {
+      assert.ok(doc.providers.openrouter[id],
+        `schemaVersion ${doc.schemaVersion}: openrouter/${id} must be present`);
+      assert.equal('requiresCapabilities' in doc.providers.openrouter[id], false);
+    }
+    for (const id of ['gemini-3.6-flash', 'gemini-3.5-flash-lite']) {
+      assert.ok(doc.providers.gemini[id], `schemaVersion ${doc.schemaVersion}: gemini/${id}`);
+    }
+  }
+});
