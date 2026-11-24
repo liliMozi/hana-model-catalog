@@ -1,4 +1,10 @@
 {
+  "ernie-5.5-flash-preview": {
+    "name": "ERNIE 5.5 Flash Preview",
+    "context": 1048576,
+    "maxOutput": 1048576,
+    "reasoning": true
+  },
   "ernie-4.5-8k": {
     "name": "ERNIE 4.5 8K",
     "context": 8192,

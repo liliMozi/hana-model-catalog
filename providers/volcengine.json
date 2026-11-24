@@ -1,4 +1,12 @@
 {
+  "doubao-seed-2-1-lite-260915": {
+    "name": "Doubao Seed 2.1 Lite (260915)",
+    "context": 1048576,
+    "maxOutput": 262144,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
   "doubao-seed-2-1-pro": {
     "name": "Doubao Seed 2.1 Pro",
     "image": true,
@@ -113,6 +121,40 @@
     "name": "Kimi K2 Thinking",
     "context": 229376,
     "maxOutput": 32768,
+    "reasoning": true
+  },
+  "kimi-k3-1-pro-261024": {
+    "name": "Kimi K3.1 Pro (261024)",
+    "context": 1048576,
+    "maxOutput": 1048576,
+    "image": true,
+    "reasoning": true
+  },
+  "deepseek-v4-1-flash-261017": {
+    "name": "Deepseek V4.1 Flash (261017)",
+    "context": 1048576,
+    "maxOutput": 393216,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "deepseek-v4-pro-ga-260813": {
+    "name": "Deepseek V4 Pro (260813 GA)",
+    "context": 1048576,
+    "maxOutput": 393216,
+    "reasoning": true
+  },
+  "glm-5-3-flash-260828": {
+    "name": "Glm 5.3 Flash (260828)",
+    "context": 1048576,
+    "maxOutput": 131072,
+    "image": true,
+    "reasoning": true
+  },
+  "glm-5-2-260617": {
+    "name": "Glm 5.2 (260617)",
+    "context": 1048576,
+    "maxOutput": 131072,
     "reasoning": true
   },
   "doubao-seed-2-0-lite-260215": {

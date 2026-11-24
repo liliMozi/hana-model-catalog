@@ -322,3 +322,101 @@ test('the backfilled fallbacks are descriptive and every section-5 entry survive
     }
   }
 });
+
+// Section 6: scattered official-page gap fills.
+test('Mistral Medium 3.5 is descriptive plus reasoning with no ladder', () => {
+  const entry = catalog.providers.mistral['mistral-medium-3-5'];
+  assert.ok(entry);
+  assert.equal(entry.name, 'Mistral Medium 3.5');
+  assert.equal(entry.context, 262144);
+  assert.equal(entry.image, true);
+  assert.equal(entry.reasoning, true);
+  for (const field of ['maxOutput', 'thinkingLevels', 'defaultThinkingLevel', 'compat', 'quirks']) {
+    assert.equal(field in entry, false, field);
+  }
+});
+
+test('Agnes 2.5 Flash keeps the 2.0 tool surface and leads defaults.agnes', () => {
+  const entry = catalog.providers.agnes['agnes-2.5-flash'];
+  assert.ok(entry);
+  assert.equal(entry.name, 'Agnes 2.5 Flash');
+  assert.equal(entry.context, 524288);
+  assert.equal(entry.maxOutput, 65536);
+  assert.equal(entry.image, true);
+  assert.equal(entry.reasoning, true);
+  assert.deepEqual(entry.toolUse, {
+    supportsTools: true, dialect: 'openai', toolResultFormat: 'message',
+  });
+  assert.equal(catalog.defaults.agnes[0], 'agnes-2.5-flash');
+});
+
+test('ERNIE 5.5 Flash Preview records the 1M/1M official limits', () => {
+  const entry = catalog.providers['baidu-cloud']['ernie-5.5-flash-preview'];
+  assert.ok(entry);
+  assert.equal(entry.name, 'ERNIE 5.5 Flash Preview');
+  assert.equal(entry.context, 1048576);
+  assert.equal(entry.maxOutput, 1048576);
+  assert.equal(entry.reasoning, true);
+  for (const field of ['image', 'thinkingLevels', 'compat']) {
+    assert.equal(field in entry, false, field);
+  }
+});
+
+test('the six Volcengine dated IDs match the official Ark model list', () => {
+  const expected = {
+    'kimi-k3-1-pro-261024': {
+      name: 'Kimi K3.1 Pro (261024)', context: 1048576, maxOutput: 1048576, image: true,
+    },
+    'deepseek-v4-1-flash-261017': {
+      name: 'Deepseek V4.1 Flash (261017)', context: 1048576, maxOutput: 393216, image: true, video: true,
+    },
+    'deepseek-v4-pro-ga-260813': {
+      name: 'Deepseek V4 Pro (260813 GA)', context: 1048576, maxOutput: 393216,
+    },
+    'glm-5-3-flash-260828': {
+      name: 'Glm 5.3 Flash (260828)', context: 1048576, maxOutput: 131072, image: true,
+    },
+    'glm-5-2-260617': {
+      name: 'Glm 5.2 (260617)', context: 1048576, maxOutput: 131072,
+    },
+    'doubao-seed-2-1-lite-260915': {
+      name: 'Doubao Seed 2.1 Lite (260915)', context: 1048576, maxOutput: 262144, image: true, video: true,
+    },
+  };
+  for (const [id, fields] of Object.entries(expected)) {
+    const entry = catalog.providers.volcengine[id];
+    assert.ok(entry, `volcengine/${id} must exist`);
+    for (const [field, value] of Object.entries(fields)) {
+      assert.equal(entry[field], value, `volcengine/${id}.${field}`);
+    }
+    assert.equal(entry.reasoning, true, `volcengine/${id}.reasoning`);
+    for (const field of ['thinkingLevels', 'defaultThinkingLevel', 'compat', 'quirks', 'api']) {
+      assert.equal(field in entry, false, `volcengine/${id}.${field}`);
+    }
+  }
+});
+
+test('every section-6 entry and fallback survives the v1 projection', () => {
+  for (const doc of [catalog, v1Catalog]) {
+    for (const [partition, id] of [
+      ['mistral', 'mistral-medium-3-5'],
+      ['agnes', 'agnes-2.5-flash'],
+      ['baidu-cloud', 'ernie-5.5-flash-preview'],
+      ['volcengine', 'kimi-k3-1-pro-261024'],
+      ['volcengine', 'deepseek-v4-1-flash-261017'],
+      ['volcengine', 'deepseek-v4-pro-ga-260813'],
+      ['volcengine', 'glm-5-3-flash-260828'],
+      ['volcengine', 'glm-5-2-260617'],
+      ['volcengine', 'doubao-seed-2-1-lite-260915'],
+    ]) {
+      const entry = doc.providers[partition][id];
+      assert.ok(entry, `schemaVersion ${doc.schemaVersion}: ${partition}/${id}`);
+      assert.equal('requiresCapabilities' in entry, false);
+    }
+    for (const id of ['agnes-2.5-flash', 'ernie-5.5-flash-preview']) {
+      assert.ok(doc.fallbacks[id], `schemaVersion ${doc.schemaVersion}: fallbacks.${id}`);
+      assert.equal('requiresCapabilities' in doc.fallbacks[id], false);
+    }
+    assert.equal(doc.defaults.agnes[0], 'agnes-2.5-flash');
+  }
+});

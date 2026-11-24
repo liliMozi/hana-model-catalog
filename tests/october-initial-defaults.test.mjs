@@ -11,7 +11,7 @@ const { catalog } = buildCatalog(root, { publishedAt: '2026-10-13T19:45:00Z' });
 // entries (added in the same batch) is a pre-existing provider entry; the
 // list is the curated recommendation, not a full provider directory.
 const EXPECTED_DEFAULTS = {
-  agnes: ['agnes-2.0-flash'],
+  agnes: ['agnes-2.5-flash'],
   // Fable 5.2 replaced Fable 5.1 here in the November batch; the rest of this list is unchanged.
   anthropic: ['claude-opus-5-5', 'claude-fable-5-2', 'claude-sonnet-5-5'],
   baichuan: ['Baichuan4-Turbo', 'Baichuan4-Air'],
