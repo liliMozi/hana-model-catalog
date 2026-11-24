@@ -49,7 +49,7 @@ test('the generic Haiku 5.5 fallback carries description plus its capability req
 test('Haiku 5.5 stays out of defaults and the new profile does not replace the always-on one', () => {
   assert.deepEqual(catalog.defaults.anthropic, [
     'claude-opus-5-5',
-    'claude-fable-5-1',
+    'claude-fable-5-2',
     'claude-sonnet-5-5',
   ]);
   assert.equal(catalog.defaults.anthropic.includes('claude-haiku-5-5'), false);

@@ -1,4 +1,58 @@
 {
+  "gemini-4-carbon": {
+    "name": "Gemini 4 Carbon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "medium",
+    "compat": {
+      "thinkingFormat": "google-thinking-level"
+    }
+  },
+  "gemini-4-hydrogen": {
+    "name": "Gemini 4 Hydrogen",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "google-thinking-level"
+    }
+  },
+  "gemini-4-neon": {
+    "name": "Gemini 4 Neon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "google-thinking-level"
+    }
+  },
   "gemini-4-argon": {
     "name": "Gemini 4 Argon",
     "context": 1048576,

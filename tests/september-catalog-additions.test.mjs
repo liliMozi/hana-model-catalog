@@ -115,12 +115,12 @@ test('GPT-6.1 Sol carries five efforts with no off choice on both the API and ro
   assert.equal('serviceTiers' in router, false);
 });
 
-test('GPT-6.1 Sol stays off the Codex OAuth surface until its numbers have a public source', () => {
-  assert.equal(
-    catalog.providers['openai-codex-oauth']['gpt-6.1-sol'],
-    undefined,
-    'context_window / max_context_window / minimal_client_version are not publicly documented yet',
-  );
+test('GPT-6.1 Sol joined the Codex OAuth surface once its window had a public source', () => {
+  const oauth = catalog.providers['openai-codex-oauth']['gpt-6.1-sol'];
+  assert.ok(oauth, 'the public Codex model list documents GPT-6.1 Sol since November');
+  assert.equal(oauth.context, 500000,
+    'the documented Codex default window; max window, effort and speed stay unset without discovery');
+  assert.equal(oauth.api, 'openai-codex-responses');
 });
 
 test('the undocumented openrouter sol-pro alias is not promoted into the catalog', () => {

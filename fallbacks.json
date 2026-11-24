@@ -13,6 +13,67 @@
     "image": true,
     "reasoning": true
   },
+  "gpt-6.2-astra": {
+    "name": "GPT-6.2 Astra",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "gpt-6.2-sol": {
+    "name": "GPT-6.2 Sol",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "claude-fable-5-2": {
+    "name": "Claude Fable 5.2",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "claude-mythos-5-2": {
+    "name": "Claude Mythos 5.2",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true
+  },
+  "gemini-4-carbon": {
+    "name": "Gemini 4 Carbon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "gemini-4-hydrogen": {
+    "name": "Gemini 4 Hydrogen",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "gemini-4-neon": {
+    "name": "Gemini 4 Neon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true
+  },
+  "mistral-large-4": {
+    "name": "Mistral Large 4",
+    "context": 1048576,
+    "image": true,
+    "reasoning": true
+  },
   "claude-opus-5-5": {
     "name": "Claude Opus 5.5",
     "context": 1000000,

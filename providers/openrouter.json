@@ -19,6 +19,42 @@
     },
     "defaultThinkingLevel": "medium"
   },
+  "openai/gpt-6.2-astra": {
+    "name": "OpenAI GPT-6.2 Astra",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  },
+  "openai/gpt-6.2-sol": {
+    "name": "OpenAI GPT-6.2 Sol",
+    "context": 1050000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "medium"
+  },
   "openai/gpt-6.1-sol": {
     "name": "OpenAI GPT-6.1 Sol",
     "context": 1050000,
@@ -306,6 +342,18 @@
       "reasoningProfile": "openrouter-anthropic-adaptive"
     }
   },
+  "anthropic/claude-fable-5.2": {
+    "name": "Anthropic/Claude Fable 5.2",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "xhigh": true,
+    "compat": {
+      "thinkingFormat": "openrouter",
+      "reasoningProfile": "openrouter-anthropic-adaptive"
+    }
+  },
   "anthropic/claude-sonnet-4.5": {
     "name": "Anthropic/Claude Sonnet 4.5",
     "context": 1000000,
@@ -495,6 +543,63 @@
       "thinkingFormat": "openrouter"
     }
   },
+  "google/gemini-4-carbon": {
+    "name": "Google/Gemini 4 Carbon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "medium",
+    "compat": {
+      "thinkingFormat": "openrouter"
+    }
+  },
+  "google/gemini-4-hydrogen": {
+    "name": "Google/Gemini 4 Hydrogen",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "openrouter"
+    }
+  },
+  "google/gemini-4-neon": {
+    "name": "Google/Gemini 4 Neon",
+    "context": 1048576,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "audio": true,
+    "reasoning": true,
+    "api": "openai-completions",
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "openrouter"
+    }
+  },
   "gryphe/mythomax-l2-13b": {
     "name": "Gryphe/Mythomax L2.13b",
     "context": 8192
@@ -541,6 +646,13 @@
     "context": 262144,
     "maxOutput": 262144,
     "image": true
+  },
+  "mistralai/mistral-large-4-0": {
+    "name": "Mistralai/Mistral Large 4.0",
+    "context": 1048576,
+    "maxOutput": 262144,
+    "image": true,
+    "reasoning": true
   },
   "mistralai/mistral-7b-instruct": {
     "name": "Mistralai/Mistral 7b Instruct",

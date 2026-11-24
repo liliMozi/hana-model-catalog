@@ -72,14 +72,14 @@ test('the Codex OAuth GPT-6.1 Terra entry records the curated context and no inf
   }
 });
 
-test('GPT-6.1 Terra leads the Codex OAuth curated list and the API entry stays out of it', () => {
-  assert.deepEqual(catalog.defaults['openai-codex-oauth'], [ID, 'gpt-6-sol', 'gpt-6-luna']);
+test('GPT-6.1 Terra stays on the Codex OAuth curated list behind the GPT-6.2 pair', () => {
+  assert.deepEqual(catalog.defaults['openai-codex-oauth'], ['gpt-6.2-astra', 'gpt-6.2-sol', ID]);
   assert.equal(catalog.defaults['openai-codex-oauth'].includes('gpt-6-astra'), false,
     'Astra keeps its entry but leaves the three-model recommendation');
   assert.ok(catalog.providers['openai-codex-oauth']['gpt-6-astra'],
     'Astra is preserved on the partition, only the recommendation changed');
-  assert.deepEqual(catalog.defaults.openai, ['gpt-6.1-sol', 'gpt-6-sol', 'gpt-6-luna'],
-    'the API default list is unchanged by this batch');
+  assert.deepEqual(catalog.defaults.openai, ['gpt-6.2-sol', 'gpt-6-sol', 'gpt-6-luna'],
+    'the API default list is led by GPT-6.2 Sol since November');
   assert.equal(catalog.defaults['openai-codex-oauth'].includes(ID), true);
 });
 
@@ -90,7 +90,7 @@ test('both artifacts keep the Terra entries and the same curated order', () => {
     assert.ok(doc.providers['openai-codex-oauth'][ID], `schemaVersion ${doc.schemaVersion}: oauth entry`);
     assert.deepEqual(doc.fallbacks[ID], catalog.fallbacks[ID],
       `schemaVersion ${doc.schemaVersion}: fallback survives the projection`);
-    assert.deepEqual(doc.defaults['openai-codex-oauth'], [ID, 'gpt-6-sol', 'gpt-6-luna'],
+    assert.deepEqual(doc.defaults['openai-codex-oauth'], ['gpt-6.2-astra', 'gpt-6.2-sol', ID],
       `schemaVersion ${doc.schemaVersion}: curated order`);
   }
   assert.equal(catalog.schemaVersion, 2);

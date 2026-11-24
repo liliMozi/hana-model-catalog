@@ -1,4 +1,48 @@
 {
+  "claude-fable-5-2": {
+    "name": "Claude Fable 5.2",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    }
+  },
+  "claude-mythos-5-2": {
+    "name": "Claude Mythos 5.2",
+    "context": 1000000,
+    "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "thinkingLevels": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "thinkingLevelMap": {
+      "xhigh": "max"
+    },
+    "defaultThinkingLevel": "high",
+    "compat": {
+      "thinkingFormat": "anthropic",
+      "reasoningProfile": "anthropic-adaptive-only"
+    }
+  },
   "claude-fable-5-1": {
     "name": "Claude Fable 5.1",
     "context": 1000000,

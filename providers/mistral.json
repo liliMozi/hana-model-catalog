@@ -1,4 +1,10 @@
 {
+  "mistral-large-4": {
+    "name": "Mistral Large 4",
+    "context": 1048576,
+    "image": true,
+    "reasoning": true
+  },
   "codestral-2405": {
     "name": "Codestral 2405",
     "context": 32000,

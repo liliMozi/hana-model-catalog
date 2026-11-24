@@ -1,4 +1,25 @@
 {
+  "gpt-6.2-astra": {
+    "name": "GPT-6.2 Astra",
+    "context": 272000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses"
+  },
+  "gpt-6.2-sol": {
+    "name": "GPT-6.2 Sol",
+    "context": 500000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses"
+  },
+  "gpt-6.1-sol": {
+    "name": "GPT-6.1 Sol",
+    "context": 500000,
+    "image": true,
+    "reasoning": true,
+    "api": "openai-codex-responses"
+  },
   "gpt-6.1-terra": {
     "name": "GPT-6.1 Terra",
     "context": 800000,

@@ -69,6 +69,67 @@ from the compiled artifact.
 
 Opus 5, Sonnet 5, and Opus 4.8 retain an off choice. Sonnet 5 accepts disabled thinking; Opus 5 accepts it at high effort or below. Opus 4.8 starts with thinking off unless adaptive mode is configured. Fable/Mythos models reject disabled thinking. Sonnet 5.5 also rejects disabled thinking; its lowest setting is `between_tools` at high effort or below, which is not an effort level and is not advertised as one. Haiku 5.5 accepts disabled thinking at high effort or below. [Thinking configuration](https://platform.claude.com/docs/en/build-with-claude/thinking).
 
+## November 2026 additions
+
+Reviewed November 25, 2026. This batch adds the overseas frontier models
+released after the October 27 review: GPT-6.2 Astra and Sol on the OpenAI
+API, the Codex OAuth partition and OpenRouter; Claude Fable 5.2 and Mythos
+5.2 on Anthropic (Fable 5.2 mirrored on OpenRouter); Gemini 4 Carbon,
+Hydrogen and Neon on Google and OpenRouter; and Mistral Large 4 on Mistral
+and OpenRouter. Every entry ships ungated: each field it uses is a shape the
+current client already implements, so the v1 projection keeps them all.
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| OpenAI `gpt-6.2-astra` / `gpt-6.2-sol` | Official IDs, released November 17, 2026. 1,050,000 context, 128,000 maximum output, text/image input. `reasoning.effort` accepts low, medium (default), high, xhigh and max on the Responses API; unlike GPT-6.1 Terra and the GPT-6 line, the reference states that `none` is rejected, so the entries carry no off choice and keep the legacy xhigh→max map. Fast is a service tier on the same model ID. [Astra](https://developers.openai.com/api/docs/models/gpt-6.2-astra), [Sol](https://developers.openai.com/api/docs/models/gpt-6.2-sol), [migration guide](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6.2-astra). |
+| Codex OAuth `gpt-6.2-astra` / `gpt-6.2-sol` / `gpt-6.1-sol` | Separate subscription surface. The public Codex model list now documents GPT-6.2 Astra and Sol and GPT-6.1 Sol for the app and the CLI, with default context windows of 272,000 for Astra and 500,000 for both Sol models (the Sol window can be raised toward 1M, but no authenticated discovery read was run, so `context` records the published default only). As in the Terra batch, `maxOutput`, `maxContext`, `thinkingLevels`, `thinkingLevelMap`, `defaultThinkingLevel` and `serviceTiers` stay unset. GPT-6.1 Sol joins the partition because this batch is the first with a public Codex source for it — the Terra batch's deferral note still applies to the October review, not to this data. [ChatGPT model guide](https://learn.chatgpt.com/docs/models). |
+| Anthropic `claude-fable-5-2` / `claude-mythos-5-2` | Official IDs, released November 9, 2026. 1M context, 128k output, text/image input, always-on adaptive thinking, high default, the five documented efforts low through max with the legacy xhigh mapping. Mythos requires an invitation. [Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview), [what's new](https://platform.claude.com/docs/en/models/fable-5-2/whats-new-fable-5-2), [release notes](https://platform.claude.com/docs/en/release-notes/overview). |
+| Google `gemini-4-carbon` / `gemini-4-hydrogen` / `gemini-4-neon` | Official IDs, released November 10, 12 and 18, 2026 respectively. 1,048,576 context, 65,536 default synchronous output cap, text/image/video/audio input, the low/medium/high thinking ladder through `google-thinking-level`. Documented default thinking level is medium for Carbon and high for Hydrogen and Neon. Hydrogen and Neon document an xhigh effort, but the client's `google-thinking-level` compat maps only low/medium/high and would reject xhigh, so that level is not advertised in this batch. [Carbon](https://ai.google.dev/gemini-api/docs/models/gemini-4-carbon), [Hydrogen](https://ai.google.dev/gemini-api/docs/models/gemini-4-hydrogen), [Neon](https://ai.google.dev/gemini-api/docs/models/gemini-4-neon), [changelog](https://ai.google.dev/gemini-api/docs/changelog). |
+| Mistral `mistral-large-4` | Official ID `mistral-large-4`, 1,048,576 context, image input, always-on reasoning. The reference documents no separate output cap, so `maxOutput` is left unset; reasoning accepts low/medium/high effort (high default), but whether the client's Mistral adapter sends `reasoning_effort` is unverified, so no thinking ladder is recorded. [Model reference](https://docs.mistral.ai/models/mistral-large-4), [reasoning guide](https://docs.mistral.ai/inference/conversations/reasoning). |
+| OpenRouter mirrors | `openai/gpt-6.2-astra`, `openai/gpt-6.2-sol`, `anthropic/claude-fable-5.2`, `google/gemini-4-carbon`, `google/gemini-4-hydrogen`, `google/gemini-4-neon` and `mistralai/mistral-large-4-0` verified against the [public model API](https://openrouter.ai/api/v1/models). Each mirror keeps its established gateway wiring: the GPT-6.2 pair carries `openai-completions` with the off-less low/medium/high/max ladder and the xhigh→max map; Fable 5.2 keeps the OpenRouter Anthropic adaptive profile; the Gemini trio keeps `thinkingFormat: openrouter` and the three-level ladder; `mistralai/mistral-large-4-0` reports 1,048,576 context and a 262,144 output cap that belongs only to the gateway. `anthropic/claude-mythos-5.2` returned 404 on OpenRouter and is not added. No paid invocation was performed. |
+| Generic fallbacks | New fallbacks for `gpt-6.2-astra`, `gpt-6.2-sol`, `claude-fable-5-2`, `claude-mythos-5-2`, `gemini-4-carbon`, `gemini-4-hydrogen`, `gemini-4-neon` and `mistral-large-4` carry the descriptive subset only — no `api`, thinking ladder, compat or service-tier fields, matching the Terra and Argon fallback precedent. |
+
+### Boundaries recorded but not expressed as fields
+
+- GPT-6.2 rejects `reasoning.effort: none`, so the API and OAuth entries carry
+  no off choice — an intentional absence, not a missing field.
+- Three GPT-6.2 runtime notes stay out of the catalog: an additional Ultrafast
+  service tier, the fact that editing the input prefix of a Responses
+  conversation drops prior reasoning items, and a change in where
+  `instructions` is applied. None alters a request shape the client sends.
+- Fable 5.2 enforces a prompt-prefix check on every account and binds returned
+  thinking blocks to the model and the account. That is runtime behaviour, not
+  a request-shape change, so no `requiresCapabilities` is declared — but a
+  client that rewrites history and replays the thinking blocks will get a 400
+  and needs a client-side review.
+- Gemini 4 Hydrogen and Neon also document an `xhigh` thinking level, an
+  Interactions API surface and a long-decode output mode; all three wait for
+  client support, so this batch records only the three shared levels and the
+  65,536 synchronous cap.
+- Mistral Large 4 always reasons and accepts low/medium/high effort with a
+  high default. The ladder is documented here but not written into the entry,
+  because the client's Mistral surface has not been verified to send it.
+
+### Deprecation notices recorded this batch
+
+Recorded for awareness only; no entry is removed in this batch.
+
+- OpenAI retires `gpt-5`, `gpt-5-mini`, `gpt-5-nano`, `gpt-5-pro`, `o3` and
+  `o3-pro` on December 11, 2026.
+- Anthropic retires `claude-opus-4-5` on January 22, 2027, and removes the
+  Opus 4.8 fast-mode preview on November 30, 2026.
+- Google auto-routes `gemini-2.5-pro` to Gemini 3.8 Flash and
+  `gemini-2.5-flash` to Gemini 3.5 Flash-Lite starting December 1, 2026.
+
+### Curated defaults
+
+Direct successors replace their predecessors in the three-model lists:
+`defaults.openai` leads with `gpt-6.2-sol`, `openai-codex-oauth` leads with
+`gpt-6.2-astra` and `gpt-6.2-sol` ahead of `gpt-6.1-terra`, `anthropic` swaps
+`claude-fable-5-1` for `claude-fable-5-2`, and `openrouter` swaps
+`openai/gpt-6.1-sol` for `openai/gpt-6.2-sol`. The superseded entries stay in
+`providers/`; gemini and mistral lists are unchanged.
+
 ## October 26, 2026 addition: GPT-6.1 Terra
 
 Reviewed October 27, 2026. This batch adds GPT-6.1 Terra to the OpenAI API,

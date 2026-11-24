@@ -12,8 +12,8 @@ const { catalog } = buildCatalog(root, { publishedAt: '2026-10-13T19:45:00Z' });
 // list is the curated recommendation, not a full provider directory.
 const EXPECTED_DEFAULTS = {
   agnes: ['agnes-2.0-flash'],
-  // Sonnet 5.5 replaced Sonnet 5 here in the October 25 batch; the rest of this list is unchanged.
-  anthropic: ['claude-opus-5-5', 'claude-fable-5-1', 'claude-sonnet-5-5'],
+  // Fable 5.2 replaced Fable 5.1 here in the November batch; the rest of this list is unchanged.
+  anthropic: ['claude-opus-5-5', 'claude-fable-5-2', 'claude-sonnet-5-5'],
   baichuan: ['Baichuan4-Turbo', 'Baichuan4-Air'],
   'baidu-cloud': ['ernie-4.5-turbo-vl-32k', 'ernie-4.5-128k'],
   dashscope: ['qwen3.8-omni-flash', 'qwen3.8-max', 'qwen3.8-flash'],
@@ -35,10 +35,11 @@ const EXPECTED_DEFAULTS = {
   modelscope: ['Qwen/Qwen3-235B-A22B'],
   'opencode-go': ['glm-5.2'],
   moonshot: ['kimi-k2.6'],
-  openai: ['gpt-6.1-sol', 'gpt-6-sol', 'gpt-6-luna'],
-  // GPT-6.1 Terra replaced GPT-6 Astra here in the October 26 batch; the rest of this list is unchanged.
-  'openai-codex-oauth': ['gpt-6.1-terra', 'gpt-6-sol', 'gpt-6-luna'],
-  openrouter: ['google/gemini-4-argon', 'openai/gpt-6.1-sol', 'anthropic/claude-opus-5.5'],
+  // GPT-6.2 Sol replaced GPT-6.1 Sol here in the November batch.
+  openai: ['gpt-6.2-sol', 'gpt-6-sol', 'gpt-6-luna'],
+  // GPT-6.2 Astra and Sol lead this list since the November batch; GPT-6.1 Terra remains third.
+  'openai-codex-oauth': ['gpt-6.2-astra', 'gpt-6.2-sol', 'gpt-6.1-terra'],
+  openrouter: ['google/gemini-4-argon', 'openai/gpt-6.2-sol', 'anthropic/claude-opus-5.5'],
   perplexity: ['sonar-pro', 'sonar'],
   siliconflow: [],
   stepfun: ['step-3.5-flash', 'step-3'],
@@ -151,8 +152,8 @@ test('OpenRouter Gemini 4 Argon mirrors descriptive metadata but keeps the gatew
 });
 
 test('OpenAI API and Codex OAuth partitions keep their own curated lists', () => {
-  assert.deepEqual(catalog.defaults.openai, ['gpt-6.1-sol', 'gpt-6-sol', 'gpt-6-luna']);
-  assert.deepEqual(catalog.defaults['openai-codex-oauth'], ['gpt-6.1-terra', 'gpt-6-sol', 'gpt-6-luna']);
+  assert.deepEqual(catalog.defaults.openai, ['gpt-6.2-sol', 'gpt-6-sol', 'gpt-6-luna']);
+  assert.deepEqual(catalog.defaults['openai-codex-oauth'], ['gpt-6.2-astra', 'gpt-6.2-sol', 'gpt-6.1-terra']);
   for (const id of catalog.defaults.openai) {
     assert.ok(catalog.providers.openai[id], `openai/${id} exists`);
   }
@@ -160,8 +161,9 @@ test('OpenAI API and Codex OAuth partitions keep their own curated lists', () =>
     assert.ok(catalog.providers['openai-codex-oauth'][id], `openai-codex-oauth/${id} exists`);
   }
   assert.equal(catalog.defaults['openai-codex-oauth'].includes('gpt-6.1-sol'), false,
-    'GPT-6.1 Sol stays off the Codex OAuth surface until its numbers have a public source');
-  assert.equal(catalog.providers['openai-codex-oauth']['gpt-6.1-sol'], undefined);
+    'GPT-6.1 Sol joined the OAuth partition in November but stays out of the recommendation');
+  assert.ok(catalog.providers['openai-codex-oauth']['gpt-6.1-sol'],
+    'a public Codex source for GPT-6.1 Sol exists since November, so the entry is present');
 });
 
 test('xai-oauth is not fabricated from the xAI API partition', () => {

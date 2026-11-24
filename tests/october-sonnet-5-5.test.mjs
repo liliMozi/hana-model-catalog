@@ -46,12 +46,14 @@ test('the generic Sonnet 5.5 fallback carries description only', () => {
   }
 });
 
-test('the curated Anthropic list swaps Sonnet 5 for Sonnet 5.5 without reordering', () => {
+test('the curated Anthropic list now leads with Fable 5.2 without reordering', () => {
   assert.deepEqual(catalog.defaults.anthropic, [
     'claude-opus-5-5',
-    'claude-fable-5-1',
+    'claude-fable-5-2',
     'claude-sonnet-5-5',
   ]);
   assert.ok(catalog.providers.anthropic['claude-sonnet-5'],
     'the older Sonnet 5 entry is retained for existing selections');
+  assert.ok(catalog.providers.anthropic['claude-fable-5-1'],
+    'the superseded Fable 5.1 entry is retained for existing selections');
 });
