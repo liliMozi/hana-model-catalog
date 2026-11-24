@@ -39,7 +39,7 @@ test('GPT-6.2 Astra and Sol carry the five documented efforts with no off choice
 
 test('the Codex OAuth GPT-6.2 and GPT-6.1 Sol entries record the published default windows and no inferred fields', () => {
   for (const [id, name, context] of [
-    ['gpt-6.2-astra', 'GPT-6.2 Astra', 272000],
+    ['gpt-6.2-astra', 'GPT-6.2 Astra', 500000],
     ['gpt-6.2-sol', 'GPT-6.2 Sol', 500000],
     ['gpt-6.1-sol', 'GPT-6.1 Sol', 500000],
   ]) {
@@ -47,7 +47,7 @@ test('the Codex OAuth GPT-6.2 and GPT-6.1 Sol entries record the published defau
     assert.ok(oauth, `openai-codex-oauth/${id} must exist`);
     assert.equal(oauth.name, name);
     assert.equal(oauth.context, context,
-      'the public Codex model list documents this default window; no authenticated discovery was run');
+      'the recorded Codex window: the Sol pair uses the published default, Astra the curated value');
     assert.equal(oauth.image, true);
     assert.equal(oauth.reasoning, true);
     assert.equal(oauth.api, 'openai-codex-responses');

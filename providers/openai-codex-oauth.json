@@ -1,7 +1,7 @@
 {
   "gpt-6.2-astra": {
     "name": "GPT-6.2 Astra",
-    "context": 272000,
+    "context": 500000,
     "image": true,
     "reasoning": true,
     "api": "openai-codex-responses"
