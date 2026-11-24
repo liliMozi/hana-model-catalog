@@ -401,6 +401,13 @@
     "maxOutput": 65536,
     "reasoning": true
   },
+  "deepseek/deepseek-v4.1-flash-1017": {
+    "name": "Deepseek/Deepseek V4.1 Flash 1017",
+    "context": 1048576,
+    "maxOutput": 384000,
+    "image": true,
+    "reasoning": true
+  },
   "deepseek/deepseek-r1": {
     "name": "Deepseek/Deepseek R1",
     "context": 163840,
@@ -604,6 +611,12 @@
     "name": "Gryphe/Mythomax L2.13b",
     "context": 8192
   },
+  "inclusionai/ling-3.1-flash": {
+    "name": "Inclusionai/Ling 3.1 Flash",
+    "context": 1048576,
+    "maxOutput": 262144,
+    "reasoning": true
+  },
   "mancer/weaver": {
     "name": "Mancer/Weaver",
     "context": 8000
@@ -616,6 +629,13 @@
     "name": "Minimax/Minimax M2",
     "context": 204800,
     "maxOutput": 196608,
+    "reasoning": true
+  },
+  "minimax/minimax-m3.1-flash": {
+    "name": "Minimax/Minimax M3.1 Flash",
+    "context": 1048576,
+    "image": true,
+    "video": true,
     "reasoning": true
   },
   "mistralai/devstral-2512": {
@@ -683,6 +703,13 @@
     "context": 262144,
     "maxOutput": 262144,
     "image": true,
+    "reasoning": true
+  },
+  "moonshotai/kimi-k3.1-pro": {
+    "name": "Moonshotai/Kimi K3.1 Pro",
+    "context": 1048576,
+    "image": true,
+    "video": true,
     "reasoning": true
   },
   "openai/gpt-3.5-turbo": {
@@ -912,6 +939,14 @@
     "context": 256000,
     "maxOutput": 65536,
     "image": true,
+    "reasoning": true
+  },
+  "qwen/qwen4-max": {
+    "name": "Qwen/Qwen4 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
     "reasoning": true
   },
   "switchpoint/router": {

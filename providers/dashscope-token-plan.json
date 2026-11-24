@@ -1,4 +1,15 @@
 {
+  "qwen4-max": {
+    "name": "Qwen 4 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
   "qwen3.8-max-preview": {
     "name": "Qwen 3.8 Max Preview",
     "context": 1048576,

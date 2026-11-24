@@ -121,13 +121,61 @@ Recorded for awareness only; no entry is removed in this batch.
 - Google auto-routes `gemini-2.5-pro` to Gemini 3.8 Flash and
   `gemini-2.5-flash` to Gemini 3.5 Flash-Lite starting December 1, 2026.
 
+### Domestic providers
+
+Same review window, domestic-side additions. Ling 3.1 Flash, the MiMo Token
+Plan backfill and every OpenRouter mirror below were verified against the
+linked public pages on November 25, 2026; no paid invocation was performed.
+
+| Provider/model | Confirmed metadata and source |
+| --- | --- |
+| DashScope `qwen4-max` | Official ID `qwen4-max`, released November 16, 2026. 1,000,000 context, 131,072 maximum output, text/image/video input, hybrid thinking via `enable_thinking`. [Model reference](https://help.aliyun.com/en/model-studio/qwen4-max). |
+| DashScope `antdigital/Ling-3.1-flash` | Official ID `antdigital/Ling-3.1-flash`, released October 29, 2026, Beijing region only. 1,048,576 context, 262,144 maximum output (identical in thinking mode), text input only, `enable_thinking`. [Model reference](https://help.aliyun.com/zh/model-studio/ling-3-1-flash-by-antdigital). |
+| Token Plan `qwen4-max` | Same entry added to the subscription partition; the plan model list keeps the per-model table. [Token Plan overview](https://help.aliyun.com/zh/model-studio/token-plan-personal-overview). |
+| Zhipu Coding `glm-5.4` | Official ID `glm-5.4`, released November 23, 2026, Coding Plan only — the public API waits for a security review, so the `zhipu` partition intentionally has no entry. 1M context (1,000,000 by the existing convention), 131,072 output, text/image/video input, low/high/max efforts, max default. [Model guide](https://docs.z.ai/guides/llm/glm-5.4), [Coding Plan](https://docs.bigmodel.cn/cn/coding-plan/overview). |
+| MiniMax `MiniMax-M3.1-Flash` (+ Token Plan) | Official ID `MiniMax-M3.1-Flash`, released October 19, 2026. Multimodal (text/image/video in), thinking always on. Context keeps the curated 500,000 usability ceiling that M3 established — the vendor advertises a 1M maximum. No documented output cap, so `maxOutput` is unset on both partitions. [Text generation guide](https://platform.minimax.io/docs/guides/text-generation), [model FAQ](https://platform.minimax.io/docs/faq/models). |
+| MiMo Token Plan v2.6 trio | The Token Plan page now lists `mimo-v2.6-pro`, `mimo-v2.6-flash` and — on Pro and Max tiers — `mimo-v2.6-pro-ultraspeed`. The entries inherit the descriptive fields of the matching `mimo` partition records; no protocol field is copied. [Token Plan](https://mimo.mi.com/docs/zh-CN/price/token-plan). |
+| OpenRouter mirrors | `qwen/qwen4-max` (1,000,000 / 131,072, image+video), `minimax/minimax-m3.1-flash` (1,048,576, image+video), `moonshotai/kimi-k3.1-pro` (1,048,576, image+video), `deepseek/deepseek-v4.1-flash-1017` (1,048,576 / 384,000, image) and `inclusionai/ling-3.1-flash` (1,048,576 / 262,144, text only) all verified live on the [endpoints API](https://openrouter.ai/api/v1/models). The Minimax and MoonshotAI mirrors carry no `maxOutput` because per-endpoint caps differ and the native entries document none. |
+| Generic fallbacks | `qwen4-max`, `glm-5.4` and `MiniMax-M3.1-Flash` fallbacks mirror the descriptive subset of the nearest native entry; the MiniMax one keeps the curated 500,000 ceiling and no output cap. |
+
+Boundaries recorded but not expressed as fields:
+
+- `qwen4-max` documents `reasoning_effort` values low/high/xhigh and — since
+  `qwen4-max-preview` — counts `max_tokens` against thinking plus answer
+  tokens together. Neither changes the fields this batch writes; the entry
+  keeps the established `enable_thinking` quirk.
+- GLM-5.4 is Coding-Plan-only. The official guidance suggests a 512,000
+  client-side window, but this batch keeps the partition's 1,000,000
+  convention; with thinking switched off the model is forced to low effort.
+- MiniMax M3.1 Flash always thinks and accepts five effort levels with a
+  `max` default; the ladder is recorded here, not in the entry.
+
+Changes registered for awareness only — nothing removed or rewritten:
+
+- MiniMax retired the M2.5/M2.7 families on November 18, 2026 and renamed
+  the subscription to M Plan.
+- MiMo v2.5 stopped serving on October 21, 2026.
+- DeepSeek `deepseek-chat` and `deepseek-reasoner` are disabled;
+  `deepseek-flash` now serves V4.1-Flash-1017, and the announced V4 Pro
+  redirect never happened.
+- Kimi deprecated a batch of older platform models; `kimi-for-coding` now
+  runs K2.8 Preview underneath, so its catalog metadata is stale pending a
+  separate review.
+
 ### Curated defaults
 
 Direct successors replace their predecessors in the three-model lists:
 `defaults.openai` leads with `gpt-6.2-sol`, `openai-codex-oauth` leads with
 `gpt-6.2-astra` and `gpt-6.2-sol` ahead of `gpt-6.1-terra`, `anthropic` swaps
 `claude-fable-5-1` for `claude-fable-5-2`, and `openrouter` swaps
-`openai/gpt-6.1-sol` for `openai/gpt-6.2-sol`. The superseded entries stay in
+`openai/gpt-6.1-sol` for `openai/gpt-6.2-sol`. On the domestic side,
+`dashscope` swaps `qwen3.8-max` for `qwen4-max`, `dashscope-token-plan`
+points at `qwen4-max` alone now that `qwen3.8-max-preview` left the plan,
+`zhipu-coding` leads with `glm-5.4` (glm-5.2 officially routes to 5.3),
+`minimax` recommends `MiniMax-M3.1-Flash` ahead of `MiniMax-M3` after the
+M2.7 retirement, `minimax-token-plan` narrows to `MiniMax-M3.1-Flash` as the
+plan's only text model, and `mimo-token-plan` gains its first curated list
+from the three confirmed v2.6 entries. The superseded entries stay in
 `providers/`; gemini and mistral lists are unchanged.
 
 ## October 26, 2026 addition: GPT-6.1 Terra

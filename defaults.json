@@ -17,7 +17,7 @@
   ],
   "dashscope": [
     "qwen3.8-omni-flash",
-    "qwen3.8-max",
+    "qwen4-max",
     "qwen3.8-flash"
   ],
   "dashscope-coding": [
@@ -26,7 +26,7 @@
     "qwen3-coder-flash"
   ],
   "dashscope-token-plan": [
-    "qwen3.8-max-preview"
+    "qwen4-max"
   ],
   "deepseek": [
     "deepseek-flash",
@@ -51,14 +51,11 @@
     "kimi-for-coding"
   ],
   "minimax": [
-    "MiniMax-M3",
-    "MiniMax-M2.7",
-    "MiniMax-M2.7-highspeed"
+    "MiniMax-M3.1-Flash",
+    "MiniMax-M3"
   ],
   "minimax-token-plan": [
-    "MiniMax-M3",
-    "MiniMax-M2.7",
-    "MiniMax-M2.5"
+    "MiniMax-M3.1-Flash"
   ],
   "mistral": [
     "mistral-large-latest",
@@ -70,7 +67,11 @@
     "mimo-v2.6-flash",
     "mimo-v2.6-pro-ultraspeed"
   ],
-  "mimo-token-plan": [],
+  "mimo-token-plan": [
+    "mimo-v2.6-pro",
+    "mimo-v2.6-flash",
+    "mimo-v2.6-pro-ultraspeed"
+  ],
   "modelscope": [
     "Qwen/Qwen3-235B-A22B"
   ],
@@ -123,9 +124,9 @@
     "glm-5.3-flash"
   ],
   "zhipu-coding": [
+    "glm-5.4",
     "glm-5.3",
-    "glm-5.3-flash",
-    "glm-5.2"
+    "glm-5.3-flash"
   ],
   "ollama": []
 }

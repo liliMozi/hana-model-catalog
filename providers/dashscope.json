@@ -1,4 +1,24 @@
 {
+  "qwen4-max": {
+    "name": "Qwen 4 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "antdigital/Ling-3.1-flash": {
+    "name": "Ling 3.1 Flash",
+    "context": 1048576,
+    "maxOutput": 262144,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
   "qwen3.8-omni-flash": {
     "name": "Qwen 3.8 Omni Flash",
     "context": 1000000,

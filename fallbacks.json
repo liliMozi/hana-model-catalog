@@ -391,6 +391,15 @@
     "reasoning": true,
     "xhigh": true
   },
+  "glm-5.4": {
+    "name": "GLM-5.4",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "xhigh": true
+  },
   "glm-5.2": {
     "name": "GLM-5.2",
     "context": 1000000,
@@ -1021,6 +1030,13 @@
     "name": "MiniMax M3",
     "context": 500000,
     "maxOutput": 128000,
+    "image": true,
+    "reasoning": true,
+    "video": true
+  },
+  "MiniMax-M3.1-Flash": {
+    "name": "MiniMax M3.1 Flash",
+    "context": 500000,
     "image": true,
     "reasoning": true,
     "video": true
@@ -5490,6 +5506,14 @@
     "image": true,
     "video": true,
     "audio": true,
+    "reasoning": true
+  },
+  "qwen4-max": {
+    "name": "Qwen 4 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
     "reasoning": true
   },
   "qwen3.8-max": {

@@ -130,11 +130,13 @@ const FIELD_MAP = [
 //   value curated here in a direction that has not been independently
 //   confirmed against the provider's own documentation; kept at the
 //   curated value pending confirmation.
-// - minimax/MiniMax-M3.context: the curated value reflects an observed
-//   practical usability ceiling below the vendor's advertised maximum
-//   context size; kept in preference to the larger upstream figure.
+// - minimax/MiniMax-M3.context and minimax/MiniMax-M3.1-Flash.context: the
+//   curated values reflect an observed practical usability ceiling below the
+//   vendor's advertised maximum context size; kept in preference to the
+//   larger upstream figure.
 const EXCLUDED_UPDATES = new Set([
   "minimax/MiniMax-M3.context",
+  "minimax/MiniMax-M3.1-Flash.context",
   "anthropic/claude-opus-4-6.context",
   "anthropic/claude-sonnet-4-6.context",
   "mistral/codestral-latest.maxOutput",

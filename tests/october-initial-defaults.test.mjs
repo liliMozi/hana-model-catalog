@@ -16,9 +16,10 @@ const EXPECTED_DEFAULTS = {
   anthropic: ['claude-opus-5-5', 'claude-fable-5-2', 'claude-sonnet-5-5'],
   baichuan: ['Baichuan4-Turbo', 'Baichuan4-Air'],
   'baidu-cloud': ['ernie-4.5-turbo-vl-32k', 'ernie-4.5-128k'],
-  dashscope: ['qwen3.8-omni-flash', 'qwen3.8-max', 'qwen3.8-flash'],
+  // Qwen 4 Max replaced Qwen 3.8 Max here in the November domestic batch.
+  dashscope: ['qwen3.8-omni-flash', 'qwen4-max', 'qwen3.8-flash'],
   'dashscope-coding': ['qwen3-coder-plus', 'qwen3-coder-next', 'qwen3-coder-flash'],
-  'dashscope-token-plan': ['qwen3.8-max-preview'],
+  'dashscope-token-plan': ['qwen4-max'],
   deepseek: ['deepseek-flash', 'deepseek-v4-pro'],
   fireworks: [],
   // Argon restored ahead of 3.8 Flash on October 25 to match the client baseline order.
@@ -27,11 +28,13 @@ const EXPECTED_DEFAULTS = {
   hunyuan: ['hunyuan-t1-latest', 'hunyuan-turbos-latest'],
   infini: [],
   'kimi-coding': ['kimi-for-coding'],
-  minimax: ['MiniMax-M3', 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed'],
-  'minimax-token-plan': ['MiniMax-M3', 'MiniMax-M2.7', 'MiniMax-M2.5'],
+  // M3.1 Flash leads since the November domestic batch; the M2.7 family retired on 2026-11-18.
+  minimax: ['MiniMax-M3.1-Flash', 'MiniMax-M3'],
+  'minimax-token-plan': ['MiniMax-M3.1-Flash'],
   mistral: ['mistral-large-latest', 'mistral-small-latest', 'codestral-latest'],
   mimo: ['mimo-v2.6-pro', 'mimo-v2.6-flash', 'mimo-v2.6-pro-ultraspeed'],
-  'mimo-token-plan': [],
+  // First curated list on this partition, from the three confirmed v2.6 entries (November domestic batch).
+  'mimo-token-plan': ['mimo-v2.6-pro', 'mimo-v2.6-flash', 'mimo-v2.6-pro-ultraspeed'],
   modelscope: ['Qwen/Qwen3-235B-A22B'],
   'opencode-go': ['glm-5.2'],
   moonshot: ['kimi-k2.6'],
@@ -48,7 +51,8 @@ const EXPECTED_DEFAULTS = {
   'volcengine-coding': ['doubao-seed-code'],
   xai: ['grok-4.7', 'grok-4.6', 'grok-4.5'],
   zhipu: ['glm-5.3-flashx', 'glm-5.3', 'glm-5.3-flash'],
-  'zhipu-coding': ['glm-5.3', 'glm-5.3-flash', 'glm-5.2'],
+  // GLM-5.4 leads since the November domestic batch; glm-5.2 officially routes to 5.3.
+  'zhipu-coding': ['glm-5.4', 'glm-5.3', 'glm-5.3-flash'],
   ollama: [],
 };
 
@@ -186,7 +190,7 @@ test('retired and non-chat entries stay out of the curated recommendations', () 
 });
 
 test('providers without a verified current recommendation carry an empty list', () => {
-  for (const provider of ['fireworks', 'infini', 'siliconflow', 'together', 'mimo-token-plan', 'ollama']) {
+  for (const provider of ['fireworks', 'infini', 'siliconflow', 'together', 'ollama']) {
     assert.deepEqual(catalog.defaults[provider], [], `${provider} must stay an explicit empty list`);
   }
 });
