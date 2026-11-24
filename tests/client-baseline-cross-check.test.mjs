@@ -45,12 +45,25 @@ import { buildCatalog } from "../scripts/build-catalog.mjs";
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXTURE_PATH = join(REPO_ROOT, "tests", "fixtures", "client-baseline-catalog.v1.json");
 
+// Source-backed corrections to frozen baseline entries. The frozen fixture
+// bytes stay unchanged; only these exact documented corrections are allowed,
+// and each must still match its original value. A `to: REMOVED` correction
+// asserts the field is now absent because the current official source no
+// longer documents it.
+//
 // Kimi Coding K3 corrections, reviewed October 25, 2026 against the official
 // Kimi Code model configuration:
 // https://www.kimi.com/code/docs/kimi-code/models.html
-// The frozen fixture bytes stay unchanged; only these exact source-backed
-// corrections are allowed, and each must still match its original value.
-const KIMI_K3_BASELINE_CORRECTIONS = new Map([
+//
+// Kimi for Coding corrections, reviewed November 25, 2026 against the same
+// page: the model now serves K2.8 Preview with a documented 1,048,576
+// context, image and video input, a low/high/max effort ladder defaulting to
+// `max`, and off routing to the non-thinking variant. The documented request
+// parameter is top-level `reasoning_effort` (the K3 shape), so the K2-era
+// `thinking`-object compat profile is removed, and the undocumented
+// `maxOutput` 32,768 is dropped rather than carried as an invented limit.
+const REMOVED = Symbol("field removed by a documented correction");
+const BASELINE_CORRECTIONS = new Map([
   ["providers.kimi-coding.k3.thinkingLevels", {
     from: ["medium", "high", "max"],
     to: ["low", "high", "max"],
@@ -68,13 +81,36 @@ const KIMI_K3_BASELINE_CORRECTIONS = new Map([
     from: { off: null, low: "low", medium: "low", high: "high", xhigh: "max" },
     to: { off: null, low: "low", medium: "high", high: "high", xhigh: "max" },
   }],
+  ["providers.kimi-coding.kimi-for-coding.context", { from: 262144, to: 1048576 }],
+  ["providers.kimi-coding.kimi-for-coding.maxOutput", { from: 32768, to: REMOVED }],
+  ["providers.kimi-coding.kimi-for-coding.defaultThinkingLevel", { from: "high", to: "max" }],
+  ["providers.kimi-coding.kimi-for-coding.compat", {
+    from: { thinkingFormat: "kimi", reasoningProfile: "kimi-openai" },
+    to: REMOVED,
+  }],
+  ["fallbacks.kimi-for-coding.context", { from: 262144, to: 1048576 }],
+  ["fallbacks.kimi-for-coding.maxOutput", { from: 32768, to: REMOVED }],
 ]);
 
 function expectedBaselineValue(path, oldValue) {
-  const correction = KIMI_K3_BASELINE_CORRECTIONS.get(path);
-  if (!correction) return oldValue;
+  const correction = BASELINE_CORRECTIONS.get(path);
+  if (!correction || correction.to === REMOVED) return oldValue;
   assert.deepStrictEqual(oldValue, correction.from, `${path} correction must match its original baseline`);
   return correction.to;
+}
+
+// A REMOVED correction verifies the frozen value matches `from`, then asserts
+// the field no longer exists in today's build. Returns true when the field
+// was handled as a removal.
+function isRemovedCorrection(path, oldValue, catalogEntry, field) {
+  const correction = BASELINE_CORRECTIONS.get(path);
+  if (correction?.to !== REMOVED) return false;
+  assert.deepStrictEqual(oldValue, correction.from, `${path} removal must match its original baseline`);
+  assert.ok(
+    !Object.prototype.hasOwnProperty.call(catalogEntry, field),
+    `${path} is corrected to absent and must not appear in the build output`,
+  );
+  return true;
 }
 
 test("build output preserves every entry of the frozen client baseline, ignoring publishedAt", () => {
@@ -94,14 +130,16 @@ test("build output preserves every entry of the frozen client baseline, ignoring
       const catalogEntry = catalog.providers[group][model];
       assert.ok(catalogEntry, `providers.${group}.${model} was removed from the build output`);
       for (const [field, baselineValue] of Object.entries(baselineEntry)) {
+        const path = `providers.${group}.${model}.${field}`;
+        if (isRemovedCorrection(path, baselineValue, catalogEntry, field)) continue;
         assert.ok(
           Object.prototype.hasOwnProperty.call(catalogEntry, field),
-          `providers.${group}.${model}.${field} was removed from the build output`,
+          `${path} was removed from the build output`,
         );
         assert.deepStrictEqual(
           catalogEntry[field],
-          expectedBaselineValue(`providers.${group}.${model}.${field}`, baselineValue),
-          `providers.${group}.${model}.${field} no longer matches the frozen baseline`,
+          expectedBaselineValue(path, baselineValue),
+          `${path} no longer matches the frozen baseline`,
         );
       }
     }
@@ -111,14 +149,16 @@ test("build output preserves every entry of the frozen client baseline, ignoring
     const catalogEntry = catalog.fallbacks[model];
     assert.ok(catalogEntry, `fallbacks.${model} was removed from the build output`);
     for (const [field, baselineValue] of Object.entries(baselineEntry)) {
+      const path = `fallbacks.${model}.${field}`;
+      if (isRemovedCorrection(path, baselineValue, catalogEntry, field)) continue;
       assert.ok(
         Object.prototype.hasOwnProperty.call(catalogEntry, field),
-        `fallbacks.${model}.${field} was removed from the build output`,
+        `${path} was removed from the build output`,
       );
       assert.deepStrictEqual(
         catalogEntry[field],
-        expectedBaselineValue(`fallbacks.${model}.${field}`, baselineValue),
-        `fallbacks.${model}.${field} no longer matches the frozen baseline`,
+        expectedBaselineValue(path, baselineValue),
+        `${path} no longer matches the frozen baseline`,
       );
     }
   }

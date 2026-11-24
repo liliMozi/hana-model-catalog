@@ -178,6 +178,18 @@ plan's only text model, and `mimo-token-plan` gains its first curated list
 from the three confirmed v2.6 entries. The superseded entries stay in
 `providers/`; gemini and mistral lists are unchanged.
 
+## November 25, 2026 gap fill
+
+Reviewed November 25, 2026. Backfill pass over domestic and gateway gaps,
+plus one owner decision recorded below. Each numbered subsection is its own
+commit.
+
+| Item | Confirmed metadata and source |
+| --- | --- |
+| Codex OAuth `gpt-6.2-astra` context | Owner decision: `context` is now a curated 500,000 — the Codex public default window is 272,000 and the product can be raised toward 1M, matching the Terra convention (800,000) rather than the raw default. |
+| `kimi-coding` `kimi-for-coding` refresh | The [official model table](https://www.kimi.com/code/docs/kimi-code/models.html) now identifies `kimi-for-coding` as K2.8 Preview: context up to 1,048,576, image and video input, top-level `reasoning_effort` of low/high/max with a `max` default, and thinking-off routed to the non-thinking K2.8 variant rather than rejected. `context` is corrected to 1,048,576, `defaultThinkingLevel` to `max`, `video` added, `thinkingLevels` keeps `off` because off still resolves to a served model, the K2-era `thinking`-object compat profile is removed (the documented wire parameter is `reasoning_effort`, the same shape as `k3`), and the undocumented `maxOutput` 32,768 is dropped. `visionCapabilities` is retained. No capability requirement is added: the no-compat K3 shape already ships ungated on this partition. |
+| `kimi-coding` `kimi-for-coding-highspeed` (+ fallback) | New ID on the same page: K2.7 Code Highspeed, 262,144 context, image and video input, thinking always on and not adjustable (off requests route to the non-thinking K2.8 variant; no effort ladder is accepted), Pro tier and above. `reasoning` only, no levels. Same page as above. |
+
 ## October 26, 2026 addition: GPT-6.1 Terra
 
 Reviewed October 27, 2026. This batch adds GPT-6.1 Terra to the OpenAI API,

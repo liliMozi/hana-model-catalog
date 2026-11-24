@@ -58,16 +58,20 @@ test('K3 and K3-256K use the native low/high/max ladder with a high default', ()
   }
 });
 
-test('the historical Kimi for Coding entry and older Kimi IDs are retained', () => {
+test('the refreshed Kimi for Coding entry keeps the legacy ids around it', () => {
   const legacy = catalog.providers['kimi-coding']['kimi-for-coding'];
   assert.ok(legacy);
-  assert.equal(legacy.maxOutput, 32768);
+  assert.equal(legacy.context, 1048576,
+    'the official page now documents K2.8 Preview with a 1M ceiling');
   assert.deepEqual(legacy.thinkingLevels, ['off', 'low', 'high', 'max']);
-  assert.equal(legacy.defaultThinkingLevel, 'high');
-  assert.deepEqual(legacy.compat, {
-    thinkingFormat: 'kimi',
-    reasoningProfile: 'kimi-openai',
-  });
+  assert.equal(legacy.defaultThinkingLevel, 'max',
+    'the subscription default is max on the K2.8 row');
+  assert.equal('compat' in legacy, false,
+    'the documented request parameter is top-level reasoning_effort, the K3 shape');
+  assert.equal('maxOutput' in legacy, false,
+    'the official page documents no separate output limit for K2.8 Preview');
+  assert.ok(catalog.providers['kimi-coding']['kimi-for-coding-highspeed'],
+    'K2.7 Code Highspeed joined the partition in November');
   for (const id of ['kimi-k2.6', 'kimi-k2.5', 'kimi-k2']) {
     assert.ok(catalog.providers['kimi-coding'][id], `kimi-coding/${id} must be retained`);
   }

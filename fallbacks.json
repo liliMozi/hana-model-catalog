@@ -3755,9 +3755,9 @@
   },
   "kimi-for-coding": {
     "name": "Kimi for Coding",
-    "context": 262144,
-    "maxOutput": 32768,
+    "context": 1048576,
     "image": true,
+    "video": true,
     "reasoning": true,
     "visionCapabilities": {
       "grounding": true,
@@ -3768,6 +3768,13 @@
       "outputFormat": "anchor",
       "groundingMode": "prompted"
     }
+  },
+  "kimi-for-coding-highspeed": {
+    "name": "Kimi for Coding Highspeed",
+    "context": 262144,
+    "image": true,
+    "video": true,
+    "reasoning": true
   },
   "kimi-k2": {
     "name": "Kimi K2",

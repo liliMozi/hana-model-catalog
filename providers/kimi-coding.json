@@ -78,9 +78,9 @@
   },
   "kimi-for-coding": {
     "name": "Kimi for Coding",
-    "context": 262144,
-    "maxOutput": 32768,
+    "context": 1048576,
     "image": true,
+    "video": true,
     "reasoning": true,
     "thinkingLevels": [
       "off",
@@ -95,11 +95,7 @@
       "high": "high",
       "xhigh": "max"
     },
-    "defaultThinkingLevel": "high",
-    "compat": {
-      "thinkingFormat": "kimi",
-      "reasoningProfile": "kimi-openai"
-    },
+    "defaultThinkingLevel": "max",
     "visionCapabilities": {
       "grounding": true,
       "boxes": true,
@@ -109,6 +105,13 @@
       "outputFormat": "anchor",
       "groundingMode": "prompted"
     }
+  },
+  "kimi-for-coding-highspeed": {
+    "name": "Kimi for Coding Highspeed",
+    "context": 262144,
+    "image": true,
+    "video": true,
+    "reasoning": true
   },
   "kimi-k2.6": {
     "name": "Kimi K2.6",
