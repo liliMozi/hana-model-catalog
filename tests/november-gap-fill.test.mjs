@@ -182,3 +182,45 @@ test('the Qwen 3.7 fallbacks are descriptive and survive the v1 projection', () 
     }
   }
 });
+
+// Section 4: StepFun gap fill.
+test('Step 5 Preview and Step 3.7 Flash record their official windows', () => {
+  const preview = catalog.providers.stepfun['step-5-preview'];
+  assert.ok(preview, 'stepfun/step-5-preview must exist');
+  assert.equal(preview.name, 'Step 5 Preview');
+  assert.equal(preview.context, 1000000);
+  assert.equal(preview.maxOutput, 65536, 'the spec sheet states a 64k output cap');
+  for (const field of ['image', 'video', 'reasoning']) {
+    assert.equal(preview[field], true, field);
+  }
+  for (const field of ['thinkingLevels', 'thinkingLevelMap', 'defaultThinkingLevel', 'compat', 'api']) {
+    assert.equal(field in preview, false,
+      'the StepFun adapter reasoning_effort wiring is unverified; the ladder stays unwritten');
+  }
+
+  const flash = catalog.providers.stepfun['step-3.7-flash'];
+  assert.ok(flash, 'stepfun/step-3.7-flash must exist');
+  assert.equal(flash.context, 262144);
+  assert.equal('maxOutput' in flash, false, 'no output cap is documented');
+  for (const field of ['image', 'video', 'reasoning']) {
+    assert.equal(flash[field], true, field);
+  }
+});
+
+test('Step 5 Preview leads the stepfun recommendation and the fallbacks are descriptive', () => {
+  assert.deepEqual(catalog.defaults.stepfun, ['step-5-preview', 'step-3.5-flash', 'step-3']);
+  for (const doc of [catalog, v1Catalog]) {
+    assert.deepEqual(doc.fallbacks['step-5-preview'], {
+      name: 'Step 5 Preview', context: 1000000, maxOutput: 65536,
+      image: true, video: true, reasoning: true,
+    }, `schemaVersion ${doc.schemaVersion}: step-5-preview fallback`);
+    assert.deepEqual(doc.fallbacks['step-3.7-flash'], {
+      name: 'Step 3.7 Flash', context: 262144,
+      image: true, video: true, reasoning: true,
+    }, `schemaVersion ${doc.schemaVersion}: step-3.7-flash fallback`);
+    assert.ok(doc.providers.stepfun['step-5-preview']);
+    assert.ok(doc.providers.stepfun['step-3.7-flash']);
+  }
+  assert.equal(catalog.providers['stepfun-plan'], undefined,
+    'no Step Plan subscription partition is created in this batch');
+});

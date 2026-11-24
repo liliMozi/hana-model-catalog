@@ -45,7 +45,7 @@ const EXPECTED_DEFAULTS = {
   openrouter: ['google/gemini-4-argon', 'openai/gpt-6.2-sol', 'anthropic/claude-opus-5.5'],
   perplexity: ['sonar-pro', 'sonar'],
   siliconflow: [],
-  stepfun: ['step-3.5-flash', 'step-3'],
+  stepfun: ['step-5-preview', 'step-3.5-flash', 'step-3'],
   together: [],
   volcengine: ['doubao-seed-evolving', 'doubao-seed-2-1-pro-260915'],
   'volcengine-coding': ['doubao-seed-code'],

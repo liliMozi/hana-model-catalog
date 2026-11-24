@@ -1,4 +1,19 @@
 {
+  "step-5-preview": {
+    "name": "Step 5 Preview",
+    "context": 1000000,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
+  "step-3.7-flash": {
+    "name": "Step 3.7 Flash",
+    "context": 262144,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
   "step-3.5-flash": {
     "name": "Step 3.5 Flash",
     "context": 262144,
