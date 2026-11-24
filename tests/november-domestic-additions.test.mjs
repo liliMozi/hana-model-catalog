@@ -93,7 +93,7 @@ test('the domestic OpenRouter mirrors are descriptive and keep no protocol field
     'qwen/qwen4-max': { context: 1000000, maxOutput: 131072, image: true, video: true, reasoning: true },
     'minimax/minimax-m3.1-flash': { context: 1048576, image: true, video: true, reasoning: true },
     'moonshotai/kimi-k3.1-pro': { context: 1048576, image: true, video: true, reasoning: true },
-    'deepseek/deepseek-v4.1-flash-1017': { context: 1048576, maxOutput: 384000, image: true, reasoning: true },
+    'deepseek/deepseek-v4.1-flash-1017': { context: 1048576, image: true, reasoning: true },
     'inclusionai/ling-3.1-flash': { context: 1048576, maxOutput: 262144, reasoning: true },
   };
   for (const [id, fields] of Object.entries(expected)) {
@@ -110,6 +110,8 @@ test('the domestic OpenRouter mirrors are descriptive and keep no protocol field
   assert.equal('maxOutput' in catalog.providers.openrouter['minimax/minimax-m3.1-flash'], false,
     'no gateway-reported cap is promoted onto the mirror without a native source');
   assert.equal('maxOutput' in catalog.providers.openrouter['moonshotai/kimi-k3.1-pro'], false);
+  assert.equal('maxOutput' in catalog.providers.openrouter['deepseek/deepseek-v4.1-flash-1017'], false,
+    'endpoint caps disagree (131,072 / 393,216), so the native 384,000 is not copied onto the gateway');
 });
 
 test('the new domestic generic fallbacks are descriptive only', () => {

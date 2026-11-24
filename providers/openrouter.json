@@ -404,7 +404,6 @@
   "deepseek/deepseek-v4.1-flash-1017": {
     "name": "Deepseek/Deepseek V4.1 Flash 1017",
     "context": 1048576,
-    "maxOutput": 384000,
     "image": true,
     "reasoning": true
   },
