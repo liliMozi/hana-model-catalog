@@ -948,6 +948,27 @@
     "video": true,
     "reasoning": true
   },
+  "qwen/qwen3.7-max": {
+    "name": "Qwen/Qwen3.7 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "reasoning": true
+  },
+  "qwen/qwen3.7-plus": {
+    "name": "Qwen/Qwen3.7 Plus",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "reasoning": true
+  },
+  "qwen/qwen3.7-flash": {
+    "name": "Qwen/Qwen3.7 Flash",
+    "context": 1000000,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "reasoning": true
+  },
   "switchpoint/router": {
     "name": "Switchpoint/Router",
     "context": 131072,

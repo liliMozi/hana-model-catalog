@@ -83,3 +83,102 @@ test('the kimi-for-coding pair mirrors into descriptive fallbacks and stays unga
   assert.deepEqual(catalog.defaults['kimi-coding'], ['kimi-for-coding'],
     'the curated Kimi Coding list is unchanged');
 });
+
+// Section 3: Qwen 3.7 series on DashScope, Token Plan, Coding Plan and OpenRouter.
+test('the Qwen 3.7 trio mirrors the qwen4-max shape on the API surface', () => {
+  const expected = {
+    'qwen3.7-max': { image: false, video: false },
+    'qwen3.7-plus': { image: true, video: true },
+    'qwen3.7-flash': { image: true, video: true },
+  };
+  for (const [id, mods] of Object.entries(expected)) {
+    const entry = catalog.providers.dashscope[id];
+    assert.ok(entry, `dashscope/${id} must exist`);
+    assert.equal(entry.context, 1000000);
+    assert.equal(entry.maxOutput, 131072,
+      'the official page states 131,072 for all three — the 65,536 flash figure was a gateway cap');
+    assert.equal(entry.reasoning, true);
+    assert.deepEqual(entry.quirks, ['enable_thinking']);
+    assert.equal('image' in entry, mods.image);
+    assert.equal('video' in entry, mods.video);
+  }
+});
+
+test('the Token Plan partition gains the five listed Qwen text models', () => {
+  const expected = {
+    'qwen4-max': { context: 1000000, maxOutput: 131072, image: true, video: true },
+    'qwen3.8-max': { context: 1000000, maxOutput: 131072, image: true, video: true },
+    'qwen3.8-flash': { context: 1000000, maxOutput: 131072, image: true, video: true },
+    'qwen3.7-max': { context: 1000000, maxOutput: 131072 },
+    'qwen3.7-plus': { context: 1000000, maxOutput: 131072, image: true, video: true },
+    'qwen3.6-flash': { context: 1000000, maxOutput: 65536, image: true, video: true },
+  };
+  for (const [id, fields] of Object.entries(expected)) {
+    const entry = catalog.providers['dashscope-token-plan'][id];
+    assert.ok(entry, `dashscope-token-plan/${id} must exist`);
+    for (const [field, value] of Object.entries(fields)) {
+      assert.equal(entry[field], value, `dashscope-token-plan/${id}.${field}`);
+    }
+    assert.equal(entry.reasoning, true);
+    assert.deepEqual(entry.quirks, ['enable_thinking']);
+    for (const field of ['thinkingLevels', 'thinkingLevelMap', 'defaultThinkingLevel', 'compat']) {
+      assert.equal(field in entry, false);
+    }
+  }
+  for (const id of ['qwen4-max-preview', 'auto',
+    'deepseek-v4.1-flash', 'deepseek-v4-pro', 'glm-5.3']) {
+    assert.equal(catalog.providers['dashscope-token-plan'][id], undefined,
+      `dashscope-token-plan/${id} is registered but out of scope`);
+  }
+});
+
+test('qwen3.7-plus joins dashscope-coding as the plan\'s only qwen3.7/3.8 text model', () => {
+  const entry = catalog.providers['dashscope-coding']['qwen3.7-plus'];
+  assert.ok(entry, 'dashscope-coding/qwen3.7-plus must exist');
+  assert.equal(entry.context, 1000000);
+  assert.equal(entry.maxOutput, 131072);
+  assert.equal(entry.image, true);
+  assert.equal(entry.video, true);
+  assert.equal(entry.reasoning, true);
+  assert.deepEqual(entry.quirks, ['enable_thinking']);
+  assert.equal(catalog.providers['dashscope-coding']['qwen3.7-max'], undefined,
+    'the official Coding Plan list does not include qwen3.7-max');
+});
+
+test('the Qwen 3.7 OpenRouter mirrors record gateway-measured values', () => {
+  const expected = {
+    'qwen/qwen3.7-max': { maxOutput: 131072, image: false, video: false },
+    'qwen/qwen3.7-plus': { maxOutput: 131072, image: true, video: false },
+    'qwen/qwen3.7-flash': { maxOutput: 65536, image: true, video: true },
+  };
+  for (const [id, mods] of Object.entries(expected)) {
+    const mirror = catalog.providers.openrouter[id];
+    assert.ok(mirror, `openrouter/${id} must exist`);
+    assert.equal(mirror.context, 1000000);
+    assert.equal(mirror.maxOutput, mods.maxOutput);
+    assert.equal('image' in mirror, mods.image,
+      `${id}: the endpoint's declared input modalities decide`);
+    assert.equal('video' in mirror, mods.video);
+    assert.equal(mirror.reasoning, true);
+    for (const field of ['api', 'compat', 'thinkingLevels', 'quirks']) {
+      assert.equal(field in mirror, false);
+    }
+  }
+});
+
+test('the Qwen 3.7 fallbacks are descriptive and survive the v1 projection', () => {
+  const expected = {
+    'qwen3.7-max': { name: 'Qwen 3.7 Max', context: 1000000, maxOutput: 131072, reasoning: true },
+    'qwen3.7-plus': { name: 'Qwen 3.7 Plus', context: 1000000, maxOutput: 131072, image: true, video: true, reasoning: true },
+    'qwen3.7-flash': { name: 'Qwen 3.7 Flash', context: 1000000, maxOutput: 131072, image: true, video: true, reasoning: true },
+  };
+  for (const doc of [catalog, v1Catalog]) {
+    for (const [id, fields] of Object.entries(expected)) {
+      assert.deepEqual(doc.fallbacks[id], fields,
+        `schemaVersion ${doc.schemaVersion}: fallbacks.${id}`);
+      for (const field of ['api', 'compat', 'thinkingLevels', 'quirks', 'requiresCapabilities']) {
+        assert.equal(field in doc.fallbacks[id], false);
+      }
+    }
+  }
+});

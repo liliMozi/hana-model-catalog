@@ -10,6 +10,59 @@
       "enable_thinking"
     ]
   },
+  "qwen3.8-max": {
+    "name": "Qwen 3.8 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3.8-flash": {
+    "name": "Qwen 3.8 Flash",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3.7-max": {
+    "name": "Qwen 3.7 Max",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3.7-plus": {
+    "name": "Qwen 3.7 Plus",
+    "context": 1000000,
+    "maxOutput": 131072,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
+  "qwen3.6-flash": {
+    "name": "Qwen 3.6 Flash",
+    "context": 1000000,
+    "maxOutput": 65536,
+    "image": true,
+    "video": true,
+    "reasoning": true,
+    "quirks": [
+      "enable_thinking"
+    ]
+  },
   "qwen3.8-max-preview": {
     "name": "Qwen 3.8 Max Preview",
     "context": 1048576,
